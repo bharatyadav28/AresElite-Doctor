@@ -1,0 +1,102 @@
+/* .prfo */
+.profile span {
+  color: var(--black-40, rgba(28, 28, 28, 0.4));
+  font-feature-settings: "cv11" on, "cv01" on, "ss01" on;
+  /* 12 Regular */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+}
+.forgot-password label {
+  font-size: 14px;
+  font-weight: 500;
+}
+.profile p,
+button {
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+.profile .prof-cont:hover {
+}
+.profile .prof-cont {
+  margin: 20px 0px;
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile section {
+  width: 100%;
+  border-radius: 20px;
+}
+.Doctor-Consul section {
+  margin-left: 100px;
+}
+.Doctor-Consul section .form-control {
+  width: 450px !important;
+}
+.appo-cont .appo-cont-form {
+  margin-top: 70px;
+  /* margin-left: 100px; */
+  background-color: white;
+  padding: 20px;
+  box-sizing: content-box;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+  /* margin: auto; */
+}
+@media only screen and (max-width: 600px) {
+  .profile span {
+    color: var(--black-40, rgba(28, 28, 28, 0.4));
+    font-feature-settings: "cv11" on, "cv01" on, "ss01" on;
+    /* 12 Regular */
+    font-family: Inter;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+  }
+  .profile p,
+  button {
+    margin-bottom: 0px;
+    font-size: 17px;
+  }
+  .profile {
+    margin: auto !important;
+    margin-top: 20px !important;
+    margin-bottom: 100px !important;
+  }
+  .profile .prof-cont:hover {
+  }
+  .profile .prof-cont {
+    margin: 20px 0px;
+    background-color: #f4f4f4;
+  }
+  .profile section {
+    width: 100vw;
+    margin: auto;
+  }
+
+  .Doctor-Consul section {
+    margin-left: 0px;
+    margin: auto;
+  }
+  .appo-cont button {
+    margin-top: 15px !important;
+  }
+  .appo-cont {
+    width: 89vw;
+  }
+
+  .Doctor-Consul section .form-control {
+    width: 100% !important;
+  }
+  .Doctor-Consul {
+    flex-direction: column !important;
+  }
+}

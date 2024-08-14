@@ -1,0 +1,201 @@
+.phase-container + .selected {
+  background-color: #eae6ff !important;
+}
+
+.icon-cont-2 {
+  width: var(--24, 24px);
+  height: var(--24, 24px);
+}
+.icon-cont-1 {
+  border: 6px solid var(--Primary-50, #f9f5ff);
+  background: var(--Primary-100, #f4ebff);
+  border-radius: 28px;
+  width: var(--40, 40px);
+
+  height: var(--40, 40px);
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.plan-single-cont td {
+  color: var(--Gray-500, #667085);
+  margin-left: 10px;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  word-wrap: wrap;
+  text-align: left;
+}
+.plan-single-cont table {
+  list-style: none;
+
+  width: 100%;
+}
+.plan-single-cont p {
+  color: var(--Gray-500, #667085);
+  text-align: center;
+  /* Text md/Normal */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+.plan-single-cont h2 {
+  margin-top: 20px;
+}
+.plan-single-cont h2 {
+  color: var(--Primary-700, #6941c6);
+  text-align: center;
+  /* Text xl/Semibold */
+  font-family: Inter;
+  font-size: 30px;
+  text-transform: capitalize;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px;
+}
+.plan-single-cont h1 {
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 60px; /* 125% */
+  letter-spacing: -0.96px;
+}
+.plan-single-cont {
+  background-color: white;
+  display: flex;
+  padding: 20px 20px 20px 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: flex-start; */
+  /* gap: var(--24, 24px); */
+  align-self: stretch;
+  border-radius: 16px;
+  border: 1px solid var(--Gray-200, #eaecf0);
+  background: var(--White, #fff);
+  box-shadow: 0px 4px 6px -2px rgba(16, 24, 40, 0.03),
+    0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+}
+.color-purple {
+  color: #7257ff;
+}
+.text-gradient2 {
+  background: -webkit-linear-gradient(right, #ff9aba, #7257ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient {
+  background: -webkit-linear-gradient(#8770f7, #100259);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dot {
+  height: 4px;
+  width: 4px;
+  background-color: #010000;
+  margin-bottom: 3px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.plan-bt {
+  width: 200px !important;
+}
+.plan-container {
+  justify-content: space-evenly;
+}
+
+@media screen and (min-width: 1901px) {
+  .plan-single-cont {
+    padding: 20px 25px 20px 25px;
+    height: 65vh;
+  }
+  .plan-bt {
+    width: 300px !important;
+  }
+  .plan-title {
+    margin-top: 50px;
+  }
+  .plan-title {
+  }
+  .plan-title {
+    font-size: 40px;
+  }
+  .plans-par-cont p {
+    font-size: 20px;
+  }
+  .plan-container {
+    margin-top: 100px;
+  }
+}
+.plans-phases-modal .modal-dialog {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+.plans-phases-modal .modal-header {
+  display: none;
+}
+.plans-phases-modal .modal-body {
+  padding: 0px;
+}
+.plans-phases-modal .modal-body h3 {
+  padding: 30px 100px 30px 100px;
+  background-color: #7056ef;
+  color: white;
+}
+.plans-phases-modal .phase-container div {
+  /* background-color: #f4f4f4; */
+  border-radius: 20px;
+  text-align: start;
+  padding: 10px 20px;
+}
+.plans-par-cont {
+  margin-top: 30px;
+}
+.price-phase {
+  color: #7056ef !important;
+  font-size: 17px !important;
+}
+.StartPrescription p {
+  margin-bottom: 0px !important;
+}
+@media (max-width: 768px) {
+  .StartPrescription,
+  .action-view-eval {
+    height: fit-content !important;
+  }
+
+  .plan-container {
+    width: 80%;
+    margin: auto;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .plans-par-cont {
+    overflow-y: scroll !important;
+  }
+  .plan-single-cont {
+    width: 100%;
+  }
+  .plan-single-cont > div {
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  .plan-single-cont > div h2 {
+    font-size: 20px !important;
+    margin: 0px 0px 20px 0px !important;
+    padding: 0px !important;
+  }
+  .table td,
+  .table th {
+    min-width: 80px !important;
+  }
+  .purple-button {
+    font-size: 12px;
+    width: 150px !important;
+  }
+}
