@@ -21,15 +21,15 @@ const CompletedRequests = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const isFetching = useSelector((state) => state.fetch_app.isFetching);
-  const [selectMode, useSelectMode]= useState("online")
+  const [selectMode, useSelectMode] = useState("online");
 
   const isDesktop = window.matchMedia("(min-width: 768px)").matches;
   const pageSize = isDesktop ? 8 : 9;
   const totalPages = useSelector((state) => state.fetch_app.totalPages);
   const completed = useSelector((state) => state.fetch_app.completed);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [dropdown, setDropdown]= useState([])
-  const [disabled, setDisabled]= useState([])
+  const [dropdown, setDropdown] = useState([]);
+  const [disabled, setDisabled] = useState([]);
 
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,7 +43,7 @@ const CompletedRequests = () => {
     return `${month}-${day}-${year}`;
   }
   const [isOpen, setIsOpen] = useState(false);
-// console.log( completed);
+  // console.log( completed);
   const toggleDatePicker = () => {
     setIsOpen(!isOpen);
   };
@@ -52,25 +52,23 @@ const CompletedRequests = () => {
     setCurrentPage(1); // Reset pagination when search query changes
   };
 
- 
-  
-   useEffect(()=> {
-    const len= completed.length
-    if(len>0){
-    let myArray = new Array(len).fill("offline");
-    let arr=[]
-    for(let i=0;i<len;i++){
-      arr.push(completed[i]?.client?.mode)
+  useEffect(() => {
+    const len = completed.length;
+    if (len > 0) {
+      let myArray = new Array(len).fill("offline");
+      let arr = [];
+      for (let i = 0; i < len; i++) {
+        arr.push(completed[i]?.client?.mode);
+      }
+      setDropdown(arr);
+      setDisabled(arr);
+    } else {
+      let myArray = new Array(len).fill("offline");
+      setDropdown(myArray);
+      setDisabled(myArray);
     }
-    setDropdown(arr)
-    setDisabled(arr)
-  }else{
-    let myArray = new Array(len).fill("offline");
-    setDropdown(myArray)
-    setDisabled(myArray)
-  }
-   },[completed])
- 
+  }, [completed]);
+
   //  useEffect(()=> {
   //   setDropdownState(completed.client.mode)
   //  },[])
@@ -172,30 +170,30 @@ const CompletedRequests = () => {
     setShowPaymentModal(false);
   };
 
-  const handleSelect= (booking,status,index)=> {
+  const handleSelect = (booking, status, index) => {
     // console.log(booking.client._id, status);
     console.log(index);
-    localStorage.setItem("mode",status)
+    localStorage.setItem("mode", status);
     console.log(status);
-    setDropdown((prev)=> {
-      const oldArr= [...prev] 
-      oldArr[index]=status
-      return oldArr
-    })
-    localStorage.setItem("client_id",booking.client._id)
-  }
+    setDropdown((prev) => {
+      const oldArr = [...prev];
+      oldArr[index] = status;
+      return oldArr;
+    });
+    localStorage.setItem("client_id", booking.client._id);
+  };
 
- const handleClick = (clientId, index)=> {
-  localStorage.setItem("client_id", clientId)
-  const clientMode= dropdown[index]
-  if(clientMode === "N.A."){
-    localStorage.setItem("mode", "offline")
-  }else{
-    localStorage.setItem("mode", clientMode)
-  }
- }
+  const handleClick = (clientId, index) => {
+    localStorage.setItem("client_id", clientId);
+    const clientMode = dropdown[index];
+    if (clientMode === "N.A.") {
+      localStorage.setItem("mode", "offline");
+    } else {
+      localStorage.setItem("mode", clientMode);
+    }
+  };
 
- console.log(completed);
+  console.log(completed);
   return (
     <>
       <div
@@ -349,120 +347,162 @@ const CompletedRequests = () => {
                               </div>
                             </td>{" "}
                             <td className="action ">
-
                               <Container>
                                 <Row>
                                   <Col>
-                                  <div style={{display:"flex", gap:"1rem", alignItems:"center", marginBottom:"5px"}}>
-                                  <div class="dropdown">
-                                            <button
-                                             disabled={disabled[index]==="N.A." ? false : true }
-                                              class="btn dropdown-toggle"
-                                              type="button"
-                                              data-bs-toggle="dropdown"
-                                              aria-expanded="false"
-                                              style={{ color:"white", padding:"5px", borderRadius:"8px", background:"#7c73e6"}}
-                                            >
-                                              {dropdown[index]==='N.A.'?"offline": dropdown[index]}
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                              <li>
-                                                <Link
-                                                  onClick={()=>handleSelect(booking,status="offline",index)}
-                                                  class="dropdown-item"                  
-                                                >
-                                                  Offline
-                                                </Link>
-                                              </li>
-                                              <li>
-                                                <Link
-                                                 onClick={()=>handleSelect(booking,status="online",index)}
-                                                  class="dropdown-item"
-                                                  // to={`/doctor/dashboard/doctor-plans/${booking?.client?._id}`}
-                                                >
-                                                  Online
-                                                </Link>
-                                              </li>
-                                              
-                                            </ul>
-                                          </div>
-                                    <button
+                                    <div
                                       style={{
-                                        backgroundColor: "#FAEBD7",
-                                        padding: "4px",
-                                       marginBottom:"5px",
-                                        borderRadius: "6px",
-                                        padding: "5px 10px 5px 10px",
-                                        color: "black",
+                                        display: "flex",
+                                        gap: "1rem",
+                                        alignItems: "center",
+                                        marginBottom: "5px",
                                       }}
                                     >
-                                      {(!booking?.client?.plan &&( dropdown[index] === "offline" || dropdown[index] === "N.A.")) && (
-                                        <>
-                                          <Link
-                                            onClick={()=> handleClick(booking.client._id, index)}
-                                            to="/doctor/dashboard/doctor-service-selection/training"
-                                          >
-                                            Add training
-                                          </Link>
-                          
-                                        </>
-                                      ) }
-                                      {(!booking?.client?.plan && dropdown[index] === "online") ? (
-                                        <>
-                                          <Link
-                                            onClick={()=> handleClick(booking.client._id, index)}
-                                            to={`/doctor/dashboard/doctor-plans/${booking?.client?._id}`}
-                                          >
-                                            Select Plan
-                                          </Link>
-                          
-                                        </>
-                                      ) : (
-                                        <>
-                                          {booking?.client?.plan_payment ===
-                                          "paid"  ? (
+                                      <div class="dropdown">
+                                        <button
+                                          disabled={
+                                            disabled[index] === "N.A."
+                                              ? false
+                                              : true
+                                          }
+                                          class="btn dropdown-toggle"
+                                          type="button"
+                                          data-bs-toggle="dropdown"
+                                          aria-expanded="false"
+                                          style={{
+                                            color: "white",
+                                            padding: "5px",
+                                            borderRadius: "8px",
+                                            background: "#7c73e6",
+                                          }}
+                                        >
+                                          {dropdown[index] === "N.A."
+                                            ? "offline"
+                                            : dropdown[index]}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                          <li>
+                                            <Link
+                                              onClick={() =>
+                                                handleSelect(
+                                                  booking,
+                                                  "offline",
+                                                  index
+                                                )
+                                              }
+                                              class="dropdown-item"
+                                            >
+                                              Offline
+                                            </Link>
+                                          </li>
+                                          <li>
+                                            <Link
+                                              onClick={() =>
+                                                handleSelect(
+                                                  booking,
+                                                  "online",
+                                                  index
+                                                )
+                                              }
+                                              class="dropdown-item"
+                                              // to={`/doctor/dashboard/doctor-plans/${booking?.client?._id}`}
+                                            >
+                                              Online
+                                            </Link>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <button
+                                        style={{
+                                          backgroundColor: "#FAEBD7",
+                                          padding: "4px",
+                                          marginBottom: "5px",
+                                          borderRadius: "6px",
+                                          padding: "5px 10px 5px 10px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        {!booking?.client?.plan &&
+                                          (dropdown[index] === "offline" ||
+                                            dropdown[index] === "N.A.") && (
                                             <>
                                               <Link
-                                              onClick={()=> {
-                                                localStorage.setItem('firstName', booking.client.firstName)
-                                                localStorage.setItem('lastName', booking.client.lastName)
-                                              }}
-                                              
-                                                to={`/doctor/dashboard/drill/${booking?.client?._id}/${booking._id}`}
-                                                state={{
-                                                  data: {
-                                                    firstName:
-                                                      booking?.client
-                                                        ?.firstName,
-                                                    lastName:
-                                                      booking?.client?.lastName,
-                                                  },
-                                                }}
+                                                onClick={() =>
+                                                  handleClick(
+                                                    booking.client._id,
+                                                    index
+                                                  )
+                                                }
+                                                to="/doctor/dashboard/doctor-service-selection/training"
                                               >
-                                                Start Drill
+                                                Add training
                                               </Link>
                                             </>
-                                          ) : (
-                                            
-                                            <>
-                                            { booking?.client?.plan_payment ===
-                                              "pending" && 
-                                              <NavLink
-                                                onClick={() => {
-                                                  setShowPaymentModal(true);
-                                                }}
-                                              >
-                                                Wait !
-                                              </NavLink>
-                                              }
-                                            </>
-                                            
                                           )}
-                                        </>
-                                        
-                                      )}
-                                    </button>
-                                
+                                        {!booking?.client?.plan &&
+                                        dropdown[index] === "online" ? (
+                                          <>
+                                            <Link
+                                              onClick={() =>
+                                                handleClick(
+                                                  booking.client._id,
+                                                  index
+                                                )
+                                              }
+                                              to={`/doctor/dashboard/doctor-plans/${booking?.client?._id}`}
+                                            >
+                                              Select Plan
+                                            </Link>
+                                          </>
+                                        ) : (
+                                          <>
+                                            {booking?.client?.plan_payment ===
+                                            "paid" ? (
+                                              <>
+                                                <Link
+                                                  onClick={() => {
+                                                    localStorage.setItem(
+                                                      "firstName",
+                                                      booking.client.firstName
+                                                    );
+                                                    localStorage.setItem(
+                                                      "lastName",
+                                                      booking.client.lastName
+                                                    );
+                                                  }}
+                                                  to={`/doctor/dashboard/drill/${booking?.client?._id}/${booking._id}`}
+                                                  state={{
+                                                    data: {
+                                                      firstName:
+                                                        booking?.client
+                                                          ?.firstName,
+                                                      lastName:
+                                                        booking?.client
+                                                          ?.lastName,
+                                                    },
+                                                  }}
+                                                >
+                                                  Start Drill
+                                                </Link>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {booking?.client
+                                                  ?.plan_payment ===
+                                                  "pending" && (
+                                                  <NavLink
+                                                    onClick={() => {
+                                                      setShowPaymentModal(true);
+                                                    }}
+                                                  >
+                                                    Wait !
+                                                  </NavLink>
+                                                )}
+                                              </>
+                                            )}
+                                          </>
+                                        )}
+                                      </button>
                                     </div>
                                   </Col>
                                 </Row>
