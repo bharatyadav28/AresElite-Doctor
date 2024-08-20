@@ -131,7 +131,7 @@ const Step1 = ({
                           ) : formFields[index + 1].type === "checkBox" ? (
                             <Select
                               isMulti
-                              options={field.options.map((option, index) => ({
+                              options={field.options?.map((option, index) => ({
                                 value: option,
                                 label: option,
                               }))}
