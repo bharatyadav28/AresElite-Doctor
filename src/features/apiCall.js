@@ -13,6 +13,12 @@ import {
 } from "./authSlice.js";
 import { FetchFailure, FetchStart, FetchSuccess } from "./fetchSlice.js";
 
+import {
+  fetchingStart,
+  saveDrillsData,
+  fetchingFailure,
+} from "./offlineDrillsSlice.js";
+
 const ErrorToastOptions = {
   position: "bottom-center",
   autoClose: 3000,
@@ -201,7 +207,7 @@ export const GetTodayAppointmentDetails = async (dispatch, todayDate) => {
     return false; // Return false to indicate that the request failed
   }
 };
-export const GetAllAppointmentDetails = async (dispatch,params) => {
+export const GetAllAppointmentDetails = async (dispatch, params) => {
   const token = localStorage.getItem("userToken");
   dispatch(FetchStart());
   try {
@@ -340,39 +346,41 @@ export const GetEvalDiaForm = async (dispatch, { appointmentId }) => {
   }
 };
 
-
-export const Gettrainingsession=async(dispatch,{type,frequencyType})=>{
+export const Gettrainingsession = async (dispatch, { type, frequencyType }) => {
   dispatch(FetchStart());
   const token = localStorage.getItem("userToken");
-  try{
-    const {data}=await axios.get("/api/doctor/training-session",{params:{session_type:type,frequencyType:frequencyType},
-    headers: { Authorization: `Bearer ${token}` }})
+  try {
+    const { data } = await axios.get("/api/doctor/training-session", {
+      params: { session_type: type, frequencyType: frequencyType },
+      headers: { Authorization: `Bearer ${token}` },
+    });
     dispatch(FetchSuccess({ type: "FETCH_Session_SUCCESS", payload: data }));
-    return data
+    return data;
+  } catch (error) {}
+};
 
-  }catch(error){
-
-  }
-}
-
-export const selecttrainingplan=async(dispatch,{clientId,sessionId})=>{
+export const selecttrainingplan = async (dispatch, { clientId, sessionId }) => {
   dispatch(FetchStart());
   const token = localStorage.getItem("userToken");
-  try{
-    console.log(clientId,sessionId);
-    const {data}=await axios.post(`/api/doctor/buy-training-session?clientId=${clientId}&sessionId=${sessionId}`,{},
-      { headers: { Authorization: `Bearer ${token}` ,
-      'Content-Type': 'application/json'  }}
-    )
+  try {
+    console.log(clientId, sessionId);
+    const { data } = await axios.post(
+      `/api/doctor/buy-training-session?clientId=${clientId}&sessionId=${sessionId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     dispatch(FetchSuccess({ type: "FETCH_Session_SUCCESS", payload: data }));
-   
-    return {success:true,message:""}
 
-  }catch(error){
-    return {success:false,message:error}
+    return { success: true, message: "" };
+  } catch (error) {
+    return { success: false, message: error };
   }
-  
-}
+};
 export const GetRecentBookings = async (
   dispatch,
   {
@@ -475,7 +483,9 @@ export const Plans = async (dispatch, { name, phase, ClientId }) => {
     console.log(ClientId);
 
     const data = await axios.put(
-      `/api/doctor/select-plan?userId=${ClientId}&plan=${name}&planPhase=${phase.name}&mode=${localStorage.getItem('mode')}`,
+      `/api/doctor/select-plan?userId=${ClientId}&plan=${name}&planPhase=${
+        phase.name
+      }&mode=${localStorage.getItem("mode")}`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -718,6 +728,29 @@ export const GetServiceTypes = async (dispatch) => {
     const errorMessage = parseError(error);
     toast.error(errorMessage, ErrorToastOptions);
     dispatch(FetchFailure(errorMessage));
+    return false; // Return false to indicate that the request failed
+  }
+};
+
+export const getofflineDrillsData = async (dispatch) => {
+  const token = localStorage.getItem("userToken");
+  dispatch(fetchingStart());
+  try {
+    const { data } = await axios.get("/api/doctor/drill_inputs", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    dispatch(
+      saveDrillsData({
+        columns: data.data.columns,
+        drills: data.data.drills,
+      })
+    );
+    return data;
+  } catch (error) {
+    const errorMessage = parseError(error);
+    toast.error(errorMessage, ErrorToastOptions);
+    dispatch(fetchingFailure(errorMessage));
     return false; // Return false to indicate that the request failed
   }
 };

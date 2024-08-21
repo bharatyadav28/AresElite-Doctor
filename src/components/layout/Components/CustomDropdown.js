@@ -27,7 +27,7 @@ function CustomDropdown({
           }}
         >
           {" "}
-          {menuData.label ? (
+          {menuData?.label ? (
             menuData.label
           ) : value ? (
             value
@@ -38,13 +38,13 @@ function CustomDropdown({
       </Dropdown.Toggle>
 
       <Dropdown.Menu style={{ width: menuWidth ? menuWidth : "100%" }}>
-        {menuData.map((item, index) => (
+        {menuData?.map((item, index) => (
           <Dropdown.Item
             key={index}
-            eventKey={item.value}
+            eventKey={item?.value}
             style={{ backgroundColor: "#FFFFFF" }}
           >
-            {item.label}
+            {item?.label}
           </Dropdown.Item>
         ))}
       </Dropdown.Menu>

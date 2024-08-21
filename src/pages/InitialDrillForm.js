@@ -1,181 +1,15 @@
 import Table from "react-bootstrap/Table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "../utils/axios.js";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 
 import DoctorMenu from "../components/layout/DoctorMenu";
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
 import SeasonForm from "./SeasonForm";
-
-const initialDrillInputs = [
-  {
-    type: "drillName",
-    data: [
-      {
-        label: "Virtual Reality-Neurotainer-G.U.S.T",
-        value: "Virtual Reality-Neurotainer-G.U.S.T",
-      },
-      {
-        label: "Season 2",
-        value: "season2",
-      },
-    ],
-  },
-  {
-    type: "difficulty",
-    data: [
-      {
-        label: "Pro",
-        value: "pro",
-      },
-      {
-        label: "Medium",
-        value: "medium",
-      },
-    ],
-  },
-  {
-    type: "drillLevel",
-    data: [
-      {
-        label: "1",
-        value: "1",
-      },
-      {
-        label: "1.5",
-        value: "1.5",
-      },
-    ],
-  },
-  {
-    type: "color",
-    data: [
-      {
-        label: "Black",
-        value: "black",
-      },
-      {
-        label: "orange",
-        value: "Orange",
-      },
-    ],
-  },
-  {
-    type: "strodeMode",
-    data: [
-      {
-        label: "Ultra",
-        value: "ultra",
-      },
-      {
-        label: "orange",
-        value: "Orange",
-      },
-    ],
-  },
-  {
-    type: "strodeFrequency",
-    data: [
-      {
-        label: "2",
-        value: "2",
-      },
-      {
-        label: "3",
-        value: "3",
-      },
-    ],
-  },
-  {
-    type: "weightedHands",
-    data: [
-      {
-        label: "2",
-        value: "2",
-      },
-      {
-        label: "3",
-        value: "3",
-      },
-    ],
-  },
-  {
-    type: "cardioTime",
-    data: [
-      {
-        label: "1 times",
-        value: "1",
-      },
-      {
-        label: "2 times",
-        value: "2",
-      },
-    ],
-  },
-  {
-    type: "cardioActivity",
-    data: [
-      {
-        label: "Good",
-        value: "good",
-      },
-      {
-        label: "Average",
-        value: "average",
-      },
-    ],
-  },
-  {
-    type: "handFinger",
-    data: [
-      {
-        label: "Good",
-        value: "good",
-      },
-      {
-        label: "Nice",
-        value: "nice",
-      },
-    ],
-  },
-  {
-    type: "eye",
-    data: [
-      {
-        label: "1.5",
-        value: "1.5",
-      },
-      {
-        label: "2",
-        value: "2",
-      },
-    ],
-  },
-  {
-    type: "opposite",
-    data: [
-      {
-        label: "Yes",
-        value: "yes",
-      },
-      {
-        label: "No",
-        value: "no",
-      },
-    ],
-  },
-  {
-    type: "broadDistribution",
-    data: [
-      {
-        label: "Yes",
-        value: "yes",
-      },
-      {
-        label: "No",
-        value: "no",
-      },
-    ],
-  },
-];
+import { parseError } from "../utils/parseError.js";
+import { getofflineDrillsData } from "../features/apiCall.js";
+import { submittedFormData } from "../features/offlineDrillsSlice.js";
 
 const initialData = {
   drillName: "",
@@ -195,11 +29,32 @@ const initialData = {
 
 const InitialDrillForm = () => {
   const [drills, setDrills] = useState([initialData]);
-  const [season, setSeason] = useState("Season 1");
+  const [session, setSession] = useState("Session 1");
   const [openModal, setOpenModal] = useState(false);
 
   const handleModalOpen = () => setOpenModal(true);
   const handleModalClose = () => setOpenModal(false);
+
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.offlineDrills);
+
+  console.log("fData", data);
+  const columns = data?.offlineDrillData?.columns?.map((column) => ({
+    alias: column.alias,
+    data: column.values.map((v) => ({
+      value: v.value,
+      label: v.value,
+    })),
+  }));
+
+  const columnNames = data?.offlineDrillData?.columns?.map(
+    (column) => column.columnName
+  );
+
+  const drillNames = data?.offlineDrillData?.drills?.map((drill) => ({
+    value: drill.drillName,
+    label: drill.drillName,
+  }));
 
   const handleDrillsChange = (index, name, value) => {
     const updatedDrills = drills.map((drill, i) =>
@@ -208,8 +63,8 @@ const InitialDrillForm = () => {
     setDrills(updatedDrills);
   };
 
-  const handleSeason = (selectedValue) => {
-    setSeason(selectedValue);
+  const handleSession = (selectedValue) => {
+    setSession(selectedValue);
   };
 
   const addNewRow = () => {
@@ -217,9 +72,13 @@ const InitialDrillForm = () => {
   };
 
   const handleDrillSubmit = () => {
-    console.log("Drills: ", drills);
+    dispatch(submittedFormData({ session: session, drills: [...drills] }));
     handleModalOpen();
   };
+
+  useEffect(() => {
+    getofflineDrillsData(dispatch);
+  }, [dispatch]);
   return (
     <DoctorMenu>
       <div style={{ height: "100vh", overflowY: "auto", marginTop: "1rem" }}>
@@ -255,11 +114,14 @@ const InitialDrillForm = () => {
                 /> */}
                 <CustomDropdown
                   menuData={[
-                    { value: "Season 1", label: "Season 1" },
-                    { value: "Season 2", label: "Season 2" },
+                    { value: "Session 1", label: "Session 1" },
+                    { value: "Session 2", label: "Session 2" },
+                    { value: "Session 3", label: "Session 3" },
+                    { value: "Session 4", label: "Session 4" },
+                    { value: "Session 5", label: "Session 5" },
                   ]}
-                  value={season}
-                  handleSelect={handleSeason}
+                  value={session}
+                  handleSelect={handleSession}
                   width="100%"
                 />
               </div>
@@ -272,38 +134,37 @@ const InitialDrillForm = () => {
                 <tr>
                   <th> S.no </th>
                   <th>Drill name</th>
-                  <th>Difficulty</th>
-                  <th>Drill level</th>
-                  <th>Color</th>
-                  <th>Strobe mode</th>
-                  <th>Strobe Frequency</th>
-                  <th>Weighted Hands</th>
-                  <th>Cardio Time</th>
-                  <th>Cardio Activity</th>
-                  <th>Hand Finger</th>
-                  <th>Eye</th>
-                  <th>Opposite</th>
-                  <th>Broad Distrubtion</th>
+                  {columnNames?.map((columnName, index) => (
+                    <th key={index}>{columnName}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
                 {drills.map((drill, rowIndex) => (
                   <tr key={rowIndex}>
                     <td>{rowIndex + 1}</td>
-                    {initialDrillInputs.map((input, index) => (
+                    <td key={"drill name"}>
+                      <CustomDropdown
+                        menuData={drillNames}
+                        value={drill["drillName"]}
+                        handleSelect={(value) => {
+                          handleDrillsChange(rowIndex, "drillName", value);
+                        }}
+                        width="11rem"
+                        menuWidth={"maxContent"}
+                        titleWidth="90%"
+                      />
+                    </td>
+                    {columns?.map((column, index) => (
                       <td key={index}>
                         <CustomDropdown
-                          menuData={input.data}
-                          value={drill[input.type]}
+                          menuData={column?.data}
+                          value={drill[column.alias]}
                           handleSelect={(value) => {
-                            handleDrillsChange(rowIndex, input.type, value);
+                            handleDrillsChange(rowIndex, column.alias, value);
                           }}
-                          width={
-                            input.type === "drillName" ? "11rem" : "3.4rem"
-                          }
-                          menuWidth={
-                            input.type !== "drillName" ? "1rem" : "maxContent"
-                          }
+                          width={"3.4rem"}
+                          menuWidth={"maxContent"}
                           titleWidth="90%"
                         />
                       </td>
