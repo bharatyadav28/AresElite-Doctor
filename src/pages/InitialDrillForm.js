@@ -1,15 +1,13 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-import axios from "../utils/axios.js";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
 import DoctorMenu from "../components/layout/DoctorMenu";
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
 import SeasonForm from "./SeasonForm";
-import { parseError } from "../utils/parseError.js";
 import { getofflineDrillsData } from "../features/apiCall.js";
 import { submittedFormData } from "../features/offlineDrillsSlice.js";
+import Loader from "../components/layout/Components/Loader.js";
 
 const initialData = {
   drillName: "",
@@ -128,60 +126,67 @@ const InitialDrillForm = () => {
             </div>
           </div>
 
-          <div className="mt-5 drill-table-box">
-            <Table className="drill-table">
-              <thead>
-                <tr>
-                  <th> S.no </th>
-                  <th>Drill name</th>
-                  {columnNames?.map((columnName, index) => (
-                    <th key={index}>{columnName}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {drills.map((drill, rowIndex) => (
-                  <tr key={rowIndex}>
-                    <td>{rowIndex + 1}</td>
-                    <td key={"drill name"}>
-                      <CustomDropdown
-                        menuData={drillNames}
-                        value={drill["drillName"]}
-                        handleSelect={(value) => {
-                          handleDrillsChange(rowIndex, "drillName", value);
-                        }}
-                        width="11rem"
-                        menuWidth={"maxContent"}
-                        titleWidth="90%"
-                      />
-                    </td>
-                    {columns?.map((column, index) => (
-                      <td key={index}>
+          {!data.isFetching ? (
+            <div className="mt-5 drill-table-box">
+              <Table className="drill-table">
+                <thead>
+                  <tr>
+                    <th> S.no </th>
+                    <th>Drill name</th>
+                    {columnNames?.map((columnName, index) => (
+                      <th key={index}>{columnName}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {drills.map((drill, rowIndex) => (
+                    <tr key={rowIndex}>
+                      <td>{rowIndex + 1}</td>
+                      <td key={"drill name"}>
                         <CustomDropdown
-                          menuData={column?.data}
-                          value={drill[column.alias]}
+                          menuData={drillNames}
+                          value={drill["drillName"]}
                           handleSelect={(value) => {
-                            handleDrillsChange(rowIndex, column.alias, value);
+                            handleDrillsChange(rowIndex, "drillName", value);
                           }}
-                          width={"3.4rem"}
+                          width="11rem"
                           menuWidth={"maxContent"}
                           titleWidth="90%"
                         />
                       </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+                      {columns?.map((column, index) => (
+                        <td key={index}>
+                          <CustomDropdown
+                            menuData={column?.data}
+                            value={drill[column.alias]}
+                            handleSelect={(value) => {
+                              handleDrillsChange(rowIndex, column.alias, value);
+                            }}
+                            width={"3.4rem"}
+                            menuWidth={"maxContent"}
+                            titleWidth="90%"
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
 
-            <button
-              className="purple-button col px-3 mt-5 ms-1 mb-5  "
-              style={{ height: "2.5rem" }}
-              onClick={addNewRow}
-            >
-              Add more Drills
-            </button>
-          </div>
+              <button
+                className="purple-button col px-3 mt-5 ms-1 mb-5  "
+                style={{ height: "2.5rem" }}
+                onClick={addNewRow}
+              >
+                Add more Drills
+              </button>
+            </div>
+          ) : (
+            <div style={{ marginTop: "2rem" }}>
+              {" "}
+              <Loader />
+            </div>
+          )}
         </div>
       </div>
 
