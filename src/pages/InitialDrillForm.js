@@ -9,23 +9,10 @@ import { getofflineDrillsData } from "../features/apiCall.js";
 import { submittedFormData } from "../features/offlineDrillsSlice.js";
 import Loader from "../components/layout/Components/Loader.js";
 
-const initialData = {
-  drillName: "",
-  difficulty: "",
-  drillLevel: "",
-  color: "",
-  strodeMode: "",
-  strodeFrequency: "",
-  weightedHands: "",
-  cardioTime: "",
-  cardioActivity: "",
-  handFinger: "",
-  eye: "",
-  opposite: "",
-  broadDistribution: "",
-};
+// const initialData = { drillName: "" };
 
 const InitialDrillForm = () => {
+  const [initialData, setInitialData] = useState({});
   const [drills, setDrills] = useState([initialData]);
   const [session, setSession] = useState("Session 1");
   const [openModal, setOpenModal] = useState(false);
@@ -36,10 +23,10 @@ const InitialDrillForm = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.offlineDrills);
 
-  console.log("fData", data);
   const columns = data?.offlineDrillData?.columns?.map((column) => ({
     alias: column.alias,
-    data: column.values.map((v) => ({
+    columnName: column.columnName,
+    data: column.values?.map((v) => ({
       value: v.value,
       label: v.value,
     })),
@@ -55,7 +42,7 @@ const InitialDrillForm = () => {
   }));
 
   const handleDrillsChange = (index, name, value) => {
-    const updatedDrills = drills.map((drill, i) =>
+    const updatedDrills = drills?.map((drill, i) =>
       i === index ? { ...drill, [name]: value } : drill
     );
     setDrills(updatedDrills);
@@ -77,6 +64,14 @@ const InitialDrillForm = () => {
   useEffect(() => {
     getofflineDrillsData(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    setInitialData({ drillName: "", ...data?.initialDrillData });
+  }, [data.initialDrillData]);
+
+  useEffect(() => {
+    setDrills([initialData]);
+  }, [initialData]);
   return (
     <DoctorMenu>
       <div style={{ height: "100vh", overflowY: "auto", marginTop: "1rem" }}>
@@ -139,7 +134,7 @@ const InitialDrillForm = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {drills.map((drill, rowIndex) => (
+                  {drills?.map((drill, rowIndex) => (
                     <tr key={rowIndex}>
                       <td>{rowIndex + 1}</td>
                       <td key={"drill name"}>
@@ -194,6 +189,8 @@ const InitialDrillForm = () => {
         open={openModal}
         handleClose={handleModalClose}
         filledDrills={drills}
+        columns={columns}
+        columnNames={columnNames}
       />
     </DoctorMenu>
   );

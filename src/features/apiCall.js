@@ -17,6 +17,7 @@ import {
   fetchingStart,
   saveDrillsData,
   fetchingFailure,
+  saveInitialDrill,
 } from "./offlineDrillsSlice.js";
 
 const ErrorToastOptions = {
@@ -739,6 +740,13 @@ export const getofflineDrillsData = async (dispatch) => {
     const { data } = await axios.get("/api/doctor/drill_inputs", {
       headers: { Authorization: `Bearer ${token}` },
     });
+
+    const initialDrill = {};
+    data?.data?.columns?.forEach((column) => {
+      initialDrill[column.alias] = "";
+    });
+
+    dispatch(saveInitialDrill(initialDrill));
 
     dispatch(
       saveDrillsData({

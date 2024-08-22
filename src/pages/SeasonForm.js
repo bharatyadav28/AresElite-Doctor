@@ -1,195 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { IconButton } from "@mui/material";
 import { IoIosArrowBack as BackIcon } from "react-icons/io";
 import {
   FaArrowLeft as LeftArrow,
   FaArrowRight as RightArrow,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { GoDotFill as DotIcon } from "react-icons/go";
+import Select from "react-select";
 
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
-
-const drillData = [
-  {
-    label: "Drill .1. Virtual Reality-Neurotainer-G.U.S.T",
-    value: "Drill .1. Virtual Reality-Neurotainer-G.U.S.T",
-  },
-  {
-    label: "Drill .2. Virtual Reality-Neurotainer2",
-    value: "Drill .2. Virtual Reality-Neurotainer2",
-  },
-];
-
-const drillName = [
-  {
-    label: " Virtual Reality-Neurotainer-G.U.S.T",
-    value: " Virtual Reality-Neurotainer-G.U.S.T",
-  },
-  {
-    label: " Virtual Reality-Neurotainer2",
-    value: " Virtual Reality-Neurotainer2",
-  },
-];
-
-const initialDrillInputs = [
-  {
-    type: "difficulty",
-    data: [
-      {
-        label: "Pro",
-        value: "pro",
-      },
-      {
-        label: "Medium",
-        value: "medium",
-      },
-    ],
-  },
-  {
-    type: "drillLevel",
-    data: [
-      {
-        label: "1",
-        value: "1",
-      },
-      {
-        label: "1.5",
-        value: "1.5",
-      },
-    ],
-  },
-  {
-    type: "color",
-    data: [
-      {
-        label: "Black",
-        value: "black",
-      },
-      {
-        label: "orange",
-        value: "Orange",
-      },
-    ],
-  },
-  {
-    type: "strodeMode",
-    data: [
-      {
-        label: "Ultra",
-        value: "ultra",
-      },
-      {
-        label: "orange",
-        value: "Orange",
-      },
-    ],
-  },
-  {
-    type: "strodeFrequency",
-    data: [
-      {
-        label: "2",
-        value: "2",
-      },
-      {
-        label: "3",
-        value: "3",
-      },
-    ],
-  },
-  {
-    type: "weightedHands",
-    data: [
-      {
-        label: "2",
-        value: "2",
-      },
-      {
-        label: "3",
-        value: "3",
-      },
-    ],
-  },
-  {
-    type: "cardioTime",
-    data: [
-      {
-        label: "1 times",
-        value: "1",
-      },
-      {
-        label: "2 times",
-        value: "2",
-      },
-    ],
-  },
-  {
-    type: "cardioActivity",
-    data: [
-      {
-        label: "Good",
-        value: "good",
-      },
-      {
-        label: "Average",
-        value: "average",
-      },
-    ],
-  },
-  {
-    type: "handFinger",
-    data: [
-      {
-        label: "Good",
-        value: "good",
-      },
-      {
-        label: "Nice",
-        value: "nice",
-      },
-    ],
-  },
-  {
-    type: "eye",
-    data: [
-      {
-        label: "1.5",
-        value: "1.5",
-      },
-      {
-        label: "2",
-        value: "2",
-      },
-    ],
-  },
-  {
-    type: "opposite",
-    data: [
-      {
-        label: "Yes",
-        value: "yes",
-      },
-      {
-        label: "No",
-        value: "no",
-      },
-    ],
-  },
-  {
-    type: "broadDistribution",
-    data: [
-      {
-        label: "Yes",
-        value: "yes",
-      },
-      {
-        label: "No",
-        value: "no",
-      },
-    ],
-  },
-];
 
 const evaluationInpputs = [
   "score",
@@ -201,32 +24,57 @@ const evaluationInpputs = [
   "Bonus score",
 ];
 
-const initialData = {
-  drillName: "",
-  difficulty: "",
-  drillLevel: "",
-  color: "",
-  strodeMode: "",
-  strodeFrequency: "",
-  weightedHands: "",
-  cardioTime: "",
-  cardioActivity: "",
-  handFinger: "",
-  eye: "",
-  opposite: "",
-  broadDistribution: "",
-};
+const initialData = {};
 
-function SeasonForm({ open, handleClose, filledDrills }) {
-  const [drillType, setDrillType] = useState(
-    "Drill .1. Virtual Reality-Neurotainer2"
-  );
-  const [newData, setNewData] = useState(initialData);
-  const handleNewDataChange = (name, value) => {
-    setNewData((prev) => {
-      return { ...prev, [name]: value };
+function SeasonForm({ open, handleClose, filledDrills, columns }) {
+  const data = useSelector((state) => state.offlineDrills);
+  const formData = data?.submittedFormData;
+  const drills = formData?.drills;
+  const [newData, setNewData] = useState([]);
+
+  const drillNames = drills?.map((drill, index) => {
+    return {
+      label: `Drill  ${index + 1}. ${drill?.drillName}`,
+      value: drill?.drillName,
+    };
+  });
+
+  const [selectedDrill, setSelectedDrill] = useState(0);
+
+  const handleDrillChange = (value) => {
+    drills?.map((drill, index) => {
+      if (drill.drillName === value) {
+        setSelectedDrill(index);
+      }
     });
   };
+  const handleNewDataChange = (name, value) => {
+    const tempData = [...newData];
+    const result = tempData.map((item, index) => {
+      if (index === selectedDrill) {
+        return { ...item, [name]: value };
+      }
+      return item;
+    });
+    setNewData(result);
+  };
+
+  const handleInputValueChange = (name, value) => {
+    const tempData = [...newData];
+    const result = tempData.map((item, index) => {
+      if (index === selectedDrill) {
+        return { ...item, inputs: { ...item.inputs, [name]: value } };
+      }
+      return item;
+    });
+    setNewData(result);
+  };
+
+  useEffect(() => {
+    if (drills) {
+      setNewData(drills);
+    }
+  }, [drills]);
 
   const navigate = useNavigate();
   const isMobile = window.innerWidth < 576;
@@ -244,9 +92,9 @@ function SeasonForm({ open, handleClose, filledDrills }) {
     borderRadius: "15px",
   };
 
-  const handleDrillsChange = (value) => {
-    setDrillType(value);
-  };
+  // const handleDrillsChange = (value) => {
+  //   setDrillType(value);
+  // };
 
   const handleSubmit = () => {
     console.log("Submitted Data:", newData);
@@ -261,10 +109,15 @@ function SeasonForm({ open, handleClose, filledDrills }) {
     initialData["notes"] = "";
   }, []);
 
-  useEffect(() => {
-    if (filledDrills) {
+  const incomingSelectedDrill = data?.offlineDrillData?.drills?.find((item) => {
+    if (item.drillName === newData[selectedDrill]?.drillName) {
+      return true;
     }
-  }, []);
+    return false;
+  });
+  const drillInputsParams = incomingSelectedDrill?.inputs;
+
+  console.log("new data", newData);
 
   return (
     <Modal
@@ -274,9 +127,17 @@ function SeasonForm({ open, handleClose, filledDrills }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style} style={{ overflowY: "auto" }}>
-        <div className="d-flex items-center gap-2">
+        <div className="d-flex ialign-items-center gap-2">
           <div>
-            <BackIcon />
+            <IconButton
+              sx={{
+                margin: 0,
+                padding: 0,
+              }}
+              onClick={handleClose}
+            >
+              <BackIcon size={17} />
+            </IconButton>
           </div>
           <div style={{ fontSize: "1.2rem" }} className="fw-semibold">
             Session Details
@@ -286,48 +147,37 @@ function SeasonForm({ open, handleClose, filledDrills }) {
         <div className="d-flex flex-column flex-md-row mt-3 gap-5">
           <div className="col d-flex flex-column gap-4 ">
             <CustomDropdown
-              menuData={drillData}
-              value={drillType}
-              handleSelect={handleDrillsChange}
+              menuData={drillNames}
+              value={newData[selectedDrill]?.drillName}
+              handleSelect={handleDrillChange}
               width="100%"
+              titleWidth={"90%"}
+              menuWidth="max-Content"
             />
 
-            <div className="d-flex flex-column gap-1 ">
-              <div className="fw-medium" style={{ color: "#3C3F53" }}>
-                Drill name
-              </div>
-              <CustomDropdown
-                value={newData.drillName}
-                handleSelect={(value) => {
-                  handleNewDataChange("drillName", value);
-                }}
-                menuData={drillName}
-                width="100%"
-                bgColor="#7257FF14"
-                textColor="#7257FF"
-                titleSize="0.8rem"
-              />
-            </div>
-
             <div className="d-flex flex-column gap-1">
-              <div className="fw-medium" style={{ color: "#3C3F53" }}>
-                Drill name
-              </div>
-
               <div className="drill-box mt-2">
-                {initialDrillInputs.map((input, index) => (
-                  <div className="drill-item">
-                    <div style={{ fontSize: "0.7rem" }}> {input.type} </div>
-                    <CustomDropdown
-                      menuData={input.data}
-                      value={newData[input.type]}
-                      handleSelect={(value) => {
-                        handleNewDataChange(input.type, value);
-                      }}
-                      width="100%"
-                    />
-                  </div>
-                ))}
+                {columns?.map((input, index) => {
+                  if (input) {
+                    const val = newData[selectedDrill]?.[input?.alias];
+                    return (
+                      <div className="drill-item">
+                        <div style={{ fontSize: "0.7rem" }}>
+                          {" "}
+                          {input.columnName}{" "}
+                        </div>
+                        <CustomDropdown
+                          menuData={input?.data}
+                          value={val ? val : ""}
+                          handleSelect={(value) => {
+                            handleNewDataChange(input?.alias, value);
+                          }}
+                          width="100%"
+                        />
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </div>
           </div>
@@ -341,33 +191,92 @@ function SeasonForm({ open, handleClose, filledDrills }) {
               Drill details
             </div>
             <div className="drill-box mt-2">
-              {evaluationInpputs.map((input) => (
+              {drillInputsParams?.map((input) => (
                 <div className="drill-item">
-                  <div style={{ fontSize: "0.7rem" }}> {input} </div>
-                  <input
-                    type="text"
-                    value={newData.input}
-                    onChange={(event) => {
-                      handleNewDataChange(input, event.target.value);
-                    }}
-                    style={{
-                      height: "40px",
-                      border: "none",
-                      width: "100%",
-                      paddingLeft: "0.4rem",
-                    }}
-                    placeholder={`Enter ${input}`}
-                  />
+                  {input.type === "text" && (
+                    <>
+                      <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
+                      <input
+                        type="text"
+                        // value={newData?.input?.alias}
+                        value={newData?.[selectedDrill]?.inputs?.[input.alias]}
+                        onChange={(event) => {
+                          handleInputValueChange(
+                            input.alias,
+                            event.target.value
+                          );
+                        }}
+                        style={{
+                          height: "40px",
+                          border: "none",
+                          width: "100%",
+                          paddingLeft: "0.4rem",
+                        }}
+                        placeholder={`Enter ${input.label}`}
+                      />
+                    </>
+                  )}
+                  {input.type === "checkBox" && (
+                    <>
+                      <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
+                      <CustomDropdown
+                        menuData={input?.options?.map((item) => {
+                          return {
+                            label: item,
+                            value: item,
+                          };
+                        })}
+                        bgColor="#fff"
+                        value={newData?.[selectedDrill]?.inputs?.[input.alias]}
+                        handleSelect={(value) => {
+                          console.log(newData?.[selectedDrill]?.inputs);
+                          handleInputValueChange(input.alias, value);
+                        }}
+                        width="100%"
+                      />
+                    </>
+                  )}
                 </div>
               ))}
             </div>
+            {drillInputsParams?.map(
+              (input) =>
+                input.type === "multipleChoice" && (
+                  <>
+                    <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
+
+                    <Select
+                      isMulti
+                      options={input.options?.map((option, index) => ({
+                        value: option,
+                        label: option,
+                      }))}
+                      value={
+                        newData?.[selectedDrill]?.inputs?.[input.alias]?.map(
+                          (value) => ({
+                            value,
+                            label: value,
+                          })
+                        ) || []
+                      }
+                      onChange={(selectedOptions) => {
+                        const selectedValues = selectedOptions.map(
+                          (option) => option.value
+                        );
+                        handleInputValueChange(input.alias, selectedValues);
+                      }}
+                      className="drill-mcq"
+                    />
+                  </>
+                )
+            )}
 
             <div className="mt-4 d-flex flex-column gap-1 drill-notes">
               <div style={{ fontSize: "0.7rem" }}> Notes </div>
               <textarea
-                value={newData.notes}
+                value={newData?.[selectedDrill]?.inputs?.["notes"]}
                 onChange={(event) => {
-                  handleNewDataChange("notes", event.target.value);
+                  handleInputValueChange("notes", event.target.value);
                 }}
                 style={{
                   height: "100px",
@@ -396,6 +305,14 @@ function SeasonForm({ open, handleClose, filledDrills }) {
                     color: "#7257FF",
                     width: isMobile ? "7rem" : "8rem",
                   }}
+                  onClick={() => {
+                    if (selectedDrill >= 1) {
+                      setSelectedDrill((prev) => {
+                        if (prev >= 1) return prev - 1;
+                        return prev;
+                      });
+                    }
+                  }}
                 >
                   <div className="d-flex justify-content-center align-items-center gap-2 ">
                     <LeftArrow />
@@ -408,6 +325,14 @@ function SeasonForm({ open, handleClose, filledDrills }) {
                     backgroundColor: "#EAE6FF",
                     color: "#7257FF",
                     width: isMobile ? "7rem" : "8rem",
+                  }}
+                  onClick={() => {
+                    if (selectedDrill < drills.length - 1) {
+                      setSelectedDrill((prev) => {
+                        if (prev <= drills.length - 1) return prev + 1;
+                        return prev;
+                      });
+                    }
                   }}
                 >
                   <div className="d-flex justify-content-center align-items-center gap-2 ">
