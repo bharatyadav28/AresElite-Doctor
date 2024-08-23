@@ -23,6 +23,8 @@ const InitialDrillForm = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.offlineDrills);
 
+  console.log("drills", drills);
+
   const columns = data?.offlineDrillData?.columns?.map((column) => ({
     alias: column.alias,
     columnName: column.columnName,
@@ -42,9 +44,24 @@ const InitialDrillForm = () => {
   }));
 
   const handleDrillsChange = (index, name, value) => {
+    const isDrillName = name === "drillName";
+    let drillId = "";
+    data?.offlineDrillData?.drills?.forEach((item) => {
+      console.log("hi", item.drillName, name);
+      if (item.drillName === value) {
+        drillId = item._id;
+      }
+    });
     const updatedDrills = drills?.map((drill, i) =>
-      i === index ? { ...drill, [name]: value } : drill
+      i === index
+        ? {
+            ...drill,
+            [name]: value,
+            drill: isDrillName ? drillId : drill.drill,
+          }
+        : drill
     );
+    console.log(updatedDrills);
     setDrills(updatedDrills);
   };
 
@@ -66,7 +83,7 @@ const InitialDrillForm = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setInitialData({ drillName: "", ...data?.initialDrillData });
+    setInitialData({ drill: "", drillName: "", ...data?.initialDrillData });
   }, [data.initialDrillData]);
 
   useEffect(() => {

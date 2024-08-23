@@ -762,3 +762,19 @@ export const getofflineDrillsData = async (dispatch) => {
     return false; // Return false to indicate that the request failed
   }
 };
+
+export const submitSessionDrills = async (dispatch, data, cid, aid) => {
+  const token = localStorage.getItem("userToken");
+  dispatch(fetchingStart());
+  try {
+    await axios.post(`/api/doctor/offline-drill/${cid}/${aid}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    toast.success("Session saved successfully", successToastOptions);
+  } catch (error) {
+    const errorMessage = parseError(error);
+    toast.error(errorMessage, ErrorToastOptions);
+    dispatch(fetchingFailure(errorMessage));
+    return false; // Return false to indicate that the request failed
+  }
+};

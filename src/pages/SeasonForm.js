@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { IconButton } from "@mui/material";
@@ -7,12 +9,10 @@ import {
   FaArrowLeft as LeftArrow,
   FaArrowRight as RightArrow,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { GoDotFill as DotIcon } from "react-icons/go";
 import Select from "react-select";
 
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
+import { submitSessionDrills } from "../features/apiCall";
 
 const evaluationInpputs = [
   "score",
@@ -31,6 +31,13 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   const formData = data?.submittedFormData;
   const drills = formData?.drills;
   const [newData, setNewData] = useState([]);
+
+  console.log("data:", data);
+
+  const { clientId, appointmentId } = useParams();
+  const dispatch = useDispatch();
+
+  console.log("params", clientId, appointmentId);
 
   const drillNames = drills?.map((drill, index) => {
     return {
@@ -97,7 +104,29 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   // };
 
   const handleSubmit = () => {
-    console.log("Submitted Data:", newData);
+    const formattedDrills = newData.map((item) => {
+      const { drill, drillName, inputs, ...columnValues } = item;
+      return {
+        drill: item.drill,
+        drillName: item.drillName,
+        inputValues: item?.inputs || [],
+        columnValues,
+      };
+    });
+
+    const formattedData = {
+      client: clientId,
+      appointment: appointmentId,
+      sessions: [
+        {
+          session: formData?.session,
+          drills: formattedDrills,
+        },
+      ],
+    };
+
+    console.log("formattedData: ", formattedData);
+    submitSessionDrills(dispatch, formattedData, clientId, appointmentId);
     handleClose();
     navigate(-1);
   };
@@ -199,7 +228,9 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                       <input
                         type="text"
                         // value={newData?.input?.alias}
-                        value={newData?.[selectedDrill]?.inputs?.[input.alias]}
+                        value={
+                          newData?.[selectedDrill]?.inputs?.[input.alias] || ""
+                        }
                         onChange={(event) => {
                           handleInputValueChange(
                             input.alias,
@@ -227,7 +258,9 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                           };
                         })}
                         bgColor="#fff"
-                        value={newData?.[selectedDrill]?.inputs?.[input.alias]}
+                        value={
+                          newData?.[selectedDrill]?.inputs?.[input.alias] || ""
+                        }
                         handleSelect={(value) => {
                           console.log(newData?.[selectedDrill]?.inputs);
                           handleInputValueChange(input.alias, value);
@@ -274,7 +307,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
             <div className="mt-4 d-flex flex-column gap-1 drill-notes">
               <div style={{ fontSize: "0.7rem" }}> Notes </div>
               <textarea
-                value={newData?.[selectedDrill]?.inputs?.["notes"]}
+                value={newData?.[selectedDrill]?.inputs?.["notes"] || ""}
                 onChange={(event) => {
                   handleInputValueChange("notes", event.target.value);
                 }}
