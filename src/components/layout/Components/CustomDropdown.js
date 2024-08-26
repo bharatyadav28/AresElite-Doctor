@@ -16,7 +16,11 @@ function CustomDropdown({
     <Dropdown onSelect={handleSelect}>
       <Dropdown.Toggle
         id="dropdown-basic"
-        style={{ width: width, overflow: "hidden", backgroundColor: bgColor }}
+        style={{
+          width: width,
+          overflow: "hidden",
+          backgroundColor: bgColor,
+        }}
       >
         <div
           style={{
@@ -37,7 +41,13 @@ function CustomDropdown({
         </div>
       </Dropdown.Toggle>
 
-      <Dropdown.Menu style={{ width: menuWidth ? menuWidth : "100%" }}>
+      <Dropdown.Menu
+        style={{
+          width: menuWidth ? menuWidth : "100%",
+          maxHeight: "15rem",
+          overflowY: "auto",
+        }}
+      >
         {menuData?.map((item, index) => (
           <Dropdown.Item
             key={index}

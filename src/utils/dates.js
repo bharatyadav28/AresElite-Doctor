@@ -171,3 +171,15 @@ export function yesterday() {
 export function tomorrow() {
   return dates.add(dates.startOf(new Date(), "day"), 1, "day");
 }
+
+export function IsoToNormal(isoDate) {
+  const date = new Date(isoDate);
+
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const year = String(date.getUTCFullYear()).slice(-2); // Get last 2 digits of the year
+
+  const formattedDate = `${month}/${day}/${year}`;
+
+  return formattedDate;
+}

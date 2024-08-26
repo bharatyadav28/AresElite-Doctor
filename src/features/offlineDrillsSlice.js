@@ -21,12 +21,19 @@ const offlineDrillsSlice = createSlice({
       state.isFetching = false;
       state.offlineDrillData = action.payload;
     },
+
+    fetchingSuccess: (state) => {
+      state.errMsg = "";
+      state.error = false;
+      state.isFetching = false;
+    },
     saveInitialDrill: (state, action) => {
       state.initialDrillData = action.payload;
     },
     submittedFormData: (state, action) => {
       state.submittedFormData = action.payload;
     },
+
     fetchingFailure: (state, action) => {
       state.errMsg = action.payload;
       state.isFetching = false;
@@ -41,5 +48,6 @@ export const {
   submittedFormData,
   fetchingFailure,
   saveInitialDrill,
+  fetchingSuccess,
 } = offlineDrillsSlice.actions;
 export default offlineDrillsSlice.reducer;

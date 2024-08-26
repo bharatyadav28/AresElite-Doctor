@@ -23,8 +23,6 @@ const InitialDrillForm = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.offlineDrills);
 
-  console.log("drills", drills);
-
   const columns = data?.offlineDrillData?.columns?.map((column) => ({
     alias: column.alias,
     columnName: column.columnName,
@@ -47,7 +45,6 @@ const InitialDrillForm = () => {
     const isDrillName = name === "drillName";
     let drillId = "";
     data?.offlineDrillData?.drills?.forEach((item) => {
-      console.log("hi", item.drillName, name);
       if (item.drillName === value) {
         drillId = item._id;
       }
@@ -61,7 +58,6 @@ const InitialDrillForm = () => {
           }
         : drill
     );
-    console.log(updatedDrills);
     setDrills(updatedDrills);
   };
 
@@ -91,12 +87,21 @@ const InitialDrillForm = () => {
   }, [initialData]);
   return (
     <DoctorMenu>
-      <div style={{ height: "100vh", overflowY: "auto", marginTop: "1rem" }}>
+      <div
+        style={{
+          paddingTop: "0.5rem",
+          paddingBottom: "0.5rem",
+        }}
+        // className="main-wrapper"
+      >
         <div
-          className="m-3 py-3 px-2  d-flex flex-column  "
+          className="m-3 py-3 px-2 mx-auto  d-flex flex-column  "
           style={{
             backgroundColor: "#FFFFFF",
             borderRadius: "1rem",
+            height: "94vh",
+            overflowY: "auto",
+            width: "97%",
           }}
         >
           <div className="d-flex flex-wrap gap-2 justify-content-between align-items-center px-2 ">
@@ -139,44 +144,74 @@ const InitialDrillForm = () => {
           </div>
 
           {!data.isFetching ? (
-            <div className="mt-5 drill-table-box">
-              <Table className="drill-table">
+            <div className="mt-5 drill-table-box ">
+              <Table className="drill-table ">
                 <thead>
                   <tr>
-                    <th> S.no </th>
-                    <th>Drill name</th>
+                    <th
+                      className="p-1 sno-value"
+                      style={{ maxWidth: "0.5rem" }}
+                    >
+                      {" "}
+                      S.no{" "}
+                    </th>
+                    <th
+                      className="p-1 drill-name"
+                      style={{ maxWidth: "0.5rem" }}
+                    >
+                      Drill name
+                    </th>
                     {columnNames?.map((columnName, index) => (
-                      <th key={index}>{columnName}</th>
+                      <th
+                        key={index}
+                        className="p-1 other-values"
+                        style={{ maxWidth: "0.5rem" }}
+                      >
+                        {columnName}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {drills?.map((drill, rowIndex) => (
                     <tr key={rowIndex}>
-                      <td>{rowIndex + 1}</td>
-                      <td key={"drill name"}>
+                      <td
+                        className="p-1 pt-2 sno-value fw-medium"
+                        style={{ width: "2rem" }}
+                      >
+                        {rowIndex + 1}
+                      </td>
+                      <td
+                        key={"drill name"}
+                        className="p-1 drill-name"
+                        style={{ width: "11rem", maxWidth: "11rem" }}
+                      >
                         <CustomDropdown
                           menuData={drillNames}
                           value={drill["drillName"]}
                           handleSelect={(value) => {
                             handleDrillsChange(rowIndex, "drillName", value);
                           }}
-                          width="11rem"
+                          width="100%"
                           menuWidth={"maxContent"}
-                          titleWidth="90%"
+                          // titleWidth="90%"
                         />
                       </td>
                       {columns?.map((column, index) => (
-                        <td key={index}>
+                        <td
+                          key={index}
+                          className="p-1 other-values"
+                          style={{ width: "4rem", maxWidth: "4rem" }}
+                        >
                           <CustomDropdown
                             menuData={column?.data}
                             value={drill[column.alias]}
                             handleSelect={(value) => {
                               handleDrillsChange(rowIndex, column.alias, value);
                             }}
-                            width={"3.4rem"}
+                            width="100%"
                             menuWidth={"maxContent"}
-                            titleWidth="90%"
+                            // titleWidth="90%"
                           />
                         </td>
                       ))}

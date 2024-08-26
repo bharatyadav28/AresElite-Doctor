@@ -18,6 +18,7 @@ import {
   saveDrillsData,
   fetchingFailure,
   saveInitialDrill,
+  fetchingSuccess,
 } from "./offlineDrillsSlice.js";
 
 const ErrorToastOptions = {
@@ -771,6 +772,32 @@ export const submitSessionDrills = async (dispatch, data, cid, aid) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     toast.success("Session saved successfully", successToastOptions);
+    dispatch(fetchingSuccess());
+  } catch (error) {
+    const errorMessage = parseError(error);
+    toast.error(errorMessage, ErrorToastOptions);
+    dispatch(fetchingFailure(errorMessage));
+    return false; // Return false to indicate that the request failed
+  }
+};
+
+export const getSessionDrills = async (dispatch, cid, aid) => {
+  const token = localStorage.getItem("userToken");
+  dispatch(fetchingStart());
+  try {
+    const { data } = await axios.get(
+      `/api/doctor/offline-drill/${cid}/${aid}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    dispatch(fetchingSuccess());
+    const sessionsData = {
+      createdAt: data?.result?.createdAt,
+      sessions: data?.result?.sessions || [],
+    };
+
+    return sessionsData;
   } catch (error) {
     const errorMessage = parseError(error);
     toast.error(errorMessage, ErrorToastOptions);

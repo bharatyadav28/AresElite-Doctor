@@ -7,13 +7,17 @@ import Typography from "@mui/material/Typography";
 
 import { IoIosArrowDown as ArrowIcon } from "react-icons/io";
 import { GoDotFill as DotIcon } from "react-icons/go";
+import { IsoToNormal } from "../utils/dates";
 
-function DrillItem() {
+function DrillItem({ drill, index, creationTime }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = () => {
     setExpanded(!expanded);
   };
+
+  const inputValues = drill?.inputValues || {};
+  const creationDate = IsoToNormal(creationTime);
 
   return (
     <div>
@@ -31,11 +35,13 @@ function DrillItem() {
           id="panel2-header"
           className="d-flex align-items-center"
         >
-          <Typography style={{ color: "#3C3F53" }}>Drill 1 </Typography>
+          <Typography style={{ color: "#3C3F53" }}>
+            Drill {index + 1}{" "}
+          </Typography>
           {!expanded && (
             <div style={{ color: "#3C3F53" }} className="d-flex">
               <DotIcon className=" ms-3 my-auto me-1" size={10} />
-              <div> 7/26/24</div>
+              <div> {creationDate}</div>
             </div>
           )}
         </AccordionSummary>
@@ -47,7 +53,7 @@ function DrillItem() {
                   Drill name
                 </div>
                 <div style={{ color: "#010628", fontSize: "1.1rem" }}>
-                  Virtual Reality-Neurotainer-G.U.S.T
+                  {drill?.drillName}
                 </div>
               </div>
               <div className="d-flex flex-column align-items-end">
@@ -55,7 +61,7 @@ function DrillItem() {
                   Date
                 </div>
                 <div style={{ color: "#010628", fontSize: "1.1rem" }}>
-                  7/26/24
+                  {creationDate}
                 </div>
               </div>
             </div>
@@ -64,54 +70,20 @@ function DrillItem() {
               <div className="mt-4" style={{ color: "#3C3F53" }}>
                 Drill details
               </div>
-              <div className="d-flex gap-4 mt-2">
-                <div className="d-flex flex-column">
-                  <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
-                    Bonus Score
+              <div className="d-flex flex-wrap gap-4 mt-2">
+                {Object.keys(inputValues).map((input, index) => (
+                  <div className="d-flex flex-column" key={index}>
+                    <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
+                      {input}
+                    </div>
+                    <div
+                      className="text-center p-2 "
+                      style={{ backgroundColor: "#F4F4F4" }}
+                    >
+                      {inputValues[input]}
+                    </div>
                   </div>
-                  <div
-                    className="text-center p-2 "
-                    style={{ backgroundColor: "#F4F4F4" }}
-                  >
-                    10
-                  </div>
-                </div>
-
-                <div className="d-flex flex-column">
-                  <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
-                    Headcheck Score
-                  </div>
-                  <div
-                    className="text-center p-2 "
-                    style={{ backgroundColor: "#F4F4F4" }}
-                  >
-                    118
-                  </div>
-                </div>
-
-                <div className="d-flex flex-column">
-                  <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
-                    Paddle acivation
-                  </div>
-                  <div
-                    className="text-center p-2 "
-                    style={{ backgroundColor: "#F4F4F4" }}
-                  >
-                    2
-                  </div>
-                </div>
-
-                <div className="d-flex flex-column">
-                  <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
-                    Pass Accuracy
-                  </div>
-                  <div
-                    className="text-center p-2 "
-                    style={{ backgroundColor: "#F4F4F4" }}
-                  >
-                    90
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

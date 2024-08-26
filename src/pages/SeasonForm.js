@@ -10,6 +10,7 @@ import {
   FaArrowRight as RightArrow,
 } from "react-icons/fa";
 import Select from "react-select";
+import { Row, Col } from "react-bootstrap";
 
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
 import { submitSessionDrills } from "../features/apiCall";
@@ -32,12 +33,8 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   const drills = formData?.drills;
   const [newData, setNewData] = useState([]);
 
-  console.log("data:", data);
-
   const { clientId, appointmentId } = useParams();
   const dispatch = useDispatch();
-
-  console.log("params", clientId, appointmentId);
 
   const drillNames = drills?.map((drill, index) => {
     return {
@@ -125,7 +122,6 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
       ],
     };
 
-    console.log("formattedData: ", formattedData);
     submitSessionDrills(dispatch, formattedData, clientId, appointmentId);
     handleClose();
     navigate(-1);
@@ -146,8 +142,6 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   });
   const drillInputsParams = incomingSelectedDrill?.inputs;
 
-  console.log("new data", newData);
-
   return (
     <Modal
       open={open}
@@ -156,7 +150,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style} style={{ overflowY: "auto" }}>
-        <div className="d-flex ialign-items-center gap-2">
+        <div className="d-flex align-items-center gap-2">
           <div>
             <IconButton
               sx={{
@@ -173,210 +167,219 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
           </div>
         </div>
 
-        <div className="d-flex flex-column flex-md-row mt-3 gap-5">
-          <div className="col d-flex flex-column gap-4 ">
-            <CustomDropdown
-              menuData={drillNames}
-              value={newData[selectedDrill]?.drillName}
-              handleSelect={handleDrillChange}
-              width="100%"
-              titleWidth={"90%"}
-              menuWidth="max-Content"
-            />
+        <Row className="mt-3  ">
+          <Col xs={12} md={6} className="mb-3 pe-md-5">
+            <div>
+              <CustomDropdown
+                menuData={drillNames}
+                value={newData[selectedDrill]?.drillName}
+                handleSelect={handleDrillChange}
+                width="100%"
+                titleWidth={"90%"}
+                menuWidth="max-Content"
+              />
 
-            <div className="d-flex flex-column gap-1">
+              <div className="d-flex flex-column gap-1 mt-4">
+                <div className="drill-box mt-2">
+                  {columns?.map((input, index) => {
+                    if (input) {
+                      const val = newData[selectedDrill]?.[input?.alias];
+                      return (
+                        <div className="drill-item">
+                          <div style={{ fontSize: "0.7rem" }}>
+                            {" "}
+                            {input.columnName}{" "}
+                          </div>
+                          <CustomDropdown
+                            menuData={input?.data}
+                            value={val ? val : ""}
+                            handleSelect={(value) => {
+                              handleNewDataChange(input?.alias, value);
+                            }}
+                            width="100%"
+                            menuWidth=""
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
+          </Col>
+
+          <Col xs={12} md={6} className="  border-radius-10 ml-5 ">
+            <div className="p-4" style={{ backgroundColor: "#F4F4F4" }}>
+              <div style={{ fontSize: "1.3rem", fontWeight: "bold" }}>
+                {" "}
+                Drill details
+              </div>
               <div className="drill-box mt-2">
-                {columns?.map((input, index) => {
-                  if (input) {
-                    const val = newData[selectedDrill]?.[input?.alias];
-                    return (
-                      <div className="drill-item">
+                {drillInputsParams?.map((input) => (
+                  <div className="drill-item">
+                    {input.type === "text" && (
+                      <>
                         <div style={{ fontSize: "0.7rem" }}>
                           {" "}
-                          {input.columnName}{" "}
+                          {input.label}{" "}
+                        </div>
+                        <input
+                          type="text"
+                          // value={newData?.input?.alias}
+                          value={
+                            newData?.[selectedDrill]?.inputs?.[input.alias] ||
+                            ""
+                          }
+                          onChange={(event) => {
+                            handleInputValueChange(
+                              input.alias,
+                              event.target.value
+                            );
+                          }}
+                          style={{
+                            height: "40px",
+                            border: "none",
+                            width: "100%",
+                            paddingLeft: "0.4rem",
+                          }}
+                          placeholder={`Enter ${input.label}`}
+                        />
+                      </>
+                    )}
+                    {input.type === "checkBox" && (
+                      <>
+                        <div style={{ fontSize: "0.7rem" }}>
+                          {" "}
+                          {input.label}{" "}
                         </div>
                         <CustomDropdown
-                          menuData={input?.data}
-                          value={val ? val : ""}
+                          menuData={input?.options?.map((item) => {
+                            return {
+                              label: item,
+                              value: item,
+                            };
+                          })}
+                          bgColor="#fff"
+                          value={
+                            newData?.[selectedDrill]?.inputs?.[input.alias] ||
+                            ""
+                          }
                           handleSelect={(value) => {
-                            handleNewDataChange(input?.alias, value);
+                            handleInputValueChange(input.alias, value);
                           }}
                           width="100%"
                         />
-                      </div>
-                    );
-                  }
-                })}
+                      </>
+                    )}
+                  </div>
+                ))}
               </div>
-            </div>
-          </div>
-
-          <div
-            className="col p-4 border-radius-10"
-            style={{ backgroundColor: "#F4F4F4" }}
-          >
-            <div style={{ fontSize: "1.3rem", fontWeight: "bold" }}>
-              {" "}
-              Drill details
-            </div>
-            <div className="drill-box mt-2">
-              {drillInputsParams?.map((input) => (
-                <div className="drill-item">
-                  {input.type === "text" && (
+              {drillInputsParams?.map(
+                (input) =>
+                  input.type === "multipleChoice" && (
                     <>
                       <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
-                      <input
-                        type="text"
-                        // value={newData?.input?.alias}
+
+                      <Select
+                        isMulti
+                        options={input.options?.map((option, index) => ({
+                          value: option,
+                          label: option,
+                        }))}
                         value={
-                          newData?.[selectedDrill]?.inputs?.[input.alias] || ""
+                          newData?.[selectedDrill]?.inputs?.[input.alias]?.map(
+                            (value) => ({
+                              value,
+                              label: value,
+                            })
+                          ) || []
                         }
-                        onChange={(event) => {
-                          handleInputValueChange(
-                            input.alias,
-                            event.target.value
+                        onChange={(selectedOptions) => {
+                          const selectedValues = selectedOptions.map(
+                            (option) => option.value
                           );
+                          handleInputValueChange(input.alias, selectedValues);
                         }}
-                        style={{
-                          height: "40px",
-                          border: "none",
-                          width: "100%",
-                          paddingLeft: "0.4rem",
-                        }}
-                        placeholder={`Enter ${input.label}`}
+                        className="drill-mcq"
                       />
                     </>
-                  )}
-                  {input.type === "checkBox" && (
-                    <>
-                      <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
-                      <CustomDropdown
-                        menuData={input?.options?.map((item) => {
-                          return {
-                            label: item,
-                            value: item,
-                          };
-                        })}
-                        bgColor="#fff"
-                        value={
-                          newData?.[selectedDrill]?.inputs?.[input.alias] || ""
-                        }
-                        handleSelect={(value) => {
-                          console.log(newData?.[selectedDrill]?.inputs);
-                          handleInputValueChange(input.alias, value);
-                        }}
-                        width="100%"
-                      />
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-            {drillInputsParams?.map(
-              (input) =>
-                input.type === "multipleChoice" && (
-                  <>
-                    <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
+                  )
+              )}
 
-                    <Select
-                      isMulti
-                      options={input.options?.map((option, index) => ({
-                        value: option,
-                        label: option,
-                      }))}
-                      value={
-                        newData?.[selectedDrill]?.inputs?.[input.alias]?.map(
-                          (value) => ({
-                            value,
-                            label: value,
-                          })
-                        ) || []
+              <div className="mt-4 d-flex flex-column gap-1 drill-notes">
+                <div style={{ fontSize: "0.7rem" }}> Notes </div>
+                <textarea
+                  value={newData?.[selectedDrill]?.inputs?.["notes"] || ""}
+                  onChange={(event) => {
+                    handleInputValueChange("notes", event.target.value);
+                  }}
+                  style={{
+                    height: "100px",
+                    border: "none",
+                    width: "100%",
+                    paddingLeft: "0.4rem",
+                    paddingTop: "0.4rem",
+                  }}
+                  placeholder={`Enter notes`}
+                />
+              </div>
+
+              <div className="d-flex flex-wrap gap-2 mt-5">
+                <button
+                  className="purple-button col h-0 flex-grow-1"
+                  style={{ padding: 0, height: "2.5rem" }}
+                  onClick={handleSubmit}
+                >
+                  Submit Drill data
+                </button>
+
+                <div className="d-flex gap-2 ">
+                  <button
+                    style={{
+                      backgroundColor: "#EAE6FF",
+                      color: "#7257FF",
+                      width: isMobile ? "7rem" : "8rem",
+                    }}
+                    onClick={() => {
+                      if (selectedDrill >= 1) {
+                        setSelectedDrill((prev) => {
+                          if (prev >= 1) return prev - 1;
+                          return prev;
+                        });
                       }
-                      onChange={(selectedOptions) => {
-                        const selectedValues = selectedOptions.map(
-                          (option) => option.value
-                        );
-                        handleInputValueChange(input.alias, selectedValues);
-                      }}
-                      className="drill-mcq"
-                    />
-                  </>
-                )
-            )}
+                    }}
+                  >
+                    <div className="d-flex justify-content-center align-items-center gap-2 ">
+                      <LeftArrow />
+                      <div>Previous</div>
+                    </div>
+                  </button>
 
-            <div className="mt-4 d-flex flex-column gap-1 drill-notes">
-              <div style={{ fontSize: "0.7rem" }}> Notes </div>
-              <textarea
-                value={newData?.[selectedDrill]?.inputs?.["notes"] || ""}
-                onChange={(event) => {
-                  handleInputValueChange("notes", event.target.value);
-                }}
-                style={{
-                  height: "100px",
-                  border: "none",
-                  width: "100%",
-                  paddingLeft: "0.4rem",
-                  paddingTop: "0.4rem",
-                }}
-                placeholder={`Enter notes`}
-              />
-            </div>
-
-            <div className="d-flex flex-wrap gap-2 mt-5">
-              <button
-                className="purple-button col h-0 flex-grow-1"
-                style={{ padding: 0, height: "2.5rem" }}
-                onClick={handleSubmit}
-              >
-                Submit Drill data
-              </button>
-
-              <div className="d-flex gap-2 ">
-                <button
-                  style={{
-                    backgroundColor: "#EAE6FF",
-                    color: "#7257FF",
-                    width: isMobile ? "7rem" : "8rem",
-                  }}
-                  onClick={() => {
-                    if (selectedDrill >= 1) {
-                      setSelectedDrill((prev) => {
-                        if (prev >= 1) return prev - 1;
-                        return prev;
-                      });
-                    }
-                  }}
-                >
-                  <div className="d-flex justify-content-center align-items-center gap-2 ">
-                    <LeftArrow />
-                    <div>Previous</div>
-                  </div>
-                </button>
-
-                <button
-                  style={{
-                    backgroundColor: "#EAE6FF",
-                    color: "#7257FF",
-                    width: isMobile ? "7rem" : "8rem",
-                  }}
-                  onClick={() => {
-                    if (selectedDrill < drills.length - 1) {
-                      setSelectedDrill((prev) => {
-                        if (prev <= drills.length - 1) return prev + 1;
-                        return prev;
-                      });
-                    }
-                  }}
-                >
-                  <div className="d-flex justify-content-center align-items-center gap-2 ">
-                    <div>Next</div>
-                    <RightArrow />
-                  </div>
-                </button>
+                  <button
+                    style={{
+                      backgroundColor: "#EAE6FF",
+                      color: "#7257FF",
+                      width: isMobile ? "7rem" : "8rem",
+                    }}
+                    onClick={() => {
+                      if (selectedDrill < drills.length - 1) {
+                        setSelectedDrill((prev) => {
+                          if (prev <= drills.length - 1) return prev + 1;
+                          return prev;
+                        });
+                      }
+                    }}
+                  >
+                    <div className="d-flex justify-content-center align-items-center gap-2 ">
+                      <div>Next</div>
+                      <RightArrow />
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </Box>
     </Modal>
   );

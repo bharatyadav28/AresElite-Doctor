@@ -1,16 +1,33 @@
 .drill-table-box {
   max-width: 100vw;
   overflow: auto;
+  height: 100%;
 }
 
 .drill-table th {
   border: none !important ;
   font-size: small;
   vertical-align: top !important;
+  font-weight: 700;
 }
 
 .drill-table tr {
   vertical-align: center !important ;
+}
+
+@media only screen and (max-width: 991px) {
+  .drill-table .drill-name {
+    /* .drill-table th { */
+    min-width: 11rem !important;
+  }
+  .drill-table .other-values {
+    min-width: 4rem !important;
+  }
+  .drill-table .sno-value {
+    min-width: 2.5rem !important;
+    /* max-width: 1rem !important;
+    width: 1rem !important; */
+  }
 }
 
 .my-selectmenu {
@@ -80,4 +97,8 @@
 
 .drill-mcq .css-13cymwt-control {
   background-color: #fff !important;
+}
+
+.custom-gutter {
+  --bs-gutter-x: 6rem; /* Adjust horizontal gutter spacing */
 }
