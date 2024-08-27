@@ -1,65 +1,58 @@
-import { colors } from "@mui/material";
-import Dropdown from "react-bootstrap/Dropdown";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
-function CustomDropdown({
+export default function CustomDropdown({
   menuData,
   value,
   handleSelect,
   width,
-  menuWidth,
   titleWidth,
   bgColor,
   textColor,
   titleSize,
 }) {
   return (
-    <Dropdown onSelect={handleSelect}>
-      <Dropdown.Toggle
-        id="dropdown-basic"
-        style={{
-          width: width,
-          overflow: "hidden",
-          backgroundColor: bgColor,
-        }}
-      >
-        <div
-          style={{
-            width: titleWidth,
-            overflow: "hidden",
-            color: textColor,
-            fontSize: titleSize,
-          }}
-        >
-          {" "}
-          {menuData?.label ? (
-            menuData.label
-          ) : value ? (
-            value
-          ) : (
-            <span>&nbsp;</span>
-          )}{" "}
-        </div>
-      </Dropdown.Toggle>
+    <Select
+      value={value}
+      onChange={(e) => handleSelect(e.target.value)}
+      displayEmpty
+      sx={{
+        width: width,
+        backgroundColor: bgColor || "#f4f4f4",
+        color: textColor,
+        fontSize: titleSize,
+        height: "2.5rem",
+        "&.Mui-selected": {
+          backgroundColor: "black !important", // Change the background color of selected item
+          color: "blue", // Change the text color of the selected item
+        },
 
-      <Dropdown.Menu
-        style={{
-          width: menuWidth ? menuWidth : "100%",
-          maxHeight: "15rem",
-          overflowY: "auto",
-        }}
-      >
-        {menuData?.map((item, index) => (
-          <Dropdown.Item
-            key={index}
-            eventKey={item?.value}
-            style={{ backgroundColor: "#FFFFFF" }}
-          >
-            {item?.label}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
+        ".MuiOutlinedInput-notchedOutline": {
+          borderColor: "rgba(228, 219, 233, 0.25)",
+        },
+        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          borderColor: "rgba(228, 219, 233, 0.25)",
+        },
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: "rgba(228, 219, 233, 0.25)",
+        },
+      }}
+      MenuProps={{
+        PaperProps: {
+          style: {
+            maxHeight: 240, // max height for menu
+          },
+        },
+      }}
+    >
+      <MenuItem key={"empty"} value="" style={{ display: "hidden" }}>
+        &nbsp;
+      </MenuItem>
+      {menuData?.map((item, index) => (
+        <MenuItem key={index} value={item.value}>
+          {item.label}
+        </MenuItem>
+      ))}
+    </Select>
   );
 }
-
-export default CustomDropdown;

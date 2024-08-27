@@ -15,18 +15,6 @@ import { Row, Col } from "react-bootstrap";
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
 import { submitSessionDrills } from "../features/apiCall";
 
-const evaluationInpputs = [
-  "score",
-  "Ball blocked",
-  "Ball Blocked score",
-  "Bombs doged",
-  "Bombs doged score",
-  "Multiplayer",
-  "Bonus score",
-];
-
-const initialData = {};
-
 function SeasonForm({ open, handleClose, filledDrills, columns }) {
   const data = useSelector((state) => state.offlineDrills);
   const formData = data?.submittedFormData;
@@ -96,10 +84,6 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
     borderRadius: "15px",
   };
 
-  // const handleDrillsChange = (value) => {
-  //   setDrillType(value);
-  // };
-
   const handleSubmit = () => {
     const formattedDrills = newData.map((item) => {
       const { drill, drillName, inputs, ...columnValues } = item;
@@ -126,13 +110,6 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
     handleClose();
     navigate(-1);
   };
-
-  useEffect(() => {
-    evaluationInpputs?.map((item) => {
-      initialData[item] = "";
-    });
-    initialData["notes"] = "";
-  }, []);
 
   const incomingSelectedDrill = data?.offlineDrillData?.drills?.find((item) => {
     if (item.drillName === newData[selectedDrill]?.drillName) {
@@ -172,7 +149,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
             <div>
               <CustomDropdown
                 menuData={drillNames}
-                value={newData[selectedDrill]?.drillName}
+                value={newData[selectedDrill]?.drillName || ""}
                 handleSelect={handleDrillChange}
                 width="100%"
                 titleWidth={"90%"}
@@ -185,7 +162,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                     if (input) {
                       const val = newData[selectedDrill]?.[input?.alias];
                       return (
-                        <div className="drill-item">
+                        <div className="drill-item" key={index}>
                           <div style={{ fontSize: "0.7rem" }}>
                             {" "}
                             {input.columnName}{" "}

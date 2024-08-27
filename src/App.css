@@ -102,3 +102,7 @@
 .custom-gutter {
   --bs-gutter-x: 6rem; /* Adjust horizontal gutter spacing */
 }
+
+.start-session-btn {
+  height: 2.5rem !important;
+}

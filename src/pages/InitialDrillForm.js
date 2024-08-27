@@ -1,6 +1,7 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import DoctorMenu from "../components/layout/DoctorMenu";
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
@@ -9,13 +10,27 @@ import { getofflineDrillsData } from "../features/apiCall.js";
 import { submittedFormData } from "../features/offlineDrillsSlice.js";
 import Loader from "../components/layout/Components/Loader.js";
 
-// const initialData = { drillName: "" };
+const initialAvailableSessions = [
+  { value: "Session 1", label: "Session 1" },
+  { value: "Session 2", label: "Session 2" },
+  { value: "Session 3", label: "Session 3" },
+  { value: "Session 4", label: "Session 4" },
+  { value: "Session 5", label: "Session 5" },
+  { value: "Session 6", label: "Session 6" },
+  { value: "Session 7", label: "Session 7" },
+  { value: "Session 8", label: "Session 8" },
+];
 
 const InitialDrillForm = () => {
   const [initialData, setInitialData] = useState({});
   const [drills, setDrills] = useState([initialData]);
-  const [session, setSession] = useState("Session 1");
+  const [session, setSession] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [availableSessions, setAvailableSessions] = useState(
+    initialAvailableSessions
+  );
+
+  const { clientId, appointmentId } = useParams();
 
   const handleModalOpen = () => setOpenModal(true);
   const handleModalClose = () => setOpenModal(false);
@@ -75,8 +90,21 @@ const InitialDrillForm = () => {
   };
 
   useEffect(() => {
-    getofflineDrillsData(dispatch);
-  }, [dispatch]);
+    getofflineDrillsData(dispatch, clientId, appointmentId);
+  }, [dispatch, clientId, appointmentId]);
+
+  useEffect(() => {
+    if (Array.isArray(availableSessions) && availableSessions.length > 0) {
+      setSession(availableSessions[0].value);
+    }
+  }, [availableSessions]);
+
+  useEffect(() => {
+    const createdSessions = data?.offlineDrillData?.createdSessions || [];
+    setAvailableSessions((prev) =>
+      prev?.filter((item) => !createdSessions?.includes(item?.label))
+    );
+  }, [data?.offlineDrillData?.createdSessions]);
 
   useEffect(() => {
     setInitialData({ drill: "", drillName: "", ...data?.initialDrillData });
@@ -111,30 +139,18 @@ const InitialDrillForm = () => {
 
             <div className="d-flex flex-wrap gap-3" style={{ width: "30rem" }}>
               <button
-                className="purple-button col h-0"
-                style={{ padding: 0, height: "2.5rem" }}
+                className="purple-button col start-session-btn"
+                style={{
+                  padding: 0,
+                }}
                 onClick={handleDrillSubmit}
               >
                 Start Session
               </button>
 
               <div className="col">
-                {/* <SelectMenu
-                  menuData={[
-                    { value: "season1", label: "Season 1" },
-                    { value: "season2", label: "Season 2" },
-                  ]}
-                  padding="0.5rem"
-                  showTitle={true}
-                /> */}
                 <CustomDropdown
-                  menuData={[
-                    { value: "Session 1", label: "Session 1" },
-                    { value: "Session 2", label: "Session 2" },
-                    { value: "Session 3", label: "Session 3" },
-                    { value: "Session 4", label: "Session 4" },
-                    { value: "Session 5", label: "Session 5" },
-                  ]}
+                  menuData={availableSessions}
                   value={session}
                   handleSelect={handleSession}
                   width="100%"
@@ -188,7 +204,7 @@ const InitialDrillForm = () => {
                       >
                         <CustomDropdown
                           menuData={drillNames}
-                          value={drill["drillName"]}
+                          value={drill["drillName"] || ""}
                           handleSelect={(value) => {
                             handleDrillsChange(rowIndex, "drillName", value);
                           }}
@@ -205,7 +221,7 @@ const InitialDrillForm = () => {
                         >
                           <CustomDropdown
                             menuData={column?.data}
-                            value={drill[column.alias]}
+                            value={drill[column.alias] || ""}
                             handleSelect={(value) => {
                               handleDrillsChange(rowIndex, column.alias, value);
                             }}

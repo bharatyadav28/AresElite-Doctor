@@ -80,7 +80,9 @@ function DrillItem({ drill, index, creationTime }) {
                       className="text-center p-2 "
                       style={{ backgroundColor: "#F4F4F4" }}
                     >
-                      {inputValues[input]}
+                      {Array.isArray(inputValues[input])
+                        ? inputValues[input].join(" , ")
+                        : inputValues[input]}
                     </div>
                   </div>
                 ))}

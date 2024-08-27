@@ -25,13 +25,13 @@ function SubmittedDrills() {
   const dispatch = useDispatch();
 
   const { clientId, appointmentId } = useParams();
-  console.log("SessionsData", sessionsData);
 
   useEffect(() => {
     setIsLoading(true);
     getSessionDrills(dispatch, clientId, appointmentId).then((sessionsData) => {
       setSessionsData(sessionsData?.sessions);
       setCreationTime(sessionsData?.createdAt);
+      setSessions(sessionsData?.sessionNames);
       setIsLoading(false);
     });
   }, [dispatch, clientId, appointmentId]);
@@ -44,15 +44,13 @@ function SubmittedDrills() {
     }
   });
 
-  useEffect(() => {
-    const temp = [];
-    for (let i = 1; i <= sessionsData?.length; i++) {
-      temp.push(`Session ${i}`);
-    }
-    setSessions(temp);
-  }, [sessionsData]);
-
-  console.log("loading", isLoading);
+  // useEffect(() => {
+  //   const temp = [];
+  //   for (let i = 1; i <= sessionsData?.length; i++) {
+  //     temp.push(`Session ${i}`);
+  //   }
+  //   setSessions(temp);
+  // }, [sessionsData]);
 
   return (
     <DoctorMenu>

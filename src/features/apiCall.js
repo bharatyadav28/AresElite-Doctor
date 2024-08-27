@@ -19,6 +19,7 @@ import {
   fetchingFailure,
   saveInitialDrill,
   fetchingSuccess,
+  clearOfflineDrillSlice,
 } from "./offlineDrillsSlice.js";
 
 const ErrorToastOptions = {
@@ -734,11 +735,11 @@ export const GetServiceTypes = async (dispatch) => {
   }
 };
 
-export const getofflineDrillsData = async (dispatch) => {
+export const getofflineDrillsData = async (dispatch, cid, aid) => {
   const token = localStorage.getItem("userToken");
   dispatch(fetchingStart());
   try {
-    const { data } = await axios.get("/api/doctor/drill_inputs", {
+    const { data } = await axios.get(`/api/doctor/drill_inputs/${cid}/${aid}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -747,12 +748,15 @@ export const getofflineDrillsData = async (dispatch) => {
       initialDrill[column.alias] = "";
     });
 
+    const sessionNames = data?.sessionNames || [];
+
     dispatch(saveInitialDrill(initialDrill));
 
     dispatch(
       saveDrillsData({
         columns: data.data.columns,
         drills: data.data.drills,
+        createdSessions: sessionNames,
       })
     );
     return data;
@@ -772,7 +776,7 @@ export const submitSessionDrills = async (dispatch, data, cid, aid) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     toast.success("Session saved successfully", successToastOptions);
-    dispatch(fetchingSuccess());
+    dispatch(clearOfflineDrillSlice());
   } catch (error) {
     const errorMessage = parseError(error);
     toast.error(errorMessage, ErrorToastOptions);
@@ -795,6 +799,7 @@ export const getSessionDrills = async (dispatch, cid, aid) => {
     const sessionsData = {
       createdAt: data?.result?.createdAt,
       sessions: data?.result?.sessions || [],
+      sessionNames: data?.sessionNames || [],
     };
 
     return sessionsData;
