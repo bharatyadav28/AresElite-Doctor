@@ -313,7 +313,12 @@ const CompletedRequests = () => {
                                   className="recent-booking-person-image "
                                   style={{ marginRight: "10px" }}
                                 />
-                                <div>
+                                <div
+                                  style={{
+                                    maxWidth: "10rem",
+                                    wordWrap: "break-word",
+                                  }}
+                                >
                                   <small className="name">
                                     {booking?.client?.firstName}{" "}
                                     {booking?.client?.lastName}

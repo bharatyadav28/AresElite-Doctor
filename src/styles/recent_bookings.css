@@ -42,6 +42,8 @@ thead th {
   font-weight: 300;
   color: #707073;
   opacity: 1;
+  word-break: break-word;
+  hyphens: auto;
 }
 #logo {
   position: absolute;

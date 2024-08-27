@@ -2,6 +2,7 @@ import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { MdDelete as DeleteIcon } from "react-icons/md";
 
 import DoctorMenu from "../components/layout/DoctorMenu";
 import CustomDropdown from "../components/layout/Components/CustomDropdown";
@@ -9,6 +10,7 @@ import SeasonForm from "./SeasonForm";
 import { getofflineDrillsData } from "../features/apiCall.js";
 import { submittedFormData } from "../features/offlineDrillsSlice.js";
 import Loader from "../components/layout/Components/Loader.js";
+import { IconButton } from "@mui/material";
 
 const initialAvailableSessions = [
   { value: "Session 1", label: "Session 1" },
@@ -26,6 +28,7 @@ const InitialDrillForm = () => {
   const [drills, setDrills] = useState([initialData]);
   const [session, setSession] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(-1);
   const [availableSessions, setAvailableSessions] = useState(
     initialAvailableSessions
   );
@@ -55,6 +58,13 @@ const InitialDrillForm = () => {
     value: drill.drillName,
     label: drill.drillName,
   }));
+
+  const handleDrillsDelete = (index) => {
+    const updatedDrills = drills?.filter((drill, i) =>
+      i === index ? false : true
+    );
+    setDrills(updatedDrills);
+  };
 
   const handleDrillsChange = (index, name, value) => {
     const isDrillName = name === "drillName";
@@ -190,13 +200,37 @@ const InitialDrillForm = () => {
                 </thead>
                 <tbody>
                   {drills?.map((drill, rowIndex) => (
-                    <tr key={rowIndex}>
+                    <tr
+                      key={rowIndex}
+                      onMouseEnter={() => setDeleteIndex(rowIndex + 1)}
+                      onMouseLeave={() => setDeleteIndex(-1)}
+                      style={{ position: "relative" }}
+                    >
                       <td
                         className="p-1 pt-2 sno-value fw-medium"
                         style={{ width: "2rem" }}
                       >
                         {rowIndex + 1}
+                        {deleteIndex === rowIndex + 1 && (
+                          <IconButton
+                            style={{
+                              borderRadius: "0.5rem",
+                              width: "max-content",
+                              padding: 0,
+                              margin: 0,
+                              position: "absolute",
+                              top: "20%",
+                              left: 0,
+                              zIndex: 100,
+                              backgroundColor: "#FFCCCB",
+                            }}
+                            onClick={() => handleDrillsDelete(rowIndex)}
+                          >
+                            <DeleteIcon color="red" />
+                          </IconButton>
+                        )}
                       </td>
+
                       <td
                         key={"drill name"}
                         className="p-1 drill-name"

@@ -10,7 +10,7 @@ import { GoDotFill as DotIcon } from "react-icons/go";
 import { IsoToNormal } from "../utils/dates";
 import NormalCase from "../utils/NormalCase";
 
-function DrillItem({ drill, index, creationTime }) {
+function DrillItem({ drill, index, creationTime, units }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = () => {
@@ -19,6 +19,31 @@ function DrillItem({ drill, index, creationTime }) {
 
   const inputValues = drill?.inputValues || {};
   const creationDate = IsoToNormal(creationTime);
+
+  const itemLabel = (input) => {
+    units.forEach((item) => {
+      if (item.alias === input) {
+        return item.label;
+      }
+    });
+  };
+
+  const displayValue = (input) => {
+    let unit = "";
+    const enteredValue = inputValues[input];
+
+    units.forEach((item) => {
+      if (item.alias === input) {
+        unit = item.unit;
+      }
+    });
+
+    if (Array.isArray(enteredValue)) {
+      return enteredValue.map((val) => val + " " + unit).join(" , ");
+    }
+
+    return enteredValue + " " + unit;
+  };
 
   return (
     <div>
@@ -75,15 +100,15 @@ function DrillItem({ drill, index, creationTime }) {
                 {Object.keys(inputValues).map((input, index) => (
                   <div className="d-flex flex-column" key={index}>
                     <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
+                      {/* {NormalCase(input)} */}
+                      {itemLabel(input)}
                       {NormalCase(input)}
                     </div>
                     <div
                       className="text-center p-2 "
                       style={{ backgroundColor: "#F4F4F4" }}
                     >
-                      {Array.isArray(inputValues[input])
-                        ? inputValues[input].join(" , ")
-                        : inputValues[input]}
+                      {displayValue(input)}
                     </div>
                   </div>
                 ))}

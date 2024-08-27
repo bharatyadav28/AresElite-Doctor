@@ -800,6 +800,7 @@ export const getSessionDrills = async (dispatch, cid, aid) => {
       createdAt: data?.result?.createdAt,
       sessions: data?.result?.sessions || [],
       sessionNames: data?.sessionNames || [],
+      drillInputTypes: data?.drillInputTypes || {},
     };
 
     return sessionsData;

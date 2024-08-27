@@ -13,6 +13,7 @@ function SubmittedDrills() {
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState("Session 1");
   const [creationTime, setCreationTime] = useState("");
+  const [inputTypes, setInputTypes] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
@@ -32,6 +33,7 @@ function SubmittedDrills() {
       setSessionsData(sessionsData?.sessions);
       setCreationTime(sessionsData?.createdAt);
       setSessions(sessionsData?.sessionNames);
+      setInputTypes(sessionsData?.drillInputTypes);
       setIsLoading(false);
     });
   }, [dispatch, clientId, appointmentId]);
@@ -43,14 +45,6 @@ function SubmittedDrills() {
       selectedSessionData = item;
     }
   });
-
-  // useEffect(() => {
-  //   const temp = [];
-  //   for (let i = 1; i <= sessionsData?.length; i++) {
-  //     temp.push(`Session ${i}`);
-  //   }
-  //   setSessions(temp);
-  // }, [sessionsData]);
 
   return (
     <DoctorMenu>
@@ -126,6 +120,7 @@ function SubmittedDrills() {
                   key={drill.drill}
                   index={index}
                   creationTime={creationTime}
+                  units={inputTypes[drill.drill]}
                 />
               ))}
             </div>
