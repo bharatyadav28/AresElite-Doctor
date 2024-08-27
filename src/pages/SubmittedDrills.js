@@ -101,7 +101,7 @@ function SubmittedDrills() {
             >
               {isLoading && <Loader />}
               {!isLoading &&
-                sessions.map((session) => (
+                sessions?.map((session) => (
                   <button
                     key={session}
                     className="py-3 px-4 fw-semibold fs-6"

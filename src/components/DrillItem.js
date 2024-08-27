@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { IoIosArrowDown as ArrowIcon } from "react-icons/io";
 import { GoDotFill as DotIcon } from "react-icons/go";
 import { IsoToNormal } from "../utils/dates";
+import NormalCase from "../utils/NormalCase";
 
 function DrillItem({ drill, index, creationTime }) {
   const [expanded, setExpanded] = useState(false);
@@ -74,7 +75,7 @@ function DrillItem({ drill, index, creationTime }) {
                 {Object.keys(inputValues).map((input, index) => (
                   <div className="d-flex flex-column" key={index}>
                     <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
-                      {input}
+                      {NormalCase(input)}
                     </div>
                     <div
                       className="text-center p-2 "

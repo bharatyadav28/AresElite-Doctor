@@ -90,7 +90,7 @@ const InitialDrillForm = () => {
   };
 
   useEffect(() => {
-    getofflineDrillsData(dispatch, clientId, appointmentId);
+    getofflineDrillsData(dispatch, clientId, appointmentId).then(() => {});
   }, [dispatch, clientId, appointmentId]);
 
   useEffect(() => {

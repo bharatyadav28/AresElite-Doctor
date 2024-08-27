@@ -84,7 +84,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
     borderRadius: "15px",
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formattedDrills = newData.map((item) => {
       const { drill, drillName, inputs, ...columnValues } = item;
       return {
@@ -106,7 +106,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
       ],
     };
 
-    submitSessionDrills(dispatch, formattedData, clientId, appointmentId);
+    await submitSessionDrills(dispatch, formattedData, clientId, appointmentId);
     handleClose();
     navigate(-1);
   };
@@ -198,7 +198,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                       <>
                         <div style={{ fontSize: "0.7rem" }}>
                           {" "}
-                          {input.label}{" "}
+                          {input.label} {input.unit && `(${input.unit})`}
                         </div>
                         <input
                           type="text"
@@ -227,7 +227,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                       <>
                         <div style={{ fontSize: "0.7rem" }}>
                           {" "}
-                          {input.label}{" "}
+                          {input.label} {input.unit && `(${input.unit})`}
                         </div>
                         <CustomDropdown
                           menuData={input?.options?.map((item) => {
@@ -255,7 +255,10 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                 (input) =>
                   input.type === "multipleChoice" && (
                     <>
-                      <div style={{ fontSize: "0.7rem" }}> {input.label} </div>
+                      <div style={{ fontSize: "0.7rem" }}>
+                        {" "}
+                        {input.label} {input.unit && `(${input.unit})`}
+                      </div>
 
                       <Select
                         isMulti
