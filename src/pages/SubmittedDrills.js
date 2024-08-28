@@ -7,6 +7,7 @@ import DoctorMenu from "../components/layout/DoctorMenu";
 import DrillItem from "../components/DrillItem";
 import { getSessionDrills } from "../features/apiCall";
 import Loader from "../components/layout/Components/Loader";
+import NoDrills from "../components/NoDrills";
 
 function SubmittedDrills() {
   const [sessionsData, setSessionsData] = useState([]);
@@ -45,6 +46,8 @@ function SubmittedDrills() {
       selectedSessionData = item;
     }
   });
+
+  const isSessonsEmpty = sessionsData?.length === 0;
 
   return (
     <DoctorMenu>
@@ -94,6 +97,7 @@ function SubmittedDrills() {
               }}
             >
               {isLoading && <Loader />}
+
               {!isLoading &&
                 sessions?.map((session) => (
                   <button
@@ -112,6 +116,8 @@ function SubmittedDrills() {
                   </button>
                 ))}
             </div>
+
+            {isSessonsEmpty && !isLoading && <NoDrills />}
 
             <div className="d-flex flex-column mt-4 gap-1">
               {selectedSessionData?.drills?.map((drill, index) => (

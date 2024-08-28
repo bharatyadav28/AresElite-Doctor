@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/layout/Components/Loader";
 import DoctorMenu from "../components/layout/DoctorMenu";
 import { GetRecentBookings } from "../features/apiCall";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Fourzerfour from "../components/Fourzerfour";
 const RecentBookings = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +20,7 @@ const RecentBookings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const isDesktop = window.matchMedia("(min-width: 768px)").matches;
   const isLargeDesktop = window.matchMedia("(min-width: 1900px)").matches;
-  console.log(bookings)
+  console.log(bookings);
 
   let pageSize;
   if (isLargeDesktop) {
@@ -34,7 +34,6 @@ const RecentBookings = () => {
   const dispatch = useDispatch();
   console.log(bookings);
   const fetchData = async () => {
-  
     try {
       const params = {
         currentPage,
@@ -235,27 +234,37 @@ const RecentBookings = () => {
                   <i className="fa-regular fa-calendar m-auto" />
 
                 </div> */}
-                 <div className="input-group">
-      <div className="input-group-prepend">
-        <button className="calender-icon" type="button" onClick={toggleDatePicker}>
-        <i className="fa-regular fa-calendar m-auto" />
-        </button>
-      </div>
-      
-      {isOpen && (
-        <div className="date-picker-container" style={{position:"absolute",top:"40px",left:"-60px"}}>
-          <DatePicker
-          
-            selected={selectedDate}
-            onChange={(date) => {
-              setSelectedDate(date);
-              setIsOpen(false); // Close the date picker after selecting a date
-            }}
-            inline // Display the calendar inline
-          />
-        </div>
-      )}
-    </div>
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <button
+                      className="calender-icon"
+                      type="button"
+                      onClick={toggleDatePicker}
+                    >
+                      <i className="fa-regular fa-calendar m-auto" />
+                    </button>
+                  </div>
+
+                  {isOpen && (
+                    <div
+                      className="date-picker-container"
+                      style={{
+                        position: "absolute",
+                        top: "40px",
+                        left: "-60px",
+                      }}
+                    >
+                      <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => {
+                          setSelectedDate(date);
+                          setIsOpen(false); // Close the date picker after selecting a date
+                        }}
+                        inline // Display the calendar inline
+                      />
+                    </div>
+                  )}
+                </div>
                 <Dropdown>
                   <Dropdown.Toggle id="dropdown-pages">
                     {`${(currentPage - 1) * pageSize + 1}-${Math.min(
@@ -292,7 +301,7 @@ const RecentBookings = () => {
                       <div>Name</div>
                     </th>
                     <th>
-                      <Dropdown style={{zIndex:"2"}}>
+                      <Dropdown style={{ zIndex: "2" }}>
                         <Dropdown.Toggle
                           variant="light"
                           id="dropdown-basic"
@@ -447,13 +456,15 @@ const RecentBookings = () => {
                         <>
                           <tr>
                             <td>
-                            <div
-                style={{ position: "absolute", margin: "40px 50px", width: "100%" }}
-               
-              >
-
-               <Fourzerfour/>
-              </div>
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  margin: "40px 50px",
+                                  width: "100%",
+                                }}
+                              >
+                                <Fourzerfour />
+                              </div>
                             </td>
                           </tr>
                         </>
