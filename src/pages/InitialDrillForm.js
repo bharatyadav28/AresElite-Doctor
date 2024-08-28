@@ -110,10 +110,18 @@ const InitialDrillForm = () => {
   }, [availableSessions]);
 
   useEffect(() => {
-    const createdSessions = data?.offlineDrillData?.createdSessions || [];
-    setAvailableSessions((prev) =>
-      prev?.filter((item) => !createdSessions?.includes(item?.label))
-    );
+    const fetchedSessionNames = data?.offlineDrillData?.createdSessions || [];
+    const availableSessions = fetchedSessionNames.map((item) => {
+      return {
+        value: item,
+        label: item,
+      };
+    });
+
+    // setAvailableSessions((prev) =>
+    //   prev?.filter((item) => !createdSessions?.includes(item?.label))
+    // );
+    setAvailableSessions(availableSessions);
   }, [data?.offlineDrillData?.createdSessions]);
 
   useEffect(() => {

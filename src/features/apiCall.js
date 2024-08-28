@@ -752,6 +752,8 @@ export const getofflineDrillsData = async (dispatch, cid, aid) => {
 
     dispatch(saveInitialDrill(initialDrill));
 
+    console.log("Session Names:", sessionNames);
+
     dispatch(
       saveDrillsData({
         columns: data.data.columns,

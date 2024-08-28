@@ -255,7 +255,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                 (input) =>
                   input.type === "multipleChoice" && (
                     <>
-                      <div style={{ fontSize: "0.7rem" }}>
+                      <div style={{ fontSize: "0.7rem" }} className="mt-2">
                         {" "}
                         {input.label} {input.unit && `(${input.unit})`}
                       </div>
