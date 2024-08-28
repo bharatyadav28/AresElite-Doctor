@@ -2,18 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Gettrainingsession, selecttrainingplan } from "../../../features/apiCall";
+import {
+  Gettrainingsession,
+  selecttrainingplan,
+} from "../../../features/apiCall";
 import BootstrapModal from "../Components/BootstrapModal";
+import { useLocation } from "react-router-dom";
 
-const DoctorMonthlyPlans = ({ navigate, type,freq }) => {
+const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
   const [showMonthlyPlans, setShowMonthlyPlans] = useState(false);
   const { isFetching } = useSelector((state) => state.auth);
   const [plans, setplans] = useState([]);
-  const [plansSubtype, setplansSubtype] = useState('');
+  const [plansSubtype, setplansSubtype] = useState("");
   const [selectedMonthlyPlans, setSelectedMonthlyPlans] = useState("");
   const dispatch = useDispatch();
   const navigate2 = useNavigate();
-  
+
+  const location = useLocation();
+
+  // Get search params from URL
+  const searchParams = new URLSearchParams(location.search);
+
+  // Get a specific parameter
+  const appointmentID = searchParams.get("appointment_id");
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => {
@@ -21,37 +32,39 @@ const DoctorMonthlyPlans = ({ navigate, type,freq }) => {
     navigate2("/doctor/dashboard");
   };
 
-  const handleGettrainingsessionPlans=async()=>{
-    let frequencyType='' 
+  const handleGettrainingsessionPlans = async () => {
+    let frequencyType = "";
     if (freq === "Monthly") {
-      frequencyType='per_month'
-      
+      frequencyType = "per_month";
     } else if (freq == "Packages") {
-      frequencyType='package'
-  
+      frequencyType = "package";
     } else {
-      frequencyType='package'
+      frequencyType = "package";
     }
 
-    const res= await Gettrainingsession(dispatch,{type:type,frequencyType:frequencyType})
-   console.log(res?.trainigSessionModel)
-    setplans(res?.trainigSessionModel)
-  }
-  
+    const res = await Gettrainingsession(dispatch, {
+      type: type,
+      frequencyType: frequencyType,
+    });
+    console.log(res?.trainigSessionModel);
+    setplans(res?.trainigSessionModel);
+  };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission
     // alert(selectedMonthlyPlans);
     const clientId = localStorage.getItem("client_id");
-   const sessionId=selectedMonthlyPlans
-   console.log(sessionId);
-    const{success,message}= await selecttrainingplan(dispatch,{clientId,sessionId})
-    if(success){
-    setShowModal(true);
+    const sessionId = selectedMonthlyPlans;
+    console.log(sessionId);
+    const { success, message } = await selecttrainingplan(dispatch, {
+      clientId,
+      sessionId,
+      appointmentId: appointmentID,
+    });
+    if (success) {
+      setShowModal(true);
     }
-  
   };
-  
 
   const handleMonthlyPlansChange = (event) => {
     console.log(event.target.value);
@@ -65,11 +78,10 @@ const DoctorMonthlyPlans = ({ navigate, type,freq }) => {
     //   // If empty, navigate to the desired page
     //   navigate("/doctor/dashboard/doctor-service-selection");
     // }
-    
-    handleGettrainingsessionPlans()
+
+    handleGettrainingsessionPlans();
   }, []);
 
- 
   return (
     <>
       <section
@@ -94,19 +106,17 @@ const DoctorMonthlyPlans = ({ navigate, type,freq }) => {
                   selectedMonthlyPlans === option._id ? "checked" : ""
                 }`}
               >
-                <div className="d-flex justify-content-between w-100 p-3" >
+                <div className="d-flex justify-content-between w-100 p-3">
                   {" "}
                   <input
                     type="radio"
                     id={option._id}
                     value={option._id}
                     checked={selectedMonthlyPlans === option._id}
-                    
                     onChange={handleMonthlyPlansChange}
                   />
                   {`${option.sessions} Sessions`}
-                  {option.frequency=="per_month" ? ` per month`:` in total`}
-
+                  {option.frequency == "per_month" ? ` per month` : ` in total`}
                   <div>${option.cost}</div>
                 </div>
               </label>
