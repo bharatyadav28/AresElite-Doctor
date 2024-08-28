@@ -151,13 +151,12 @@ const DoctorMenu = ({ children }) => {
                 {navigationMenu.map((item, index) => (
                   <Link
                     key={index}
-                    className={`list-group-item ${
-                      item.to === location.pathname ||
-                      (item.itemName === selectedItem &&
-                        item.iconPath === iconItem)
+                    className={`list-group-item ${item.to === location.pathname ||
+                        (item.itemName === selectedItem &&
+                          item.iconPath === iconItem)
                         ? "active"
                         : ""
-                    }`}
+                      }`}
                     to={item.to}
                     onClick={() => {
                       setIconItem(item?.iconPath);
