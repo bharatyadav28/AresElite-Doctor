@@ -362,13 +362,16 @@ export const Gettrainingsession = async (dispatch, { type, frequencyType }) => {
   } catch (error) {}
 };
 
-export const selecttrainingplan = async (dispatch, { clientId, sessionId }) => {
+export const selecttrainingplan = async (
+  dispatch,
+  { clientId, sessionId, appointmentId }
+) => {
   dispatch(FetchStart());
   const token = localStorage.getItem("userToken");
   try {
     console.log(clientId, sessionId);
     const { data } = await axios.post(
-      `/api/doctor/buy-training-session?clientId=${clientId}&sessionId=${sessionId}`,
+      `/api/doctor/buy-training-session?clientId=${clientId}&sessionId=${sessionId}&appointmentId=${appointmentId}`,
       {},
       {
         headers: {

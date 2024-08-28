@@ -438,7 +438,7 @@ const CompletedRequests = () => {
                                                     index
                                                   )
                                                 }
-                                                to="/doctor/dashboard/doctor-service-selection/training"
+                                                to={`/doctor/dashboard/doctor-service-selection/training?appointment_id=${booking._id}`}
                                               >
                                                 Add training
                                               </Link>
