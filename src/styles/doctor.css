@@ -91,7 +91,8 @@
   margin-right: 12px;
 }
 
-.doctor-menu .list-group-item-action:hover {}
+.doctor-menu .list-group-item-action:hover {
+}
 
 .doctor-menu .list-group-item {
   border: 0px;
@@ -177,7 +178,8 @@ a:hover {
   font-size: 1.2rem;
 }
 
-.Doctor-Consul {}
+.Doctor-Consul {
+}
 
 .Doctor-Consul {
   /* flex-direction: row; */
@@ -191,9 +193,11 @@ a:hover {
 .eval-location:hover {
   border-radius: 28px;
   border: 1px solid var(--Primary, #6b4eff);
-  background: linear-gradient(0deg,
+  background: linear-gradient(
+      0deg,
       rgba(107, 78, 255, 0.16) 0%,
-      rgba(107, 78, 255, 0.16) 100%),
+      rgba(107, 78, 255, 0.16) 100%
+    ),
     #fff;
 }
 
@@ -343,7 +347,7 @@ a:hover {
     margin-bottom: 20px;
   }
 
-  .Doctor-home>div {
+  .Doctor-home > div {
     width: 40% !important;
   }
 
@@ -395,7 +399,7 @@ body {
   scrollbar-width: none;
 }
 
-.Drill>div {
+.Drill > div {
   overflow-y: scroll !important;
 }
 
@@ -673,8 +677,10 @@ body {
 .client-form {
   width: 96%;
   margin: auto;
+  height: 100vh;
   overflow-y: scroll !important;
   margin-bottom: 10px;
+  padding-bottom: 7rem;
 }
 
 .client-form .text-black {
@@ -747,7 +753,7 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-  .Drill>div {
+  .Drill > div {
     width: 95vw !important;
     margin: 20px 0px;
     height: fit-content !important;
@@ -810,14 +816,14 @@ body {
     text-align: center;
   }
 
-  .select-user>div,
-  .verification-athelete>div,
-  .doctor-service-container>div {
+  .select-user > div,
+  .verification-athelete > div,
+  .doctor-service-container > div {
     width: fit-content !important;
     margin: auto;
   }
 
-  .verification-athelete>div h4 {
+  .verification-athelete > div h4 {
     margin-left: 50px;
   }
 
@@ -973,7 +979,7 @@ body {
     font-size: 12px !important;
   }
 
-  .today-appoint-container>div:first-child {
+  .today-appoint-container > div:first-child {
     padding: 10px;
   }
 

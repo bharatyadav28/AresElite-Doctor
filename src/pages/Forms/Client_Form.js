@@ -74,7 +74,6 @@ const Client_Form = () => {
           zip: "",
         });
         setSuccess(true);
-        
       }
     } catch (error) {
       toast.error("Unexpected Error !");
@@ -102,7 +101,7 @@ const Client_Form = () => {
             style={{
               backgroundColor: "white",
               borderRadius: "20px",
-              padding: "10px 50px ",
+              padding: "20px 50px ",
             }}
           >
             <Row>
@@ -169,7 +168,7 @@ const Client_Form = () => {
                     value={formData.dob}
                     onChange={handleChange}
                     required
-                    max={new Date().toISOString().split('T')[0]} 
+                    max={new Date().toISOString().split("T")[0]}
                   />
                 </Form.Group>
               </Col>
