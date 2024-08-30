@@ -54,11 +54,14 @@ const InitialDrillForm = () => {
     (column) => column.columnName
   );
 
-  const drillNames = data?.offlineDrillData?.drills?.map((drill) => ({
-    value: drill.drillName,
-    label: drill.drillName,
-  }));
+  const drillNames = data?.offlineDrillData?.drills
+    ?.map((drill) => ({
+      value: drill.drillName,
+      label: drill.drillName,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
+  console.log("DrillNames", drillNames);
   const handleDrillsDelete = (index) => {
     const updatedDrills = drills?.filter((drill, i) =>
       i === index ? false : true
