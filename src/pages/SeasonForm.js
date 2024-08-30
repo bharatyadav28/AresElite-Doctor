@@ -145,7 +145,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
         </div>
 
         <Row className="mt-3  ">
-          <Col xs={12} md={6} className="mb-3 pe-md-5">
+          <Col xs={12} md={6} className="mb-3 pe-5">
             <div>
               <CustomDropdown
                 menuData={drillNames}
