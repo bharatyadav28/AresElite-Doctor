@@ -5,14 +5,14 @@
 }
 
 .drill-table th {
-  border: none !important ;
+  border: none !important;
   font-size: small;
   vertical-align: top !important;
   font-weight: 700;
 }
 
 .drill-table tr {
-  vertical-align: center !important ;
+  vertical-align: center !important;
 }
 
 @media only screen and (max-width: 991px) {
@@ -20,9 +20,11 @@
     /* .drill-table th { */
     min-width: 11rem !important;
   }
+
   .drill-table .other-values {
     min-width: 4rem !important;
   }
+
   .drill-table .sno-value {
     min-width: 2.5rem !important;
     /* max-width: 1rem !important;
@@ -42,24 +44,28 @@
 }
 
 .my-selectmenu .dropdown-menu {
-  border: 2px solid #ff0000 !important; /* Border color for the dropdown */
+  border: 2px solid #ff0000 !important;
+  /* Border color for the dropdown */
 }
 
 /* CustomDropdown.css */
 
 /* Customizing the dropdown menu border */
 .my-selectmenu .dropdown-menu {
-  border: 2px solid #ff0000 !important; /* Set the border color */
+  border: 2px solid #ff0000 !important;
+  /* Set the border color */
 }
 
 /* Customizing the hover background color for dropdown items */
 .my-selectmenu .dropdown-item:hover,
 .my-selectmenu .dropdown-item:focus {
-  background-color: #f0f0f0 !important; /* Change hover color */
-  color: #333 !important; /* Optional: change text color on hover */
+  background-color: #f0f0f0 !important;
+  /* Change hover color */
+  color: #333 !important;
+  /* Optional: change text color on hover */
 }
 
-#dropdown-basic {
+/* #dropdown-basic {
   border: 1px solid #dee2e6;
   background-color: #f4f4f4;
   color: #3c3f53;
@@ -68,7 +74,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
 #dropdown-basic:focus {
   color: black;
@@ -81,10 +87,13 @@
 }
 
 .drill-box .drill-item {
-  flex: 1 1 auto; /* Allow items to grow and shrink as needed */
+  flex: 1 1 auto;
+  /* Allow items to grow and shrink as needed */
   width: 40%;
-  max-width: 50%; /* Each item takes up 50% of the row */
-  box-sizing: border-box; /* Include padding/border in width calculations */
+  max-width: 50%;
+  /* Each item takes up 50% of the row */
+  box-sizing: border-box;
+  /* Include padding/border in width calculations */
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -100,7 +109,8 @@
 }
 
 .custom-gutter {
-  --bs-gutter-x: 6rem; /* Adjust horizontal gutter spacing */
+  --bs-gutter-x: 6rem;
+  /* Adjust horizontal gutter spacing */
 }
 
 .start-session-btn {

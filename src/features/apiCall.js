@@ -191,6 +191,32 @@ export const UpdateProfileDetails = async (dispatch, { formData, userId }) => {
     return false; // Return false to indicate that the request failed
   }
 };
+
+export const UpdateProfilePic = async (dispatch, { formData, userId }) => {
+  const email = localStorage.getItem("userEmail");
+  const token = localStorage.getItem("userToken");
+
+  dispatch(Start());
+  try {
+    const { data } = await axios.put(
+      `/api/doctor/update-profile-pic`,
+      formData,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    toast.success("Profile Image Updated Successfully!", successToastOptions);
+
+    dispatch(Success(data));
+    return data;
+  } catch (error) {
+    const errorMessage = parseError(error);
+    toast.error(errorMessage, ErrorToastOptions);
+    dispatch(Failure(errorMessage));
+    return false; // Return false to indicate that the request failed
+  }
+};
+
 export const GetTodayAppointmentDetails = async (dispatch, todayDate) => {
   const token = localStorage.getItem("userToken");
   dispatch(FetchStart());
@@ -359,7 +385,7 @@ export const Gettrainingsession = async (dispatch, { type, frequencyType }) => {
     });
     dispatch(FetchSuccess({ type: "FETCH_Session_SUCCESS", payload: data }));
     return data;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const selecttrainingplan = async (
@@ -489,8 +515,7 @@ export const Plans = async (dispatch, { name, phase, ClientId }) => {
     console.log(ClientId);
 
     const data = await axios.put(
-      `/api/doctor/select-plan?userId=${ClientId}&plan=${name}&planPhase=${
-        phase.name
+      `/api/doctor/select-plan?userId=${ClientId}&plan=${name}&planPhase=${phase.name
       }&mode=${localStorage.getItem("mode")}`,
       {},
       {

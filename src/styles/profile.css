@@ -7,19 +7,23 @@
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 18px; /* 150% */
+  line-height: 18px;
+  /* 150% */
 }
+
 .forgot-password label {
   font-size: 14px;
   font-weight: 500;
 }
+
 .profile p,
 button {
   margin-bottom: 0px;
   font-size: 15px;
 }
-.profile .prof-cont:hover {
-}
+
+.profile .prof-cont:hover {}
+
 .profile .prof-cont {
   margin: 20px 0px;
   background-color: #f4f4f4;
@@ -29,16 +33,20 @@ button {
   justify-content: space-between;
   align-items: center;
 }
+
 .profile section {
   width: 100%;
   border-radius: 20px;
 }
+
 .Doctor-Consul section {
   margin-left: 100px;
 }
+
 .Doctor-Consul section .form-control {
   width: 450px !important;
 }
+
 .appo-cont .appo-cont-form {
   margin-top: 70px;
   /* margin-left: 100px; */
@@ -50,6 +58,44 @@ button {
 
   /* margin: auto; */
 }
+
+.profile-picture-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ddd;
+  cursor: pointer;
+}
+
+.camera-icon input {
+  display: none;
+}
+
+.camera-icon svg {
+  color: #333;
+  font-size: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   .profile span {
     color: var(--black-40, rgba(28, 28, 28, 0.4));
@@ -59,24 +105,29 @@ button {
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
-    line-height: 18px; /* 150% */
+    line-height: 18px;
+    /* 150% */
   }
+
   .profile p,
   button {
     margin-bottom: 0px;
     font-size: 17px;
   }
+
   .profile {
     margin: auto !important;
     margin-top: 20px !important;
     margin-bottom: 100px !important;
   }
-  .profile .prof-cont:hover {
-  }
+
+  .profile .prof-cont:hover {}
+
   .profile .prof-cont {
     margin: 20px 0px;
     background-color: #f4f4f4;
   }
+
   .profile section {
     width: 100vw;
     margin: auto;
@@ -86,9 +137,11 @@ button {
     margin-left: 0px;
     margin: auto;
   }
+
   .appo-cont button {
     margin-top: 15px !important;
   }
+
   .appo-cont {
     width: 89vw;
   }
@@ -96,6 +149,7 @@ button {
   .Doctor-Consul section .form-control {
     width: 100% !important;
   }
+
   .Doctor-Consul {
     flex-direction: column !important;
   }

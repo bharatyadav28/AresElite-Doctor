@@ -1,28 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
 import DoctorMenu from "../DoctorMenu";
 import DoctorTodayAppointment from "../DoctorTodayAppointment"; // Importing DoctorTodayAppointment if not already imported
 import { useLocation } from "react-router-dom";
+import { GetProfileDetails } from "../../../features/apiCall";
 const VerifiedLayout = ({ children }) => {
+  const dispatch = useDispatch();
+  const [image, setImage] = useState(null);
+  useEffect(() => {
+    const fetchProfileDetails = async () => {
+      const data = await GetProfileDetails(dispatch);
+      console.log("Dataaa", data.user.profilePic)
+      if (data && data.user.profilePic) {
+        setImage(data.user.profilePic);
+      }
+      console.log("No data")
+    };
+    fetchProfileDetails();
+  }, [dispatch]);
   const navigate = useNavigate();
   const name = localStorage.getItem("userName");
   const email = localStorage.getItem("userEmail");
-  const location=useLocation()
+  const location = useLocation()
   // console.log(fname, lname, email,location.pathname);
   const handleGoBack = () => {
     console.log("Going back");
-    if(location.pathname=="/doctor/dashboard/doctor-service-selection"){
+    if (location.pathname == "/doctor/dashboard/doctor-service-selection") {
       localStorage.removeItem("client_id");
       localStorage.removeItem("name");
       localStorage.removeItem("email");
-      
-    navigate("/doctor/dashboard");
+
+      navigate("/doctor/dashboard");
     }
-     else{
+    else {
       navigate(-1);
-     }
-   
+    }
+
   };
 
   return (
@@ -52,9 +66,9 @@ const VerifiedLayout = ({ children }) => {
                 backgroundColor: "#7257FF",
                 borderRadius: "20px 20px 0px 0px",
               }}
-              className="w-100 d-flex justify-content-center flex-row text-left"
+              className="w-100 d-flex justify-content-center flex-row text-left gap-3"
             >
-              <img src="/images/sample.png" width={55} height={55} />
+              <img src={image} width={55} height={55} style={{ borderRadius: '50%' }} />
               <div className="text-light ml-3">
                 <h5>{`${name}`}</h5>
                 <p style={{ fontSize: "12px" }} className="m-0 p-0">

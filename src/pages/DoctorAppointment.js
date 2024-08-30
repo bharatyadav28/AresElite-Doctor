@@ -139,9 +139,9 @@ const DoctorAppointment = () => {
         <>
           <section
             className="text-center d-flex flex-column justify-content-center align-items-center appointment-cont "
-            style={{ height: "calc(100% - 250px)", marginTop: "40px" }}
+            style={{ height: "450px", marginTop: "40px", overflow: 'scroll' }}
           >
-            <form onSubmit={handleSubmit} style={{ width: "400px" }}>
+            <form onSubmit={handleSubmit} style={{ width: "400px", overflow: 'scroll' }}>
               {/* Date input field */}
               <div className="form-group">
                 <label htmlFor="date">Appointment Date:</label>
@@ -253,9 +253,8 @@ const DoctorAppointment = () => {
                               <div key={index}>
                                 <label
                                   htmlFor={`timeSlot${index}`}
-                                  className={`radio-label-slot ${
-                                    selectedTimeSlot === index ? "checked" : ""
-                                  }`}
+                                  className={`radio-label-slot ${selectedTimeSlot === index ? "checked" : ""
+                                    }`}
                                 >
                                   <input
                                     type="radio"
