@@ -191,7 +191,7 @@ const InitialDrillForm = () => {
                     </th>
                     <th
                       className="p-1 drill-name"
-                      style={{ maxWidth: "0.5rem" }}
+                      style={{ maxWidth: "0.5rem", textAlign: "center" }}
                     >
                       Drill name
                     </th>
@@ -199,7 +199,12 @@ const InitialDrillForm = () => {
                       <th
                         key={index}
                         className="p-1 other-values"
-                        style={{ maxWidth: "0.5rem" }}
+                        style={{
+                          maxWidth: "0.5rem",
+                          textAlign: "center",
+                          // wordBreak: "break-word",
+                          hyphens: "auto",
+                        }}
                       >
                         {columnName}
                       </th>

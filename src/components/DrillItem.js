@@ -4,11 +4,28 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import { BiMessageDetail as DetailIcon } from "react-icons/bi";
+import { IconButton } from "@mui/material";
+
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 
 import { IoIosArrowDown as ArrowIcon } from "react-icons/io";
 import { GoDotFill as DotIcon } from "react-icons/go";
 import { IsoToNormal } from "../utils/dates";
 import NormalCase from "../utils/NormalCase";
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 15,
+    maxWidth: 500,
+  },
+}));
 
 function DrillItem({ drill, index, creationTime, units }) {
   const [expanded, setExpanded] = useState(false);
@@ -21,12 +38,15 @@ function DrillItem({ drill, index, creationTime, units }) {
   const creationDate = IsoToNormal(creationTime);
 
   const itemLabel = (input) => {
+    let result = "";
     units.forEach((item) => {
       if (item.alias === input) {
-        return item.label;
+        result = item?.label;
       }
     });
+    return result;
   };
+  console.log("Input values", inputValues);
 
   const displayValue = (input) => {
     let unit = "";
@@ -44,6 +64,13 @@ function DrillItem({ drill, index, creationTime, units }) {
 
     return enteredValue + " " + unit;
   };
+
+  function truncateString(input) {
+    if (input.length <= 10) {
+      return input;
+    }
+    return input.slice(0, 10) + "...";
+  }
 
   return (
     <div>
@@ -99,16 +126,34 @@ function DrillItem({ drill, index, creationTime, units }) {
               <div className="d-flex flex-wrap gap-4 mt-2">
                 {Object.keys(inputValues).map((input, index) => (
                   <div className="d-flex flex-column" key={index}>
-                    <div style={{ color: "#3C3F53", fontSize: "0.9rem" }}>
-                      {/* {NormalCase(input)} */}
-                      {itemLabel(input)}
-                      {NormalCase(input)}
+                    <div
+                      className="d-flex gap-1"
+                      style={{ color: "#3C3F53", fontSize: "0.9rem" }}
+                    >
+                      {/* {itemLabel(input)} */}
+                      <div> {NormalCase(input)} </div>
+
+                      {input === "notes" && (
+                        <LightTooltip title={displayValue(input)}>
+                          <IconButton
+                            sx={{
+                              margin: 0,
+                              padding: 0,
+                              marginBottom: "0.3rem",
+                            }}
+                          >
+                            <DetailIcon size={15} />
+                          </IconButton>
+                        </LightTooltip>
+                      )}
                     </div>
                     <div
                       className="text-center p-2 "
                       style={{ backgroundColor: "#F4F4F4" }}
                     >
-                      {displayValue(input)}
+                      {input !== "notes"
+                        ? displayValue(input)
+                        : truncateString(displayValue(input))}
                     </div>
                   </div>
                 ))}

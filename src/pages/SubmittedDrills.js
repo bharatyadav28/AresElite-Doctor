@@ -49,6 +49,8 @@ function SubmittedDrills() {
 
   const isSessonsEmpty = sessionsData?.length === 0;
 
+  console.log(sessionsData, inputTypes);
+
   return (
     <DoctorMenu>
       <div
