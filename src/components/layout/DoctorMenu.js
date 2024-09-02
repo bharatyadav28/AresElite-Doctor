@@ -152,10 +152,10 @@ const DoctorMenu = ({ children }) => {
                   <Link
                     key={index}
                     className={`list-group-item ${item.to === location.pathname ||
-                        (item.itemName === selectedItem &&
-                          item.iconPath === iconItem)
-                        ? "active"
-                        : ""
+                      (item.itemName === selectedItem &&
+                        item.iconPath === iconItem)
+                      ? "active"
+                      : ""
                       }`}
                     to={item.to}
                     onClick={() => {
@@ -211,6 +211,7 @@ const DoctorMenu = ({ children }) => {
                   style={{ position: "absolute", bottom: "0px", left: "15px" }}
                 >
                   <i
+                    style={{ marginRight: '15px' }}
                     className="fa fa-sign-out text-light mr-4"
                     aria-hidden="true"
                   />
