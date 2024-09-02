@@ -35,7 +35,9 @@ function DrillItem({ drill, index, creationTime, units }) {
   };
 
   const inputValues = drill?.inputValues || {};
-  const creationDate = IsoToNormal(creationTime);
+  const creationDate = drill?.createdAt
+    ? IsoToNormal(drill?.createdAt)
+    : IsoToNormal(creationTime);
 
   const itemLabel = (input) => {
     let result = "";

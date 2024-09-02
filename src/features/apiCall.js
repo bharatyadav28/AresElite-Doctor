@@ -385,7 +385,7 @@ export const Gettrainingsession = async (dispatch, { type, frequencyType }) => {
     });
     dispatch(FetchSuccess({ type: "FETCH_Session_SUCCESS", payload: data }));
     return data;
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const selecttrainingplan = async (
@@ -515,7 +515,8 @@ export const Plans = async (dispatch, { name, phase, ClientId }) => {
     console.log(ClientId);
 
     const data = await axios.put(
-      `/api/doctor/select-plan?userId=${ClientId}&plan=${name}&planPhase=${phase.name
+      `/api/doctor/select-plan?userId=${ClientId}&plan=${name}&planPhase=${
+        phase.name
       }&mode=${localStorage.getItem("mode")}`,
       {},
       {
@@ -776,7 +777,11 @@ export const getofflineDrillsData = async (dispatch, cid, aid) => {
       initialDrill[column.alias] = "";
     });
 
-    const sessionNames = data?.sessionNames || [];
+    const sessionNames = data?.sessionNames;
+
+    if (sessionNames.length === 0) {
+      toast.error("No sessions available", ErrorToastOptions);
+    }
 
     dispatch(saveInitialDrill(initialDrill));
 
@@ -790,7 +795,7 @@ export const getofflineDrillsData = async (dispatch, cid, aid) => {
     return data;
   } catch (error) {
     const errorMessage = parseError(error);
-    toast.error(errorMessage, ErrorToastOptions);
+    toast.error(error?.message, ErrorToastOptions);
     dispatch(fetchingFailure(errorMessage));
     return false; // Return false to indicate that the request failed
   }

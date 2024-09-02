@@ -163,8 +163,11 @@ const InitialDrillForm = () => {
                 className="purple-button col start-session-btn"
                 style={{
                   padding: 0,
+                  cursor:
+                    availableSessions.length === 0 ? "not-allowed" : "pointer",
                 }}
                 onClick={handleDrillSubmit}
+                disabled={availableSessions.length === 0}
               >
                 Start Session
               </button>
