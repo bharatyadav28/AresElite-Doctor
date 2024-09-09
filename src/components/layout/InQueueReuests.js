@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Pagination, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Fourzerfour from "../Fourzerfour";
 // import { Group } from "./Group";
 import "react-datepicker/dist/react-datepicker.css";
@@ -161,7 +161,7 @@ const InQueueReuests = () => {
 
     return items;
   };
- 
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDatePicker = () => {
@@ -208,27 +208,33 @@ const InQueueReuests = () => {
             marginBottom: "18px",
           }}
         >
-           <div className="input-group">
-      <div className="input-group-prepend">
-        <button className="calender-icon" type="button" onClick={toggleDatePicker}>
-        <i className="fa-regular fa-calendar m-auto" />
-        </button>
-      </div>
-      
-      {isOpen && (
-        <div className="date-picker-container" style={{position:"absolute",top:"40px",left:"-60px"}}>
-          <DatePicker
-          
-            selected={selectedDate}
-            onChange={(date) => {
-              setSelectedDate(date);
-              setIsOpen(false); // Close the date picker after selecting a date
-            }}
-            inline // Display the calendar inline
-          />
-        </div>
-      )}
-    </div>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <button
+                className="calender-icon"
+                type="button"
+                onClick={toggleDatePicker}
+              >
+                <i className="fa-regular fa-calendar m-auto" />
+              </button>
+            </div>
+
+            {isOpen && (
+              <div
+                className="date-picker-container"
+                style={{ position: "absolute", top: "40px", left: "-60px" }}
+              >
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => {
+                    setSelectedDate(date);
+                    setIsOpen(false); // Close the date picker after selecting a date
+                  }}
+                  inline // Display the calendar inline
+                />
+              </div>
+            )}
+          </div>
           <Dropdown>
             <Dropdown.Toggle id="dropdown-pages">
               {currentPage} of {totalPages}
@@ -363,12 +369,14 @@ const InQueueReuests = () => {
                     </>
                   ) : (
                     <div
-                    style={{ position: "absolute", margin: "40px 50px", width: "70%" }}
-                   
-                  >
-
-                     <Fourzerfour/>
-                  </div>
+                      style={{
+                        position: "absolute",
+                        margin: "40px 50px",
+                        width: "70%",
+                      }}
+                    >
+                      <Fourzerfour />
+                    </div>
                   )}
                 </tbody>
               </>

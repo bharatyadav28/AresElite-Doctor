@@ -7,8 +7,35 @@ import { GetRecentBookings } from "../features/apiCall";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Fourzerfour from "../components/Fourzerfour";
+import { CiMenuKebab as MenuIcon } from "react-icons/ci";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Popper,
+  Paper,
+} from "@mui/material";
+
 const RecentBookings = () => {
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const [bookingDetails, setBookingDetails] = useState({});
+
+  const handleIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  console.log("an", anchorEl, "open", open);
 
   const bookings = useSelector((state) => state.fetch_app.bookings);
   const totalPages = useSelector((state) => state.fetch_app.totalPages);
@@ -63,6 +90,14 @@ const RecentBookings = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const displayMenu = (serviceType, serviceStatus, paymentStatus) => {
+    return (
+      ["AddTrainingSessions", "OfflineVisit"].includes(serviceType) &&
+      serviceStatus === "upcoming" &&
+      paymentStatus === "paid"
+    );
   };
 
   useEffect(() => {
@@ -183,6 +218,8 @@ const RecentBookings = () => {
 
     return items;
   };
+
+  console.log("bookings: ", bookings);
 
   return (
     <DoctorMenu>
@@ -422,22 +459,101 @@ const RecentBookings = () => {
                                 </div>
                               </td>
                               <td
-                                className={`${booking?.service_status} m-auto complete service-status`}
+                                className={`${booking?.service_status} m-auto complete service-status `}
                               >
-                                {(() => {
-                                  switch (booking.service_status) {
-                                    case "upcoming":
-                                      return (
-                                        <div>Anticipated Consultation</div>
-                                      );
-                                    case "completed":
-                                      return <div>Consultation Completed</div>;
-                                    case "canceled":
-                                      return <div> Cancelled</div>;
-                                    default:
-                                      return <div>N.A</div>;
-                                  }
-                                })()}
+                                <div className="d-flex ">
+                                  <div
+                                    style={{ width: "80%", hyphens: "auto" }}
+                                  >
+                                    {(() => {
+                                      switch (booking.service_status) {
+                                        case "upcoming":
+                                          return "Anticipated Consultation";
+                                        case "completed":
+                                          return "Consultation Completed";
+                                        case "cancelled":
+                                          return "Appointment Cancelled";
+                                        default:
+                                          return "N.A";
+                                      }
+                                    })()}
+                                  </div>
+
+                                  <div>
+                                    {displayMenu(
+                                      booking.service_type,
+                                      booking.service_status,
+                                      booking.status
+                                    ) && (
+                                      <IconButton
+                                        onClick={(event) => {
+                                          handleIconClick(event);
+                                          setBookingDetails(booking);
+                                        }}
+                                      >
+                                        <MenuIcon size={15} />
+                                      </IconButton>
+                                    )}
+
+                                    <Popper
+                                      open={open}
+                                      anchorEl={anchorEl}
+                                      placement="bottom-start"
+                                      // transition
+                                      style={{
+                                        zIndex: 1000,
+                                      }}
+                                      onClickAway={handleClose}
+                                    >
+                                      <Paper
+                                        elevation={0} // Remove shadow
+                                        sx={{
+                                          border: "none", // Remove border
+                                        }}
+                                      >
+                                        <button
+                                          style={{
+                                            backgroundColor: "#FAEBD7",
+
+                                            // marginBottom: "5px",
+                                            borderRadius: "6px",
+                                            padding: "5px 10px 5px 10px",
+                                            color: "black",
+                                            width: "100%",
+                                          }}
+                                        >
+                                          <Link
+                                            onClick={() => {
+                                              console.log("booking", booking);
+                                              localStorage.setItem(
+                                                "firstName",
+                                                bookingDetails.client.firstName
+                                              );
+                                              localStorage.setItem(
+                                                "lastName",
+                                                bookingDetails.client.lastName
+                                              );
+                                            }}
+                                            to={`/doctor/dashboard/drill/${bookingDetails?.client?._id}/${bookingDetails._id}`}
+                                            state={{
+                                              data: {
+                                                firstName:
+                                                  bookingDetails?.client
+                                                    ?.firstName,
+                                                lastName:
+                                                  bookingDetails?.client
+                                                    ?.lastName,
+                                              },
+                                            }}
+                                          >
+                                            Start Drill
+                                          </Link>
+                                        </button>
+                                      </Paper>
+                                    </Popper>
+                                  </div>
+                                </div>
+
                                 <br />
                               </td>
 

@@ -61,7 +61,6 @@ const InitialDrillForm = () => {
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
 
-  console.log("DrillNames", drillNames);
   const handleDrillsDelete = (index) => {
     const updatedDrills = drills?.filter((drill, i) =>
       i === index ? false : true
@@ -134,6 +133,8 @@ const InitialDrillForm = () => {
   useEffect(() => {
     setDrills([initialData]);
   }, [initialData]);
+
+  console.log("columnNames", columnNames);
   return (
     <DoctorMenu>
       <div
@@ -208,9 +209,10 @@ const InitialDrillForm = () => {
                         style={{
                           maxWidth: "0.5rem",
                           textAlign: "center",
-                          // wordBreak: "break-word",
+                          wordBreak: "break-word",
                           hyphens: "auto",
                         }}
+                        lang="en"
                       >
                         {columnName}
                       </th>
