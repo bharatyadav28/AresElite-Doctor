@@ -100,7 +100,7 @@ const DoctorAppointment = () => {
     const fetchAvailable = async () => {
       try {
         const selectedDateFormatted = selectedDate.format(
-          "YYYY-MM-DDT00:00:00.000"
+          "YYYY-MM-DD"
         );
         await getAlls(dispatch, {
           selectedDate: selectedDateFormatted,
