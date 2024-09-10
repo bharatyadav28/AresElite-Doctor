@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAlls,GetServiceTypes } from "../../features/apiCall";
+import { getAlls, GetServiceTypes } from "../../features/apiCall";
 import { Suspense } from "react";
 import Loader from "./Components/Loader";
 
@@ -20,7 +20,7 @@ const ServiceOption = ({ service, label, description, price, time }) => {
             <i class="fa-solid fa-clock" /> {time} mins Meeting
           </span>
         </div>
-        <h4>{price}$</h4>
+        <h4>$ {price}</h4>
       </div>
       <input
         type="radio"
@@ -33,22 +33,19 @@ const ServiceOption = ({ service, label, description, price, time }) => {
   );
 };
 
-
 const DoctorServices = () => {
-  
   const [selectedService, setSelectedService] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [serviceTypeArray, setserviceTypeArray] = useState([])
-  const handleServicetype=async()=>{
-     const {serviceType}= await GetServiceTypes(dispatch)
-     setserviceTypeArray(serviceType)
-     console.log(serviceType)
-
-  }
-  useEffect(()=>{
-   handleServicetype()
-   },[])
+  const [serviceTypeArray, setserviceTypeArray] = useState([]);
+  const handleServicetype = async () => {
+    const { serviceType } = await GetServiceTypes(dispatch);
+    setserviceTypeArray(serviceType);
+    console.log(serviceType);
+  };
+  useEffect(() => {
+    handleServicetype();
+  }, []);
   const services = [
     {
       label: "SportsVision",
@@ -85,7 +82,6 @@ const DoctorServices = () => {
   // Function to handle service change
   const handleServiceChange = (service) => {
     setSelectedService(service);
-  
   };
 
   const { isFetching } = useSelector((state) => state.auth);
@@ -105,9 +101,8 @@ const DoctorServices = () => {
     const selectedServiceObject = serviceTypeArray.find(
       (service) => service.alias === selectedService
     );
-    console.log("-->",selectedServiceObject)
-      localStorage.setItem("selectedServiceTime", selectedServiceObject.duration);
-  
+    console.log("-->", selectedServiceObject);
+    localStorage.setItem("selectedServiceTime", selectedServiceObject.duration);
 
     localStorage.setItem("selectedService", selectedService);
     switch (selectedService) {
@@ -186,7 +181,7 @@ const DoctorServices = () => {
 
       <section
         className="text-center d-flex flex-column justify-content-center align-items-center doctor-service-container"
-        style={{ maxHeight:"fit-content" ,padding:"10px" }}
+        style={{ maxHeight: "fit-content", padding: "10px" }}
       >
         <div className="text-left mb-3" style={{ width: "400px" }}>
           <h4 className="mb-0">Select type of Service</h4>
@@ -194,39 +189,44 @@ const DoctorServices = () => {
             Please Select a type of Service for a user
           </p>
         </div>
-        <Form className="d-flex flex-wrap justify-content-center gap-3" style={{overflowX:"scroll",height:"370px"}}>
-          {isFetching?<><Loader/></>:
-          <>
-          {serviceTypeArray.map((service, index) => (
-            
-            <ServiceOption
-              key={index}
-              service={{ selectedService, handleServiceChange }}
-              label={service.alias}
-              description={service.name}
-              price={service.cost}
-              time={service.duration}
-            />
-            
-          ))}
-          </>
-         }
+        <Form
+          className="d-flex flex-wrap justify-content-center gap-3"
+          style={{ overflowX: "scroll", height: "370px" }}
+        >
+          {isFetching ? (
+            <>
+              <Loader />
+            </>
+          ) : (
+            <>
+              {serviceTypeArray.map((service, index) => (
+                <ServiceOption
+                  key={index}
+                  service={{ selectedService, handleServiceChange }}
+                  label={service.alias}
+                  description={service.name}
+                  price={service.cost}
+                  time={service.duration}
+                />
+              ))}
+            </>
+          )}
         </Form>
-        <div style={{position:"absolute", bottom:"30px"}}>
-        {isFetching ? (
-          <button className="purple-button c-b">
-            <Spinner animation="border" variant="light" />
-          </button>
-        ) : (
-          <Button
-            onClick={handleSubmit}
-            className="purple-button"
-            style={{ width: "332px", height: "62px" }}
-            disabled={!selectedService}
-          >
-            Continue
-          </Button>
-        )}
+        <div style={{ position: "absolute", bottom: "30px" }}>
+          {isFetching ? (
+            <button className="purple-button c-b">
+              <Spinner animation="border" variant="light" />
+            </button>
+          ) : (
+            <Button
+              onClick={handleSubmit}
+              className="purple-button"
+              style={{ width: "332px", height: "62px" }}
+              disabled={!selectedService}
+            >
+              Continue
+            </Button>
+          )}
         </div>
       </section>
     </>
