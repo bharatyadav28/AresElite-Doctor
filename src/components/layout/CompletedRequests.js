@@ -379,6 +379,7 @@ const CompletedRequests = () => {
                                             padding: "5px",
                                             borderRadius: "8px",
                                             background: "#7c73e6",
+                                            // background: "var(--main-light)",
                                           }}
                                         >
                                           {dropdown[index] === "N.A."

@@ -24,7 +24,7 @@ const DoctorMenu = ({ children }) => {
   const generateSVGMarkup = (iconPath, itemTo) => {
     let fill =
       iconItem === iconPath || location.pathname === itemTo
-        ? "#7257ff"
+        ? "var(--main-dark)"
         : "white";
     switch (iconPath) {
       case "home":
@@ -151,12 +151,13 @@ const DoctorMenu = ({ children }) => {
                 {navigationMenu.map((item, index) => (
                   <Link
                     key={index}
-                    className={`list-group-item ${item.to === location.pathname ||
+                    className={`list-group-item ${
+                      item.to === location.pathname ||
                       (item.itemName === selectedItem &&
                         item.iconPath === iconItem)
-                      ? "active"
-                      : ""
-                      }`}
+                        ? "active"
+                        : ""
+                    }`}
                     to={item.to}
                     onClick={() => {
                       setIconItem(item?.iconPath);
@@ -211,7 +212,7 @@ const DoctorMenu = ({ children }) => {
                   style={{ position: "absolute", bottom: "0px", left: "15px" }}
                 >
                   <i
-                    style={{ marginRight: '15px' }}
+                    style={{ marginRight: "15px" }}
                     className="fa fa-sign-out text-light mr-4"
                     aria-hidden="true"
                   />

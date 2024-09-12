@@ -23,10 +23,10 @@ import RecentBookings from "./pages/RecentBookings";
 import RecentEvaluation2 from "./pages/RecentEvaluation2";
 import RecentPrescriptions from "./pages/RecentPrescriptions";
 import TermsOfUse from "./pages/TermsOfUse";
+import "./App.css";
 import "./styles/doctor.css";
 import "./styles/login.css";
 import "./styles/recent_bookings.css";
-import "./App.css";
 
 import Drill from "./pages/Drill";
 import ViewEval_Dai from "./pages/ViewEval_Dia";

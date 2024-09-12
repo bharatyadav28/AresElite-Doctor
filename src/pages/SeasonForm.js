@@ -317,7 +317,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                   <button
                     style={{
                       backgroundColor: "#EAE6FF",
-                      color: "#7257FF",
+                      color: "var(--main-dark)",
                       width: isMobile ? "7rem" : "8rem",
                     }}
                     onClick={() => {
@@ -338,7 +338,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                   <button
                     style={{
                       backgroundColor: "#EAE6FF",
-                      color: "#7257FF",
+                      color: "var(--main-dark)",
                       width: isMobile ? "7rem" : "8rem",
                     }}
                     onClick={() => {

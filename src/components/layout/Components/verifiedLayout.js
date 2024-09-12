@@ -11,18 +11,18 @@ const VerifiedLayout = ({ children }) => {
   useEffect(() => {
     const fetchProfileDetails = async () => {
       const data = await GetProfileDetails(dispatch);
-      console.log("Dataaa", data.user.profilePic)
+      console.log("Dataaa", data.user.profilePic);
       if (data && data.user.profilePic) {
         setImage(data.user.profilePic);
       }
-      console.log("No data")
+      console.log("No data");
     };
     fetchProfileDetails();
   }, [dispatch]);
   const navigate = useNavigate();
   const name = localStorage.getItem("userName");
   const email = localStorage.getItem("userEmail");
-  const location = useLocation()
+  const location = useLocation();
   // console.log(fname, lname, email,location.pathname);
   const handleGoBack = () => {
     console.log("Going back");
@@ -32,11 +32,9 @@ const VerifiedLayout = ({ children }) => {
       localStorage.removeItem("email");
 
       navigate("/doctor/dashboard");
-    }
-    else {
+    } else {
       navigate(-1);
     }
-
   };
 
   return (
@@ -63,12 +61,17 @@ const VerifiedLayout = ({ children }) => {
               style={{
                 alignItems: "center",
                 height: "120px",
-                backgroundColor: "#7257FF",
+                backgroundColor: "var(--main-dark)",
                 borderRadius: "20px 20px 0px 0px",
               }}
               className="w-100 d-flex justify-content-center flex-row text-left gap-3"
             >
-              <img src={image} width={55} height={55} style={{ borderRadius: '50%' }} />
+              <img
+                src={image}
+                width={55}
+                height={55}
+                style={{ borderRadius: "50%" }}
+              />
               <div className="text-light ml-3">
                 <h5>{`${name}`}</h5>
                 <p style={{ fontSize: "12px" }} className="m-0 p-0">

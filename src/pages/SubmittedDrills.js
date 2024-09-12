@@ -107,10 +107,14 @@ function SubmittedDrills() {
                     className="py-3 px-4 fw-semibold fs-6"
                     style={{
                       color:
-                        selectedSession === session ? "#7257FF" : "#8C90AA",
+                        selectedSession === session
+                          ? "var(--main-dark)"
+                          : "#8C90AA",
                       borderBottom: "1px solid #E9EAF0",
                       borderColor:
-                        selectedSession === session ? "#7257FF" : "#E9EAF0",
+                        selectedSession === session
+                          ? "var(--main-dark)"
+                          : "#E9EAF0",
                     }}
                     onClick={() => setSelectedSession(session)}
                   >
