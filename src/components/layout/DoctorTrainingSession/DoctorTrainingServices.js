@@ -13,13 +13,11 @@ const DoctorTrainingServices = () => {
   const [selectedTrainingType, setSelectedTrainingType] = useState("");
   const dispatch = useDispatch();
 
-  const location= useLocation();
+  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setShowDoctorInOffice(true);
-  
-
   };
 
   const handleTrainingTypeChange = (event) => {
@@ -29,7 +27,6 @@ const DoctorTrainingServices = () => {
     navigate({ search: searchParams.toString() }, { replace: true });
   };
 
-  
   // useEffect(() => {
   //   const storedSelectedService = localStorage.getItem("selectedService");
   //   const clientId = localStorage.getItem("client_id");
@@ -53,7 +50,11 @@ const DoctorTrainingServices = () => {
           ) : (
             <>
               {" "}
-              <DoctorMonthlyPlans navigate={navigate} type="tele_session" freq="Packages" />
+              <DoctorMonthlyPlans
+                navigate={navigate}
+                type="tele_session"
+                freq="Packages"
+              />
             </>
           )}
         </>
@@ -62,7 +63,7 @@ const DoctorTrainingServices = () => {
           {" "}
           <section
             className="text-center d-flex flex-column  align-items-center select-user "
-            style={{ gap: "3vh",postion:"relative" }}
+            style={{ gap: "3vh", postion: "relative" }}
           >
             <div className="text-left mb-3" style={{ width: "400px" }}>
               <h4 className="mb-0">Select type of Plan</h4>
@@ -70,31 +71,15 @@ const DoctorTrainingServices = () => {
             </div>
             <Form
               className="d-flex flex-wrap justify-content-center "
-              style={{ gap: "24px"}}
+              style={{ gap: "24px" }}
               onSubmit={handleSubmit}
             >
               <div className="radio-container">
-                <label
-                  htmlFor="inOfficeUser"
-                  className={`radio-label ${
-                    selectedTrainingType === "InOffice" ? "checked" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    id="inOfficeUser"
-                    value="InOffice"
-                    checked={selectedTrainingType === "InOffice"}
-                    onChange={handleTrainingTypeChange}
-                  />
-                  In Office
-                </label>
-
                 {/* <label
                   htmlFor="teleSessionsUser"
                   className={`radio-label ${
                     selectedTrainingType === "TeleSessions" ? "checked" : ""
-                  }`}
+                  } `}
                 >
                   <input
                     type="radio"
@@ -105,40 +90,40 @@ const DoctorTrainingServices = () => {
                   />
                   Tele Sessions
                 </label> */}
+
                 <label
-                  htmlFor="teleSessionsUser"
+                  htmlFor="inOfficeUser"
                   className={`radio-label ${
-                    selectedTrainingType === "TeleSessions" ? "checked" : ""
-                  }`}
+                    selectedTrainingType === "InOffice" ? "checked" : ""
+                  } mt-3`}
                 >
                   <input
                     type="radio"
-                    id="teleSessionsUser"
-                    value="TeleSessions"
-                    checked={selectedTrainingType === "TeleSessions"}
+                    id="inOfficeUser"
+                    value="InOffice"
+                    checked={selectedTrainingType === "InOffice"}
                     onChange={handleTrainingTypeChange}
                   />
-                  Tele Sessions
+                  In Office
                 </label>
               </div>
-             
             </Form>
-            <div style={{position:"absolute", bottom:"30px"}}>
-        {isFetching ? (
-          <button className="purple-button c-b">
-            <Spinner animation="border" variant="light" />
-          </button>
-        ) : (
-          <Button
-            onClick={handleSubmit}
-            className="purple-button"
-            style={{ width: "332px", height: "62px" }}
-            disabled={!selectedTrainingType}
-          >
-            Continue
-          </Button>
-        )}
-        </div>
+            <div style={{ position: "absolute", bottom: "30px" }}>
+              {isFetching ? (
+                <button className="purple-button c-b">
+                  <Spinner animation="border" variant="light" />
+                </button>
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  className="purple-button"
+                  style={{ width: "332px", height: "62px" }}
+                  disabled={!selectedTrainingType}
+                >
+                  Continue
+                </Button>
+              )}
+            </div>
           </section>
         </>
       )}
