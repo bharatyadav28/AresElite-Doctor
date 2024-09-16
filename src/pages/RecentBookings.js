@@ -446,7 +446,9 @@ const RecentBookings = () => {
                                 </div>
                               </td>
                               <td className="service_type">
-                                {booking?.service_type}
+                                {booking?.service_type === "AddTrainingSessions"
+                                  ? "TrainingSessions"
+                                  : booking?.service_type}
                               </td>
                               <td className="date">
                                 {formatDate(booking?.app_date)}

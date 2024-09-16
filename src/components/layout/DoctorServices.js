@@ -46,6 +46,7 @@ const DoctorServices = () => {
   useEffect(() => {
     handleServicetype();
   }, []);
+
   const services = [
     {
       label: "SportsVision",
@@ -173,6 +174,10 @@ const DoctorServices = () => {
 
   fetchAvailable();
 
+  const filterServices = serviceTypeArray.filter(
+    (service) => service.alias !== "AddTrainingSessions"
+  );
+
   return (
     <>
       {/* <button onClick={handleGoBack} className="m-2 p-0 mb-4 " id="back_bt">
@@ -199,16 +204,18 @@ const DoctorServices = () => {
             </>
           ) : (
             <>
-              {serviceTypeArray.map((service, index) => (
-                <ServiceOption
-                  key={index}
-                  service={{ selectedService, handleServiceChange }}
-                  label={service.alias}
-                  description={service.name}
-                  price={service.cost}
-                  time={service.duration}
-                />
-              ))}
+              {filterServices?.map((service, index) => {
+                return (
+                  <ServiceOption
+                    key={index}
+                    service={{ selectedService, handleServiceChange }}
+                    label={service.alias}
+                    description={service.name}
+                    price={service.cost}
+                    time={service.duration}
+                  />
+                );
+              })}
             </>
           )}
         </Form>
