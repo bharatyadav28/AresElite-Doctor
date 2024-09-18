@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom"; // Assuming you're using React Router
 import { toast } from "react-toastify";
@@ -17,6 +17,8 @@ const DoctorForm = ({ form }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isFetching = useSelector((state) => state.fetch_app.isFetching);
+
+  const topRef = useRef(null);
 
   const { appointmentId } = useParams();
   console.log(appointmentId);
@@ -49,11 +51,13 @@ const DoctorForm = ({ form }) => {
       handleSubmit();
     } else {
       setCurrentStep(currentStep + 1);
+      // topRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
+    //  topRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleFormChange = (fieldName, value) => {

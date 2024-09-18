@@ -57,7 +57,7 @@ const Step2 = ({
             {formFields.map(
               (field, index) =>
                 index % 2 === 0 && (
-                  <Row key={index} className="mb-4">
+                  <Row key={index} className="  mt-2">
                     <Col style={{ borderRight: "2px" }}>
                       <Form.Group controlId={field.key}>
                         <Form.Label className="forms-label">
@@ -79,7 +79,7 @@ const Step2 = ({
                             ))}
                           </Form.Control>
                         ) : field.type === "checkBox" ? (
-                          <div className="d-flex " style={{ gap: "20px" }}>
+                          <div className="d-flex mb-2 " style={{ gap: "1rem" }}>
                             {field.options &&
                               field.options.map((option, optionIndex) => (
                                 <Form.Check
@@ -122,7 +122,14 @@ const Step2 = ({
                       </Form.Group>
                     </Col>
                     {formFields[index + 1] && (
-                      <Col md={6}>
+                      <Col
+                        md={formFields[index + 1].type === "checkBox" ? 12 : 6}
+                        className={
+                          formFields[index + 1].type === "checkBox"
+                            ? "mt-4 mb-2"
+                            : "mt-0"
+                        }
+                      >
                         <Form.Group controlId={formFields[index + 1].key}>
                           <Form.Label className="forms-label">
                             {formFields[index + 1].label}
@@ -148,7 +155,10 @@ const Step2 = ({
                               )}
                             </Form.Control>
                           ) : formFields[index + 1].type === "checkBox" ? (
-                            <div>
+                            <div
+                              className="d-flex flex-wrap"
+                              style={{ gap: "1rem" }}
+                            >
                               {formFields[index + 1].options &&
                                 formFields[index + 1].options.map(
                                   (option, optionIndex) => (
@@ -156,6 +166,9 @@ const Step2 = ({
                                       key={optionIndex}
                                       type="checkbox"
                                       label={option}
+                                      className={`${
+                                        option.length > 10 && "w-100"
+                                      }`}
                                       id={`${
                                         formFields[index + 1].key
                                       }-${optionIndex}`}
@@ -223,7 +236,7 @@ const Step2 = ({
           </button>
         )}
         {next && (
-          <button onClick={onNextStep} className="purple-button w-25">
+          <button onClick={onNextStep} className="purple-button w-25 ms-2">
             {submit ? (
               <>{isFormFetching ? <Spinner /> : <>SUBMIT</>}</>
             ) : (

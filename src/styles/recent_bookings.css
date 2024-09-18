@@ -449,8 +449,9 @@ tbody {
   justify-content: center;
   background-color: white;
   padding: 20px 100px;
-  height: 70vh;
+  /* max-height: 60vh; */
   border-radius: 20px;
+  overflow: auto;
 }
 .form-label {
   text-transform: capitalize;
