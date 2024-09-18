@@ -4,16 +4,23 @@ import { useDispatch, useSelector } from "react-redux";
 import DoctorMenu from "../DoctorMenu";
 import DoctorTodayAppointment from "../DoctorTodayAppointment"; // Importing DoctorTodayAppointment if not already imported
 import { useLocation } from "react-router-dom";
-import { GetProfileDetails } from "../../../features/apiCall";
+import { GetAthProfileDetails } from "../../../features/apiCall";
+
 const VerifiedLayout = ({ children }) => {
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   useEffect(() => {
     const fetchProfileDetails = async () => {
-      const data = await GetProfileDetails(dispatch);
-      console.log("Dataaa", data.user.profilePic);
+      const data = await GetAthProfileDetails(dispatch);
+
       if (data && data.user.profilePic) {
-        setImage(data.user.profilePic);
+        if (data.user.profilePic === "picture") {
+          setImage(
+            "https://icon-library.com/images/icon-user/icon-user-15.jpg"
+          );
+        } else {
+          setImage(data.user.profilePic);
+        }
       }
       console.log("No data");
     };
@@ -26,7 +33,7 @@ const VerifiedLayout = ({ children }) => {
   // console.log(fname, lname, email,location.pathname);
   const handleGoBack = () => {
     console.log("Going back");
-    if (location.pathname == "/doctor/dashboard/doctor-service-selection") {
+    if (location.pathname === "/doctor/dashboard/doctor-service-selection") {
       localStorage.removeItem("client_id");
       localStorage.removeItem("name");
       localStorage.removeItem("email");
@@ -71,7 +78,9 @@ const VerifiedLayout = ({ children }) => {
                 width={55}
                 height={55}
                 style={{ borderRadius: "50%" }}
+                alt="Athlete pic"
               />
+              )
               <div className="text-light ml-3">
                 <h5>{`${name}`}</h5>
                 <p style={{ fontSize: "12px" }} className="m-0 p-0">

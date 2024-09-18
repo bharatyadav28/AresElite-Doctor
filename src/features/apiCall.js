@@ -165,6 +165,26 @@ export const GetProfileDetails = async (dispatch) => {
     return false; // Return false to indicate that the request failed
   }
 };
+
+export const GetAthProfileDetails = async (dispatch) => {
+  const email = localStorage.getItem("userEmail");
+  const token = localStorage.getItem("userToken");
+
+  dispatch(Start());
+  try {
+    const { data } = await axios.get("/api/doctor/get-profile/athlete", {
+      params: { email }, // Corrected: pass email as an object
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    dispatch(Success(data));
+    return data;
+  } catch (error) {
+    const errorMessage = parseError(error);
+    toast.error(errorMessage, ErrorToastOptions);
+    dispatch(Failure(errorMessage));
+    return false; // Return false to indicate that the request failed
+  }
+};
 export const UpdateProfileDetails = async (dispatch, { formData, userId }) => {
   const email = localStorage.getItem("userEmail");
   const token = localStorage.getItem("userToken");
@@ -390,7 +410,7 @@ export const Gettrainingsession = async (dispatch, { type, frequencyType }) => {
 
 export const selecttrainingplan = async (
   dispatch,
-  { clientId, sessionId, appointmentId }
+  { clientId, sessionId, doctorName, service_type, appointmentId }
 ) => {
   dispatch(FetchStart());
   const token = localStorage.getItem("userToken");
@@ -398,7 +418,7 @@ export const selecttrainingplan = async (
     console.log(clientId, sessionId);
     const { data } = await axios.post(
       `/api/doctor/buy-training-session?clientId=${clientId}&sessionId=${sessionId}&appointmentId=${appointmentId}`,
-      {},
+      { doctor_trainer: doctorName, service_type: service_type },
       {
         headers: {
           Authorization: `Bearer ${token}`,

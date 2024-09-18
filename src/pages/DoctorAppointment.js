@@ -26,6 +26,7 @@ const DoctorAppointment = () => {
   const [timeSlot, setTimeSlot] = useState("");
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("Form submitted:", {
@@ -99,9 +100,7 @@ const DoctorAppointment = () => {
   useEffect(() => {
     const fetchAvailable = async () => {
       try {
-        const selectedDateFormatted = selectedDate.format(
-          "YYYY-MM-DD"
-        );
+        const selectedDateFormatted = selectedDate.format("YYYY-MM-DD");
         await getAlls(dispatch, {
           selectedDate: selectedDateFormatted,
           doctor,
@@ -139,9 +138,12 @@ const DoctorAppointment = () => {
         <>
           <section
             className="text-center d-flex flex-column justify-content-center align-items-center appointment-cont "
-            style={{ height: "450px", marginTop: "40px", overflow: 'scroll' }}
+            style={{ height: "450px", marginTop: "40px", overflow: "scroll" }}
           >
-            <form onSubmit={handleSubmit} style={{ width: "400px", overflow: 'scroll' }}>
+            <form
+              onSubmit={handleSubmit}
+              style={{ width: "400px", overflow: "scroll" }}
+            >
               {/* Date input field */}
               <div className="form-group">
                 <label htmlFor="date">Appointment Date:</label>
@@ -160,7 +162,7 @@ const DoctorAppointment = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-group mt-2">
                 <label htmlFor="location">Location:</label>
                 <select
                   id="location"
@@ -193,7 +195,7 @@ const DoctorAppointment = () => {
                   )}
                 </select>
               </div>
-              <div className="form-group">
+              <div className="form-group mt-2">
                 <label htmlFor="doctorTrainer">Doctor/Trainer:</label>
                 <select
                   id="doctorTrainer"
@@ -220,7 +222,7 @@ const DoctorAppointment = () => {
                 </select>
               </div>
 
-              <div className="text-left">
+              <div className="text-left mt-4">
                 <label htmlFor="doctorTrainer">
                   Appointment Time
                   <br />
@@ -253,8 +255,9 @@ const DoctorAppointment = () => {
                               <div key={index}>
                                 <label
                                   htmlFor={`timeSlot${index}`}
-                                  className={`radio-label-slot ${selectedTimeSlot === index ? "checked" : ""
-                                    }`}
+                                  className={`radio-label-slot ${
+                                    selectedTimeSlot === index ? "checked" : ""
+                                  }`}
                                 >
                                   <input
                                     type="radio"
@@ -274,7 +277,7 @@ const DoctorAppointment = () => {
                       </>
                     )
                   ) : (
-                    <p style={{ fontSize: "10px" }}>
+                    <p style={{ fontSize: "10px", marginTop: "0.5rem" }}>
                       Please select a doctor, date, and location to view
                       available slots
                     </p>

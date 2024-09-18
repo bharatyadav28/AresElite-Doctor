@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 
 const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
   const [showMonthlyPlans, setShowMonthlyPlans] = useState(false);
-  const { isFetching } = useSelector((state) => state.auth);
+  const { isFetching, userName } = useSelector((state) => state.auth);
   const [plans, setplans] = useState([]);
   const [plansSubtype, setplansSubtype] = useState("");
   const [selectedMonthlyPlans, setSelectedMonthlyPlans] = useState("");
@@ -59,6 +59,8 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
     const { success, message } = await selecttrainingplan(dispatch, {
       clientId,
       sessionId,
+      doctorName: userName,
+      service_type: "trainingSession",
       appointmentId: appointmentID,
     });
     if (success) {
