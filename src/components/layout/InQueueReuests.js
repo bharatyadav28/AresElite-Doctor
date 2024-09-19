@@ -346,7 +346,12 @@ const InQueueReuests = () => {
                                   style={{ width: "fit-content" }}
                                 >
                                   <Link
-                                    to={`/doctor/dashboard/start-diagnosis/${booking?._id}`}
+                                    to={{
+                                      pathname: `/doctor/dashboard/start-diagnosis/${booking?._id}`,
+                                    }}
+                                    state={{
+                                      serviceType: booking.service_type,
+                                    }}
                                   >
                                     Diagnosis
                                   </Link>
@@ -357,7 +362,12 @@ const InQueueReuests = () => {
                                   style={{ width: "fit-content" }}
                                 >
                                   <Link
-                                    to={`/doctor/dashboard/start-evaluation/${booking?._id}`}
+                                    to={{
+                                      pathname: `/doctor/dashboard/start-evaluation/${booking?._id}`,
+                                    }}
+                                    state={{
+                                      serviceType: booking?.service_type,
+                                    }}
                                   >
                                     Start Evaluation
                                   </Link>

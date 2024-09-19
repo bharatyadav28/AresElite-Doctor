@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom"; // Assuming you're using React Router
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
 import DoctorMenu from "../components/layout/DoctorMenu";
 import { SubmitForm } from "../features/apiCall";
 import { FetchFailure, FetchStart, FetchSuccess } from "../features/fetchSlice";
@@ -18,7 +20,10 @@ const DoctorForm = ({ form }) => {
   const navigate = useNavigate();
   const isFetching = useSelector((state) => state.fetch_app.isFetching);
 
-  const topRef = useRef(null);
+  const location = useLocation();
+  const { serviceType } = location.state || {};
+
+  console.log("Service type", serviceType, location.state);
 
   const { appointmentId } = useParams();
   console.log(appointmentId);
@@ -29,6 +34,7 @@ const DoctorForm = ({ form }) => {
       const { data } = await axios.get(`/api/doctor/get-form`, {
         params: {
           name: form,
+          serviceType,
         },
         headers: { Authorization: `Bearer ${token}` },
       });
