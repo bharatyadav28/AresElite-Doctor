@@ -29,7 +29,7 @@ const Client_Form = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    suffix: "",
+    prefix: "",
     dob: "",
     gender: "Male",
     email: "",
@@ -63,7 +63,7 @@ const Client_Form = () => {
         setFormData({
           firstName: "",
           lastName: "",
-          suffix: "",
+          prefix: "",
           dob: "",
           gender: "Male",
           email: "",
@@ -106,6 +106,19 @@ const Client_Form = () => {
           >
             <Row>
               <Col md={4}>
+                <Form.Group controlId="prefix" className="form-cont">
+                  <Form.Label className="text-black">prefix</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter prefix"
+                    name="prefix"
+                    value={formData.prefix}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
                 <Form.Group controlId="firstName" className="form-cont">
                   <Form.Label className="text-black">First Name</Form.Label>
                   <Form.Control
@@ -126,19 +139,6 @@ const Client_Form = () => {
                     placeholder="Enter Last Name"
                     name="lastName"
                     value={formData.lastName}
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="suffix" className="form-cont">
-                  <Form.Label className="text-black">Suffix</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter suffix"
-                    name="suffix"
-                    value={formData.suffix}
                     onChange={handleChange}
                     required
                   />

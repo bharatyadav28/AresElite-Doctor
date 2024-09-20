@@ -167,7 +167,7 @@ export const GetProfileDetails = async (dispatch) => {
 };
 
 export const GetAthProfileDetails = async (dispatch) => {
-  const email = localStorage.getItem("userEmail");
+  const email = localStorage.getItem("ath-email");
   const token = localStorage.getItem("userToken");
 
   dispatch(Start());
@@ -646,7 +646,7 @@ export const SubmitClientForm = async (dispatch, { formData }) => {
       {
         firstName: formData.firstName,
         lastName: formData.lastName,
-        suffix: formData.suffix,
+        prefix: formData.prefix,
         email: formData.email,
         city: formData.city,
         phone: formData.phone,

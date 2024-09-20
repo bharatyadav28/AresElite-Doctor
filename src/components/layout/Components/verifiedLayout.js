@@ -27,16 +27,16 @@ const VerifiedLayout = ({ children }) => {
     fetchProfileDetails();
   }, [dispatch]);
   const navigate = useNavigate();
-  const name = localStorage.getItem("userName");
-  const email = localStorage.getItem("userEmail");
+  const name = localStorage.getItem("ath-fname");
+  const email = localStorage.getItem("ath-email");
   const location = useLocation();
   // console.log(fname, lname, email,location.pathname);
   const handleGoBack = () => {
     console.log("Going back");
     if (location.pathname === "/doctor/dashboard/doctor-service-selection") {
       localStorage.removeItem("client_id");
-      localStorage.removeItem("name");
-      localStorage.removeItem("email");
+      localStorage.removeItem("ath-fname");
+      localStorage.removeItem("ath-email");
 
       navigate("/doctor/dashboard");
     } else {

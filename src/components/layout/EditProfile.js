@@ -25,7 +25,7 @@ const EditProfile = () => {
       setFormData({
         firstName: data?.user?.firstName || "",
         lastName: data?.user?.lastName || "",
-        suffix: data?.user?.suffix || "",
+        prefix: data?.user?.prefix || "",
         dob: data?.user?.dob || "",
         gender: data?.user?.gender || "male",
         email: data?.user?.email || "",
@@ -50,7 +50,7 @@ const EditProfile = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    suffix: "",
+    prefix: "",
     dob: "",
     gender: "male",
     email: "",
@@ -105,174 +105,182 @@ const EditProfile = () => {
           >
             Edit Profile
           </h4>
-          {isFetching ?<><Loader/></>:
-          <Container className="w-75 mt-2 ">
-            <Form onSubmit={handleSubmit}>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">First Name:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">Last Name:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">Suffix Name:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="suffix"
-                      value={formData.suffix}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">
-                      Date of Birth:
-                    </Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="dob"
-                      // value={formData?.dob}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">Gender:</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="gender"
-                      value={formData.gender}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">Email Id:</Form.Label>
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group>
-                    <Form.Label className="text-black">Phone:</Form.Label>
-                    <Form.Control
-                      type="tel"
-                      name="phone"
-                      // pattern="[0-9]{10}"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Form.Group>
-                <Form.Label className="text-black">Address:</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  className="w-100"
-                  name="address"
-                  rows={2}
-                  value={formData.address}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Row>
-                <Col md={4}>
-                  <Form.Group>
-                    <Form.Label className="text-black">City:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group>
-                    <Form.Label className="text-black">State:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="state"
-                      value={formData.state}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group>
-                    <Form.Label className="text-black">Zip Code:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="zip"
-                      value={formData.zip}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <section className="d-flex w-50 m-auto mt-4">
-                <button type="submit" className="bt-4 w-50 bt-5">
-                  {/* {isFetching ? (
+          {isFetching ? (
+            <>
+              <Loader />
+            </>
+          ) : (
+            <Container className="w-75 mt-2 ">
+              <Form onSubmit={handleSubmit}>
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">
+                        First Name:
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">Last Name:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">
+                        Prefix Name:
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="prefix"
+                        value={formData.prefix}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">
+                        Date of Birth:
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        name="dob"
+                        // value={formData?.dob}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">Gender:</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">Email Id:</Form.Label>
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="text-black">Phone:</Form.Label>
+                      <Form.Control
+                        type="tel"
+                        name="phone"
+                        // pattern="[0-9]{10}"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Form.Group>
+                  <Form.Label className="text-black">Address:</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    className="w-100"
+                    name="address"
+                    rows={2}
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Row>
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label className="text-black">City:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label className="text-black">State:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label className="text-black">Zip Code:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="zip"
+                        value={formData.zip}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <section className="d-flex w-50 m-auto mt-4">
+                  <button type="submit" className="bt-4 w-50 bt-5">
+                    {/* {isFetching ? (
                     <>
                       <Spinner size="sm" animation="border" />
                     </>
                   ) : ( */}
-                  <>Save</>
-                  {/* )} */}
-                </button>{" "}
-                <button type="button" className="bt-6 w-50">
-                  Cancel
-                </button>
-              </section>
-            </Form>
-          </Container>
-         }
+                    <>Save</>
+                    {/* )} */}
+                  </button>{" "}
+                  <button type="button" className="bt-6 w-50">
+                    Cancel
+                  </button>
+                </section>
+              </Form>
+            </Container>
+          )}
         </section>
       </div>
     </DoctorMenu>

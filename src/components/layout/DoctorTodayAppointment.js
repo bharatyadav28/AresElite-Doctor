@@ -278,7 +278,7 @@ const DoctorTodayAppointment = () => {
                           </div>
                         </div>
                       </td>
-                      <td>{appointment.service_type}</td>
+                      <td>{appointment.service_type ==="AddTrainingSessions"?"TrainingSessions":appointment.service_type}</td>
                       <td>{appointment.app_time}</td>
                     </tr>
                   ))}
