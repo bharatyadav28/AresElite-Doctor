@@ -183,8 +183,10 @@ const CompletedRequests = () => {
     localStorage.setItem("client_id", booking.client._id);
   };
 
-  const handleClick = (clientId, index) => {
+  const handleClick = (clientId, index, firstName, email) => {
     localStorage.setItem("client_id", clientId);
+    localStorage.setItem("ath-fname", firstName);
+    localStorage.setItem("ath-email", email);
     const clientMode = dropdown[index];
     if (clientMode === "N.A.") {
       localStorage.setItem("mode", "offline");
@@ -436,7 +438,9 @@ const CompletedRequests = () => {
                                                 onClick={() =>
                                                   handleClick(
                                                     booking.client._id,
-                                                    index
+                                                    index,
+                                                    booking?.client?.firstName,
+                                                    booking?.client?.email
                                                   )
                                                 }
                                                 to={`/doctor/dashboard/doctor-service-selection/training?appointment_id=${booking._id}`}
@@ -452,7 +456,9 @@ const CompletedRequests = () => {
                                               onClick={() =>
                                                 handleClick(
                                                   booking.client._id,
-                                                  index
+                                                  index,
+                                                  booking?.client?.firstName,
+                                                  booking?.client?.email
                                                 )
                                               }
                                               to={`/doctor/dashboard/doctor-plans/${booking?.client?._id}`}
