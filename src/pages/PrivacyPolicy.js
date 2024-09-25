@@ -1,8 +1,27 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import DoctorMenu from "../components/layout/DoctorMenu";
+import { useEffect, useState } from "react";
 
+import DoctorMenu from "../components/layout/DoctorMenu";
+import axios from "../utils/axios.js";
 const PrivacyPolicy = () => {
+  const [data, setData] = useState("");
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+
+    axios
+      .get("/api/admin/privacy_policy", {
+        params: {
+          role: "doctor",
+        },
+
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((result) => {
+        console.log("result: ", result, result?.data?.privacyPolicy.text);
+        setData(result?.data?.privacyPolicy.text);
+      });
+  }, []);
   return (
     <DoctorMenu>
       <Container
@@ -11,7 +30,9 @@ const PrivacyPolicy = () => {
         }}
         className="privacy-policy scroll"
       >
-        <h2 className="mb-5">Privacy Policy</h2>
+        <div dangerouslySetInnerHTML={{ __html: data }}></div>
+
+        {/* <h2 className="mb-5">Privacy Policy</h2>
         <p>
           This Privacy Policy outlines how Doctor’s App we collects, uses, and
           safeguards your personal information when you use our mobile
@@ -113,7 +134,7 @@ const PrivacyPolicy = () => {
             be posted on this page, and the "Last Updated" date will be modified
             accordingly.
           </p>
-        </div>
+        </div> */}
       </Container>
     </DoctorMenu>
   );
