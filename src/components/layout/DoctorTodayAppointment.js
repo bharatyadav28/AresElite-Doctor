@@ -209,6 +209,16 @@ const DoctorTodayAppointment = () => {
     fetchData();
   }, []);
 
+  const serviceType = (stype) => {
+    if (stype === "AddTrainingSessions") {
+      return "TrainingSessions";
+    }
+    if (stype === "SportsVisionEvaluation") {
+      return "SportsVisionPerformanceEvaluation";
+    }
+    return stype;
+  };
+
   return (
     <>
       <section
@@ -278,7 +288,7 @@ const DoctorTodayAppointment = () => {
                           </div>
                         </div>
                       </td>
-                      <td>{appointment.service_type ==="AddTrainingSessions"?"TrainingSessions":appointment.service_type}</td>
+                      <td>{serviceType(appointment.service_type)}</td>
                       <td>{appointment.app_time}</td>
                     </tr>
                   ))}
@@ -297,7 +307,7 @@ const DoctorTodayAppointment = () => {
                   color: "grey",
                 }}
               >
-               <Fourzerfour/>
+                <Fourzerfour />
               </div>
             </>
           )}

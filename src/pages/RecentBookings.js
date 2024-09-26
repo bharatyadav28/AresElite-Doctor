@@ -220,6 +220,15 @@ const RecentBookings = () => {
   };
 
   console.log("bookings: ", bookings);
+  const serviceType = (stype) => {
+    if (stype === "AddTrainingSessions") {
+      return "TrainingSessions";
+    }
+    if (stype === "SportsVisionEvaluation") {
+      return "SportsVisionPerformanceEvaluation";
+    }
+    return stype;
+  };
 
   return (
     <DoctorMenu>
@@ -446,9 +455,7 @@ const RecentBookings = () => {
                                 </div>
                               </td>
                               <td className="service_type">
-                                {booking?.service_type === "AddTrainingSessions"
-                                  ? "TrainingSessions"
-                                  : booking?.service_type}
+                                {serviceType(booking?.service_type)}
                               </td>
                               <td className="date">
                                 {formatDate(booking?.app_date)}
