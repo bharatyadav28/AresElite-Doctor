@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import DoctorMenu from "../components/layout/DoctorMenu";
 import axios from "../utils/axios.js";
+
 const PrivacyPolicy = () => {
   const [data, setData] = useState("");
   useEffect(() => {

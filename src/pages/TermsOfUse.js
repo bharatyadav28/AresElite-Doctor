@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
+
 import DoctorMenu from "../components/layout/DoctorMenu";
+import axios from "../utils/axios.js";
 
 const TermsOfUse = () => {
+  const [data, setData] = useState("");
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+
+    axios
+      .get("/api/admin/terms_and_conditions", {
+        params: {
+          role: "doctor",
+        },
+
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((result) => {
+        // console.log("result: ", result, result?.data?.privacyPolicy.text);
+        setData(result?.data?.termsAndConditions.text);
+      });
+  }, []);
+
   return (
     <DoctorMenu>
       <Container
@@ -11,7 +31,8 @@ const TermsOfUse = () => {
         }}
         className="terms-of-use scroll"
       >
-        <h2 className="mb-5">Terms of Use</h2>
+        <div dangerouslySetInnerHTML={{ __html: data }}></div>
+        {/* <h2 className="mb-5">Terms of Use</h2>
         <p>
           Welcome to Doctor’s App! Please read these Terms & Conditions
           ("Terms") carefully before using the Tasty Truck mobile application
@@ -109,7 +130,7 @@ const TermsOfUse = () => {
             the App after any such changes constitutes your acceptance of the
             new Terms.
           </p>
-        </div>{" "}
+        </div>{" "} */}
       </Container>
     </DoctorMenu>
   );
