@@ -94,7 +94,7 @@ const RecentBookings = () => {
 
   const displayMenu = (serviceType, serviceStatus, paymentStatus) => {
     return (
-      ["AddTrainingSessions", "OfflineVisit"].includes(serviceType) &&
+      ["TrainingSessions", "OfflineVisit"].includes(serviceType) &&
       serviceStatus === "upcoming" &&
       paymentStatus === "paid"
     );
@@ -455,7 +455,8 @@ const RecentBookings = () => {
                                 </div>
                               </td>
                               <td className="service_type">
-                                {serviceType(booking?.service_type)}
+                                {/* {serviceType(booking?.service_type)} */}
+                                {booking?.service_type}
                               </td>
                               <td className="date">
                                 {formatDate(booking?.app_date)}

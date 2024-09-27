@@ -288,7 +288,8 @@ const DoctorTodayAppointment = () => {
                           </div>
                         </div>
                       </td>
-                      <td>{serviceType(appointment.service_type)}</td>
+                      {/* <td>{serviceType(appointment.service_type)}</td> */}
+                      <td>{appointment.service_type}</td>
                       <td>{appointment.app_time}</td>
                     </tr>
                   ))}

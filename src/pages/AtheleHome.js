@@ -13,7 +13,6 @@ const AtheleHome = () => {
     new Date(2024, 0, 20),
   ];
 
-  
   return (
     <AtheleteMenu>
       <section style={{ overflowY: "hidden" }} className="athel-home">
@@ -81,7 +80,7 @@ const AtheleHome = () => {
                         className="service-cont-icon"
                       />
                       <div style={{ width: "60%" }}>
-                        <h6>Sports Vision Evaluation</h6>
+                        <h6>Sports Vision Performance Evaluation</h6>
                         <p>
                           {" "}
                           <img

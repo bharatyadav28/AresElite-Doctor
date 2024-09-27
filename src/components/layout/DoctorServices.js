@@ -15,11 +15,7 @@ const ServiceOption = ({ service, label, description, price, time }) => {
     >
       <div className="d-flex flex-row justify-content-between w-100 p-2">
         <div className="d-flex flex-column text-left">
-          <h6>
-            {description === "Sports Vision Evaluation"
-              ? "Sports Vision Performance Evaluation"
-              : description}
-          </h6>
+          <h6>{description}</h6>
           <span className="align-self-start ms-2">
             <i class="fa-solid fa-clock" /> {time} mins Meeting
           </span>
@@ -179,7 +175,7 @@ const DoctorServices = () => {
   fetchAvailable();
 
   const filterServices = serviceTypeArray.filter(
-    (service) => service.alias !== "AddTrainingSessions"
+    (service) => service.alias !== "TrainingSessions"
   );
 
   return (
