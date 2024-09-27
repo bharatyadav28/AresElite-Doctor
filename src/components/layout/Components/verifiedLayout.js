@@ -7,17 +7,18 @@ import { useLocation } from "react-router-dom";
 import { GetAthProfileDetails } from "../../../features/apiCall";
 
 const VerifiedLayout = ({ children }) => {
+  const defaultPic =
+    "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+
   const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(defaultPic);
   useEffect(() => {
     const fetchProfileDetails = async () => {
       const data = await GetAthProfileDetails(dispatch);
 
       if (data && data.user.profilePic) {
         if (data.user.profilePic === "picture") {
-          setImage(
-            "https://icon-library.com/images/icon-user/icon-user-15.jpg"
-          );
+          setImage(defaultPic);
         } else {
           setImage(data.user.profilePic);
         }
@@ -78,7 +79,7 @@ const VerifiedLayout = ({ children }) => {
                 width={55}
                 height={55}
                 style={{ borderRadius: "50%" }}
-                alt="Athlete pic"
+                alt="Pic"
               />
               )
               <div className="text-light ml-3">

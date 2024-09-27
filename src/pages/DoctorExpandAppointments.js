@@ -8,9 +8,9 @@ import BootstrapModal from "../components/layout/Components/BootstrapModal";
 import Loader from "../components/layout/Components/Loader";
 import DoctorMenu from "../components/layout/DoctorMenu";
 import { GetAllAppointmentDetails } from "../features/apiCall";
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
 import axios from "../utils/axios";
-var selected=""
+var selected = "";
 const DoctorExpandAppointments = () => {
   const token = localStorage.getItem("userToken");
   const [showDateInput, setShowDateInput] = useState(null);
@@ -89,7 +89,7 @@ const DoctorExpandAppointments = () => {
   const handleCompleteAppointment = (bookingId, name) => {
     setName(name);
     setBookingId(bookingId);
-   selected="complete"
+    selected = "complete";
     setModalData("completed");
 
     setShowModal(true);
@@ -102,7 +102,7 @@ const DoctorExpandAppointments = () => {
   const handleCancelAppointment = (bookingId, name) => {
     setName(name);
     setBookingId(bookingId);
-    selected="cancel"
+    selected = "cancel";
     setModalData("cancelled");
     setShowModal(true);
   };

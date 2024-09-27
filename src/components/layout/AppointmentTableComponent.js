@@ -14,6 +14,14 @@ const AppointmentTableComponent = ({
     MedicalOfficeVisit: "Medical Office Visit",
     Consultation: "Consultation Call",
   };
+
+  const getProfilePic = (pic) => {
+    console.log("pic: ", pic);
+    if (!pic || pic === "picture") {
+      return "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+    }
+    return pic;
+  };
   return (
     <Table className="table" hover>
       <thead className="table-head expanded-table">
@@ -30,7 +38,7 @@ const AppointmentTableComponent = ({
             <td style={{ width: "200px" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
-                  src="/images/image3.png"
+                  src={getProfilePic(booking?.client?.profilePic)}
                   alt={booking?.client?.firstName}
                   className="recent-booking-person-image"
                   style={{ marginRight: "10px", width: "40px", height: "40px" }}

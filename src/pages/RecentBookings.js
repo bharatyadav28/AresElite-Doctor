@@ -230,6 +230,14 @@ const RecentBookings = () => {
     return stype;
   };
 
+  const getProfilePic = (pic) => {
+    console.log("pic: ", pic);
+    if (!pic || pic === "picture") {
+      return "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+    }
+    return pic;
+  };
+
   return (
     <DoctorMenu>
       <div className="p-3 main-wrapper mt-2 booking-presc">
@@ -438,7 +446,9 @@ const RecentBookings = () => {
                                 style={{ paddingLeft: "20px" }}
                               >
                                 <img
-                                  src="/images/image3.png"
+                                  src={getProfilePic(
+                                    booking?.client?.profilePic
+                                  )}
                                   alt={booking?.name}
                                   className="recent-booking-person-image "
                                   style={{ marginRight: "10px" }}

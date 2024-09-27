@@ -24,6 +24,9 @@ const successToastOptions = {
 // import { FaCamera } from "react-icons/fa";
 
 const DoctorProfile = () => {
+  const defaultPic =
+    "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const token = localStorage.getItem("userToken");
@@ -38,12 +41,13 @@ const DoctorProfile = () => {
   const { isFetching, userName, userEmail, phone } = useSelector(
     (state) => state.auth
   );
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(defaultPic);
+
   useEffect(() => {
     const fetchProfileDetails = async () => {
       const data = await GetProfileDetails(dispatch);
       console.log("Dataaa", data.user.profilePic);
-      if (data && data.user.profilePic) {
+      if (data && data.user.profilePic && data.user.profilePic !== "picture") {
         setImage(data.user.profilePic);
       }
       console.log("No data");

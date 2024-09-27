@@ -168,6 +168,14 @@ const InQueueReuests = () => {
     setIsOpen(!isOpen);
   };
 
+  const getProfilePic = (pic) => {
+    console.log("pic: ", pic);
+    if (!pic || pic === "picture") {
+      return "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+    }
+    return pic;
+  };
+
   return (
     <>
       <div
@@ -311,7 +319,7 @@ const InQueueReuests = () => {
                               style={{ paddingLeft: "20px" }}
                             >
                               <img
-                                src="/images/image3.png"
+                                src={getProfilePic(booking?.client?.profilePic)}
                                 alt={booking?.client?.firstName}
                                 className="recent-booking-person-image "
                                 style={{ marginRight: "10px" }}

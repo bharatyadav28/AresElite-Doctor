@@ -219,6 +219,14 @@ const DoctorTodayAppointment = () => {
     return stype;
   };
 
+  const getProfilePic = (pic) => {
+    console.log("pic: ", pic);
+    if (!pic || pic === "picture") {
+      return "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+    }
+    return pic;
+  };
+
   return (
     <>
       <section
@@ -271,13 +279,13 @@ const DoctorTodayAppointment = () => {
                         <div className="d-flex align-items-center">
                           <Image
                             alt="profile picture"
-                            src="/images/image3.png"
+                            src={getProfilePic(appointment?.client?.profilePic)}
                             roundedCircle
                             width={42}
                             height={42}
                             className="mr-2"
                           />
-                          <div>
+                          <div style={{ marginLeft: "0.3rem" }}>
                             <div style={{ fontSize: "15px", color: "black" }}>
                               {appointment?.client?.firstName}{" "}
                               {appointment?.client?.lastName}

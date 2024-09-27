@@ -195,7 +195,12 @@ const CompletedRequests = () => {
     }
   };
 
-  console.log(completed);
+  const getProfilePic = (pic) => {
+    if (!pic || pic === "picture") {
+      return "https://icon-library.com/images/icon-user/icon-user-15.jpg";
+    }
+    return pic;
+  };
   return (
     <>
       <div
@@ -310,7 +315,9 @@ const CompletedRequests = () => {
                             <td className="" style={{ paddingLeft: "20px" }}>
                               <div className="h-100 d-flex mt-2">
                                 <img
-                                  src="/images/image3.png"
+                                  src={getProfilePic(
+                                    booking?.client?.profilePic
+                                  )}
                                   alt={booking.name}
                                   className="recent-booking-person-image "
                                   style={{ marginRight: "10px" }}
