@@ -1,5 +1,7 @@
 import "react-datepicker/dist/react-datepicker.css";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import SignIn from "./components/auth/SignIn";
 import UpdatePassword from "./components/auth/password/UpdatePassword";
 import ForgotPassword from "./components/auth/password/forgotPassword";
@@ -13,6 +15,7 @@ import DoctorInOffice from "./pages/DoctorInOffice";
 import DoctorPlansPackages from "./pages/DoctorPlansPackages";
 import DoctorProfile from "./pages/DoctorProfile";
 import DoctorServiceSelection from "./pages/DoctorServiceSelection";
+import { getAllServices } from "./features/apiCall.js";
 
 import EditProfile from "./components/layout/EditProfile";
 import DoctorExpandAppointments from "./pages/DoctorExpandAppointments";
@@ -39,6 +42,10 @@ import SeasonForm from "./pages/SeasonForm.js";
 import SubmittedDrills from "./pages/SubmittedDrills.js";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getAllServices(dispatch);
+  }, [dispatch]);
   return (
     <>
       <ErrorBoundary>

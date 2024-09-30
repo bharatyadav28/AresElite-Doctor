@@ -21,6 +21,9 @@ const RecentPrescriptions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8; // Number of items per page
   const dispatch = useDispatch();
+
+  const services = useSelector((state) => state.AllServices.services);
+
   function formatDate(dateString) {
     const dateObject = new Date(dateString);
     const day = dateObject.getDate().toString().padStart(2, "0");
@@ -49,14 +52,17 @@ const RecentPrescriptions = () => {
           )
         : [...prevSelectedServiceTypes, selectedServiceType];
       console.log(updatedServiceTypes);
-      setSelectedServiceTypes(updatedServiceTypes);
+      // setSelectedServiceTypes(updatedServiceTypes);
       return updatedServiceTypes;
     });
   };
-  const Service_ENUM_values = {
-    MedicalOfficeVisit: "Medical Office Visit",
-    Consultation: "Consultation Call",
-  };
+  // const Service_ENUM_values = {
+  //   MedicalOfficeVisit: "Medical Office Visit",
+  //   Consultation: "Consultation Call",
+  // };
+  const Service_ENUM_values = services;
+  const allowedServicesAlias = ["Medical/OfficeVisit", "ConsultationCall"];
+
   const fetchData = async () => {
     const params = {
       currentPage,
@@ -223,7 +229,7 @@ const RecentPrescriptions = () => {
                         position: "absolute",
                         top: "40px",
                         left: "-60px",
-                        zIndex: "2",
+                        zIndex: "1000",
                       }}
                     >
                       <DatePicker
@@ -272,7 +278,7 @@ const RecentPrescriptions = () => {
                           <i className="fa-solid fa-filter m-1" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          {Object.keys(Service_ENUM_values).map((key) => (
+                          {allowedServicesAlias.map((key) => (
                             <Dropdown.Item key={key}>
                               <input
                                 type="checkbox"
@@ -291,7 +297,7 @@ const RecentPrescriptions = () => {
                     <th>Mobile Number</th>
                     <th>
                       <div className="date-container">
-                        <div
+                        {/* <div
                           className="date-display "
                           onClick={() => setShowDateInput(!showDateInput)}
                         >
@@ -301,7 +307,7 @@ const RecentPrescriptions = () => {
                                 "en-CA"
                               )}
                           <i className="fa-solid fa-sort m-1" />
-                        </div>
+                        </div> */}
                         {showDateInput && (
                           <DatePicker
                             selected={selectedDate}

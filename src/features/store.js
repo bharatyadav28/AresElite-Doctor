@@ -5,6 +5,7 @@ import appointReducer from "./appointSlice";
 import authReducer from "./authSlice";
 import FetchReducer from "./fetchSlice";
 import offlineDrillsReducer from "./offlineDrillsSlice";
+import AllServiceReducer from "./AllServiceSlice";
 
 export default configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default configureStore({
     fetch_app: FetchReducer,
     appointment: appointReducer,
     offlineDrills: offlineDrillsReducer,
+    AllServices: AllServiceReducer,
   },
 });

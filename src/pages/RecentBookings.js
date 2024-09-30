@@ -49,6 +49,8 @@ const RecentBookings = () => {
   const isLargeDesktop = window.matchMedia("(min-width: 1900px)").matches;
   console.log(bookings);
 
+  const services = useSelector((state) => state.AllServices.services);
+
   let pageSize;
   if (isLargeDesktop) {
     pageSize = 11;
@@ -122,13 +124,7 @@ const RecentBookings = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-  const Service_ENUM_values = {
-    SportsVision: "Sports Vision Evaluation",
-    TrainingSessions: "Training Sessions",
-    ConcussionEval: "Concussion Evaluation",
-    MedicalOfficeVisit: "Medical Office Visit",
-    Consultation: "Consultation Call",
-  };
+  const Service_ENUM_values = services;
   const Status_ENUM_values = {
     paid: "Paid",
     pending: "Pending",
@@ -145,7 +141,7 @@ const RecentBookings = () => {
           )
         : [...prevSelectedServiceTypes, selectedServiceType];
       console.log(updatedServiceTypes);
-      setSelectedServiceTypes(updatedServiceTypes);
+      // setSelectedServiceTypes(updatedServiceTypes);
       return updatedServiceTypes;
     });
   };
@@ -437,7 +433,7 @@ const RecentBookings = () => {
                 {!isFetching ? (
                   <>
                     <tbody className="recent-bookings-cont">
-                      {bookings && bookings.length > 0 ? (
+                      {bookings && bookings.length > 0 && (
                         <>
                           {bookings.map((booking, index) => (
                             <tr key={index}>
@@ -588,22 +584,6 @@ const RecentBookings = () => {
                             </tr>
                           ))}
                         </>
-                      ) : (
-                        <>
-                          <tr>
-                            <td>
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  margin: "40px 50px",
-                                  width: "100%",
-                                }}
-                              >
-                                <Fourzerfour />
-                              </div>
-                            </td>
-                          </tr>
-                        </>
                       )}
                     </tbody>
                   </>
@@ -613,6 +593,13 @@ const RecentBookings = () => {
                   </>
                 )}
               </Table>
+
+              {!isFetching && (!bookings || bookings.length <= 0) && (
+                <div className="mt-5">
+                  {" "}
+                  <Fourzerfour />
+                </div>
+              )}
             </div>
           </div>
           {/* <div className="pag-cont">

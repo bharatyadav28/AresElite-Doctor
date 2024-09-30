@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Dropdown, Pagination, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
@@ -22,6 +22,22 @@ const InQueueReuests = () => {
   const pageSize = isDesktop ? 9 : 10;
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const services = useSelector((state) => state.AllServices.services);
+  const notAllowedServices = [
+    "OfflineVisit",
+    "TeleSession",
+    "TrainingSessions",
+    "Medical/OfficeVisit",
+    "ConsultationCall",
+  ];
+  const Service_ENUM_values = services;
+  const allowedServicesAlias = Object.keys(Service_ENUM_values).filter(
+    (key) => {
+      return !notAllowedServices.includes(key);
+    }
+  );
+
   function formatDate(dateString) {
     const dateObject = new Date(dateString);
     const day = dateObject.getDate().toString().padStart(2, "0");
@@ -35,7 +51,7 @@ const InQueueReuests = () => {
     setSearchQuery(e.target.value);
     setCurrentPage(1); // Reset pagination when search query changes
   };
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       // Create an object to hold the parameters
       const params = {
@@ -59,28 +75,29 @@ const InQueueReuests = () => {
         params.selectedDate = formattedDate;
       }
 
+      console.log("params", params);
       await GetInQueueRequests(dispatch, params);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [
+    currentPage,
+    selectedServiceTypes,
+    selectedDate,
+    searchQuery,
+    dispatch,
+    pageSize,
+  ]);
 
   useEffect(() => {
     fetchData(); // Fetch data whenever currentPage changes
-  }, [currentPage, selectedDate, selectedServiceTypes, searchQuery]);
+  }, [fetchData]);
 
   const startIndex = (currentPage - 1) * pageSize;
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  const Service_ENUM_values = {
-    SportsVision: "Sports Vision Evaluation",
-    TrainingSessions: "Training Sessions",
-    ConcussionEval: "Concussion Evaluation",
-    MedicalOfficeVisit: "Medical Office Visit",
-    Consultation: "Consultation Call",
-  };
   const handleServiceTypeFilter = (selectedServiceType) => {
     setSelectedServiceTypes((prevSelectedServiceTypes) => {
       const updatedServiceTypes = prevSelectedServiceTypes.includes(
@@ -94,9 +111,9 @@ const InQueueReuests = () => {
       console.log(updatedServiceTypes);
 
       // Update state before calling fetchData
-      setSelectedServiceTypes(updatedServiceTypes);
+      // setSelectedServiceTypes(updatedServiceTypes);
 
-      fetchData(); // Call fetchData after state has been updated
+      // Call fetchData after state has been updated
 
       return updatedServiceTypes;
     });
@@ -230,7 +247,12 @@ const InQueueReuests = () => {
             {isOpen && (
               <div
                 className="date-picker-container"
-                style={{ position: "absolute", top: "40px", left: "-60px" }}
+                style={{
+                  position: "absolute",
+                  top: "40px",
+                  left: "-60px",
+                  zIndex: "1000",
+                }}
               >
                 <DatePicker
                   selected={selectedDate}
@@ -272,17 +294,17 @@ const InQueueReuests = () => {
                   <div>Name</div>
                 </th>
                 <th>
-                  <Dropdown>
+                  <Dropdown style={{ zIndex: "3" }}>
                     <Dropdown.Toggle
                       variant="light"
                       id="dropdown-basic"
                       style={{ fontWeight: "600" }}
                     >
-                      Service Types
-                      <i className="fa-solid fa-filter" />
+                      Select Service Types
+                      <i className="fa-solid fa-filter m-1" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      {Object.keys(Service_ENUM_values).map((key) => (
+                      {allowedServicesAlias.map((key) => (
                         <Dropdown.Item key={key}>
                           <input
                             type="checkbox"

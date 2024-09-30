@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
   Col,
   Container,
@@ -31,9 +32,27 @@ const CompletedRequests = () => {
   const [dropdown, setDropdown] = useState([]);
   const [disabled, setDisabled] = useState([]);
 
+  console.log("total pages", totalPages);
+
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedServiceTypes, setSelectedServiceTypes] = useState([]);
+
+  const services = useSelector((state) => state.AllServices.services);
+  const notAllowedServices = [
+    "OfflineVisit",
+    "TeleSession",
+    "TrainingSessions",
+    "Medical/OfficeVisit",
+    "ConsultationCall",
+  ];
+  const Service_ENUM_values = services;
+  const allowedServicesAlias = Object.keys(Service_ENUM_values).filter(
+    (key) => {
+      return !notAllowedServices.includes(key);
+    }
+  );
+
   function formatDate(dateString) {
     const dateObject = new Date(dateString);
     const day = dateObject.getDate().toString().padStart(2, "0");
@@ -73,7 +92,7 @@ const CompletedRequests = () => {
   //   setDropdownState(completed.client.mode)
   //  },[])
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       // Create an object to hold the parameters
       const params = {
@@ -100,11 +119,18 @@ const CompletedRequests = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [
+    currentPage,
+    selectedServiceTypes,
+    selectedDate,
+    searchQuery,
+    dispatch,
+    pageSize,
+  ]);
 
   useEffect(() => {
     fetchData(); // Fetch data whenever currentPage changes
-  }, [currentPage, selectedDate, selectedServiceTypes, searchQuery]);
+  }, [fetchData]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -201,6 +227,25 @@ const CompletedRequests = () => {
     }
     return pic;
   };
+
+  const handleServiceTypeFilter = (selectedServiceType) => {
+    setSelectedServiceTypes((prevSelectedServiceTypes) => {
+      const updatedServiceTypes = prevSelectedServiceTypes.includes(
+        selectedServiceType
+      )
+        ? prevSelectedServiceTypes.filter(
+            (type) => type !== selectedServiceType
+          )
+        : [...prevSelectedServiceTypes, selectedServiceType];
+
+      console.log(updatedServiceTypes);
+
+      // Update state before calling fetchData
+      // setSelectedServiceTypes(updatedServiceTypes);
+
+      return updatedServiceTypes;
+    });
+  };
   return (
     <>
       <div
@@ -255,7 +300,12 @@ const CompletedRequests = () => {
             {isOpen && (
               <div
                 className="date-picker-container"
-                style={{ position: "absolute", top: "40px", left: "-60px" }}
+                style={{
+                  position: "absolute",
+                  top: "40px",
+                  left: "-60px",
+                  zIndex: "1000",
+                }}
               >
                 <DatePicker
                   selected={selectedDate}
@@ -293,7 +343,32 @@ const CompletedRequests = () => {
               <tr>
                 <th style={{ paddingLeft: "20px" }}>Name</th>
                 <th>
-                  Service Type <i className="fa-solid fa-sort" />
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant="light"
+                      id="dropdown-basic"
+                      style={{ fontWeight: "600" }}
+                    >
+                      Service Types
+                      <i className="fa-solid fa-filter" />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {allowedServicesAlias.map((key) => (
+                        <Dropdown.Item key={key}>
+                          <input
+                            type="checkbox"
+                            id={key}
+                            checked={selectedServiceTypes.includes(key)}
+                            onChange={() => handleServiceTypeFilter(key)}
+                          />{" "}
+                          {"  "}
+                          <label htmlFor={key}>
+                            {Service_ENUM_values[key]}
+                          </label>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </th>
                 <th>Mobile Number</th>
                 <th>Date</th>
@@ -570,6 +645,12 @@ const CompletedRequests = () => {
             modalContent={<ModalContent />}
           />
         </div>
+        {!isFetching && (!completed || completed.length <= 0) && (
+          <div className="mt-5">
+            {" "}
+            <Fourzerfour />
+          </div>
+        )}
       </div>
     </>
   );

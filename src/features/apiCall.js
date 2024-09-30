@@ -12,6 +12,7 @@ import {
   loginSuccess,
 } from "./authSlice.js";
 import { FetchFailure, FetchStart, FetchSuccess } from "./fetchSlice.js";
+import { ServicesFetch } from "./AllServiceSlice.js";
 
 import {
   fetchingStart,
@@ -327,6 +328,8 @@ export const GetCompletedRequests = async (
       },
       headers: { Authorization: `Bearer ${token}` },
     });
+
+    console.log("Data: ", data);
     dispatch(
       FetchSuccess({ type: "FETCH_COMPLETED_REQUESTS_SUCCESS", payload: data })
     );
@@ -473,6 +476,7 @@ export const GetInQueueRequests = async (
   { currentPage, pageSize, selectedServiceTypes, selectedDate, searchQuery }
 ) => {
   dispatch(FetchStart());
+  console.log("selectedServiceTypes", selectedServiceTypes);
   const token = localStorage.getItem("userToken");
   try {
     const { data } = await axios.get("/api/doctor/in-queue-requests", {
@@ -861,6 +865,18 @@ export const getSessionDrills = async (dispatch, cid, aid) => {
     const errorMessage = parseError(error);
     toast.error(errorMessage, ErrorToastOptions);
     dispatch(fetchingFailure(errorMessage));
+    return false; // Return false to indicate that the request failed
+  }
+};
+
+export const getAllServices = async (dispatch) => {
+  try {
+    const { data } = await axios.get(`/api/doctor/getAllServices`);
+    dispatch(ServicesFetch(data.services));
+  } catch (error) {
+    const errorMessage = parseError(error);
+    toast.error(errorMessage, ErrorToastOptions);
+
     return false; // Return false to indicate that the request failed
   }
 };
