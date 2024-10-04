@@ -290,14 +290,23 @@ const DoctorTodayAppointment = () => {
                               {appointment?.client?.firstName}{" "}
                               {appointment?.client?.lastName}
                             </div>
-                            <div style={{ fontSize: "12px", color: "grey" }}>
+                            <div
+                              style={{
+                                maxWidth: "11rem",
+                                wordWrap: "break-word",
+                                fontSize: "12px",
+                                color: "grey",
+                              }}
+                            >
                               {appointment?.client?.email}
                             </div>
                           </div>
                         </div>
                       </td>
                       {/* <td>{serviceType(appointment.service_type)}</td> */}
-                      <td>{appointment.service_type}</td>
+                      <td style={{ maxWidth: "13rem", wordWrap: "break-word" }}>
+                        {appointment.service_type}
+                      </td>
                       <td>{appointment.app_time}</td>
                     </tr>
                   ))}

@@ -356,7 +356,14 @@ const SucessContent = () => {
         </p>
       </div>
       <Button
-        onClick={() => navigate("/doctor/dashboard")}
+        onClick={() => {
+          localStorage.removeItem("client_id");
+          localStorage.removeItem("ath-fname");
+          localStorage.removeItem("ath-lname");
+          localStorage.removeItem("ath-email");
+          localStorage.removeItem("ath-plan-payment");
+          navigate("/doctor/dashboard");
+        }}
         className="purple-button"
         style={{ width: "332px", height: "62px" }}
       >

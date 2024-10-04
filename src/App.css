@@ -2,7 +2,9 @@
   --main-dark: #241943;
   --main-light: #5d3eb3;
 }
-
+body {
+  overflow-y: hidden;
+}
 .drill-table-box {
   max-width: 100vw;
   overflow: auto;

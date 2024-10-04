@@ -117,7 +117,9 @@ const DoctorServices = () => {
       case "TrainingSessions":
         // Logic for TrainingSessions service
         // You can navigate or perform other actions specific to this service
-        navigate("/doctor/dashboard/doctor-service-selection/training");
+        navigate(
+          "/doctor/dashboard/doctor-service-selection/training?add_session=true"
+        );
 
         break;
 
@@ -174,9 +176,14 @@ const DoctorServices = () => {
 
   fetchAvailable();
 
-  const filterServices = serviceTypeArray.filter(
-    (service) => service.alias !== "TrainingSessions"
-  );
+  const already_has_a_plan = localStorage.getItem("ath-plan-payment");
+  console.log("already_has_a_plan", already_has_a_plan);
+  let filterServices = serviceTypeArray;
+  if (already_has_a_plan !== "paid") {
+    filterServices = serviceTypeArray.filter(
+      (service) => service.alias !== "TrainingSessions"
+    );
+  }
 
   return (
     <>
@@ -186,7 +193,7 @@ const DoctorServices = () => {
 
       <section
         className="text-center d-flex flex-column justify-content-center align-items-center doctor-service-container"
-        style={{ maxHeight: "fit-content", padding: "10px" }}
+        style={{ padding: "10px" }}
       >
         <div className="text-left mb-3" style={{ width: "400px" }}>
           <h4 className="mb-0">Select type of Service</h4>

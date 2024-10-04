@@ -102,7 +102,7 @@ const DoctorProfile = () => {
             className="p-4 prof-cont"
             style={{ alignItems: "center", backgroundColor: "#F4F4F4" }}
           >
-            <div className="d-flex align-items-center">
+            <div className="d-flex flex-md-row flex-column  align-items-center">
               <div
                 className="profile-picture-container"
                 style={{ marginRight: "40px", position: "relative" }}
@@ -133,7 +133,7 @@ const DoctorProfile = () => {
                   </>
                 )}
               </div>
-              <div>
+              <div className="mt-md-0 mt-2">
                 <ReactPlaceholder
                   type="text"
                   color="#F0F0F0"

@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  addTrainingSession,
   Gettrainingsession,
   selecttrainingplan,
 } from "../../../features/apiCall";
@@ -25,6 +26,9 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
 
   // Get a specific parameter
   const appointmentID = searchParams.get("appointment_id");
+  const addSession = searchParams.get("add_session");
+
+  console.log("add Session", addSession);
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => {
@@ -55,16 +59,39 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
     // alert(selectedMonthlyPlans);
     const clientId = localStorage.getItem("client_id");
     const sessionId = selectedMonthlyPlans;
-    console.log(sessionId);
-    const { success, message } = await selecttrainingplan(dispatch, {
-      clientId,
-      sessionId,
-      doctorName: userName,
-      service_type: "trainingSession",
-      appointmentId: appointmentID,
-    });
-    if (success) {
+    console.log("add Session", addSession);
+
+    let contModal = false;
+
+    if (addSession === "true") {
+      const { success, message } = await addTrainingSession(dispatch, {
+        clientId,
+        sessionId,
+        doctorName: userName,
+        service_type: "trainingSession",
+        appointmentId: appointmentID,
+        addSession,
+      });
+      contModal = success;
+    } else {
+      const { success, message } = await selecttrainingplan(dispatch, {
+        clientId,
+        sessionId,
+        doctorName: userName,
+        service_type: "trainingSession",
+        appointmentId: appointmentID,
+        addSession,
+      });
+      contModal = success;
+    }
+
+    if (contModal) {
       setShowModal(true);
+      localStorage.removeItem("client_id");
+      localStorage.removeItem("ath-fname");
+      localStorage.removeItem("ath-lname");
+      localStorage.removeItem("ath-email");
+      localStorage.removeItem("ath-plan-payment");
     }
   };
 

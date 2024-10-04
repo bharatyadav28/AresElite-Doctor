@@ -22,7 +22,8 @@ button {
   font-size: 15px;
 }
 
-.profile .prof-cont:hover {}
+.profile .prof-cont:hover {
+}
 
 .profile .prof-cont {
   margin: 20px 0px;
@@ -121,7 +122,8 @@ button {
     margin-bottom: 100px !important;
   }
 
-  .profile .prof-cont:hover {}
+  .profile .prof-cont:hover {
+  }
 
   .profile .prof-cont {
     margin: 20px 0px;

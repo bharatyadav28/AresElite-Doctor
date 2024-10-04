@@ -436,6 +436,33 @@ export const selecttrainingplan = async (
     return { success: false, message: error };
   }
 };
+
+export const addTrainingSession = async (
+  dispatch,
+  { clientId, sessionId, doctorName, service_type, appointmentId }
+) => {
+  dispatch(FetchStart());
+  const token = localStorage.getItem("userToken");
+  try {
+    console.log(clientId, sessionId);
+    const { data } = await axios.post(
+      `/api/doctor/add-training-session?clientId=${clientId}&sessionId=${sessionId}&appointmentId=${appointmentId}`,
+      { doctor_trainer: doctorName, service_type: service_type },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    dispatch(FetchSuccess({ type: "FETCH_Session_SUCCESS", payload: data }));
+
+    return { success: true, message: "" };
+  } catch (error) {
+    return { success: false, message: error };
+  }
+};
+
 export const GetRecentBookings = async (
   dispatch,
   {
@@ -755,10 +782,16 @@ export const VerifyAthelete = async (dispatch, { email }) => {
       }
     );
 
+    console.log("client data", data?.client_details);
+
     localStorage.setItem("client_id", data?.client_details?.client_id);
     localStorage.setItem("ath-fname", data?.client_details?.first_name);
     localStorage.setItem("ath-lname", data?.client_details?.last_name);
     localStorage.setItem("ath-email", data?.client_details?.email);
+    localStorage.setItem(
+      "ath-plan-payment",
+      data?.client_details?.plan_payment
+    );
     // console.log(data?.client_details?.first_name);
     dispatch(Success(data));
     toast.success("Your Athelete with this email exits!");
