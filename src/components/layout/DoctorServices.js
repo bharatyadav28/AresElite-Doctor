@@ -227,20 +227,14 @@ const DoctorServices = () => {
           )}
         </Form>
         <div style={{ position: "absolute", bottom: "30px" }}>
-          {isFetching ? (
-            <button className="purple-button c-b">
-              <Spinner animation="border" variant="light" />
-            </button>
-          ) : (
-            <Button
-              onClick={handleSubmit}
-              className="purple-button"
-              style={{ width: "332px", height: "62px" }}
-              disabled={!selectedService}
-            >
-              Continue
-            </Button>
-          )}
+          <Button
+            onClick={handleSubmit}
+            className="purple-button"
+            style={{ width: "332px", height: "62px" }}
+            disabled={!selectedService}
+          >
+            Continue
+          </Button>
         </div>
       </section>
     </>

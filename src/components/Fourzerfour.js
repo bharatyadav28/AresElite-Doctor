@@ -12,7 +12,7 @@ const Fourzerfour = () => {
         opacity: "0.6",
       }}
     >
-      <h3>No Appointments Available</h3>
+      <h4>No Appointments Available</h4>
     </div>
   );
 };

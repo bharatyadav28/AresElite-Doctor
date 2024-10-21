@@ -87,9 +87,9 @@ const EditProfile = () => {
   };
   return (
     <DoctorMenu>
-      <div className="m-4 profile client-form " style={{ height: "95vh" }}>
+      <div className="m-4 profile client-form " style={{ height: "100vh" }}>
         <section
-          className="p-4 h-100"
+          className="p-4 h-full"
           style={{
             backgroundColor: "white",
             margin: "auto",

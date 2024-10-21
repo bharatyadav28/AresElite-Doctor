@@ -4,7 +4,11 @@ import "../../../styles/loader.css";
 const Loader = ({ className, title }) => {
   return (
     <div
-      style={{ position: "absolute", margin: "40px 50px", width: "70%" }}
+      style={{
+        position: "absolute",
+        margin: "40px 50px",
+        width: "70%",
+      }}
       className={className ? "slots-fetch" : ""}
     >
       <div className="book m-auto mb-5 mt-5">
@@ -15,8 +19,8 @@ const Loader = ({ className, title }) => {
         <div className="book__pg book__pg--4" />
         <div className="book__pg book__pg--5" />
       </div>
-      
-      <h4 className="text-secondary text-center">
+
+      <h4 className="text-secondary text-center" style={{ fontSize: "1.2rem" }}>
         {title ? (
           <>{title}</>
         ) : (
