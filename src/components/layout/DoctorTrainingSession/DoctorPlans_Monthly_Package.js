@@ -118,7 +118,7 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
         style={{ gap: "3vh" }}
       >
         <div className="text-left mb-3" style={{ width: "400px" }}>
-          <h4 className="mb-0">Select type of Plan</h4>
+          <h4 className="mb-0">Available Plans</h4>
           <p className="text-muted">Please Select type of Plan</p>
         </div>
         <Form

@@ -5,7 +5,7 @@ import DoctorMonthlyPackagePlans from "./DoctorPlans_Monthly_Package";
 import { useLocation } from "react-router-dom";
 
 const DoctorInOffice = ({ navigate }) => {
-  const location = useLocation()
+  const location = useLocation();
   useEffect(() => {
     // Check if selectedService is empty in localStorage
     const storedSelectedService = localStorage.getItem("selectedService");
@@ -31,14 +31,17 @@ const DoctorInOffice = ({ navigate }) => {
     setSelectedInOfficeType(event.target.value);
     const searchParams = new URLSearchParams(location.search);
     console.log(searchParams);
-    searchParams.set("frequency", event.target.value);  // Use set instead of append
-    navigate({ search: searchParams.toString() }, { replace: true });  
+    searchParams.set("frequency", event.target.value); // Use set instead of append
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
   return (
     <>
       {showDoctorMonthly ? (
         <>
-          <DoctorMonthlyPackagePlans freq={selectedInOfficeType} type="in_office"/>
+          <DoctorMonthlyPackagePlans
+            freq={selectedInOfficeType}
+            type="in_office"
+          />
         </>
       ) : (
         <>
@@ -47,7 +50,7 @@ const DoctorInOffice = ({ navigate }) => {
             style={{ gap: "3vh" }}
           >
             <div className="text-left mb-3" style={{ width: "400px" }}>
-              <h4 className="mb-0">Select type of Plan</h4>
+              <h4 className="mb-0">Available Plans</h4>
               <p className="text-muted">Please Select type of Plan</p>
             </div>
             <Form

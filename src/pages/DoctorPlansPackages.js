@@ -105,6 +105,7 @@ const PlanSingle = ({ planData, ClientId }) => {
               <td>
                 <img src="/images/icons/tick.svg" alt="tick" />
               </td>
+
               <td>{feature}</td>
             </tr>
           ))}
