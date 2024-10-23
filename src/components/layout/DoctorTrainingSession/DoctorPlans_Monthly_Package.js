@@ -68,7 +68,7 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
         clientId,
         sessionId,
         doctorName: userName,
-        service_type: "trainingSession",
+        service_type: "TrainingSessions",
         appointmentId: appointmentID,
         addSession,
       });
@@ -78,7 +78,7 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
         clientId,
         sessionId,
         doctorName: userName,
-        service_type: "trainingSession",
+        service_type: "TrainingSessions",
         appointmentId: appointmentID,
         addSession,
       });

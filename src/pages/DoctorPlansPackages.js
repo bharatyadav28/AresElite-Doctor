@@ -29,7 +29,10 @@ const DoctorPlansPackages = () => {
 
   return (
     <DoctorMenu>
-      <section className="text-center w-100 vh-100 plans-par-cont">
+      <section
+        className="text-center w-100 vh-100 overflow-y-auto  plans-par-cont"
+        style={{ paddingBottom: "5rem" }}
+      >
         <h2 className="font-weight-bold  plan-title">
           <span> Powerful features for</span>
           <br />{" "}
@@ -76,7 +79,7 @@ const PlanSingle = ({ planData, ClientId }) => {
     navigate("/doctor/dashboard/recent-evaluation2");
   };
   return (
-    <div className="plan-single-cont">
+    <div className="plan-single-cont ">
       <div className="m-4 ">
         {/* <div className={`icon-cont-${icon} m-auto`}>
           <img src={`/images/icons/${icon}.svg`} alt={icon} />
