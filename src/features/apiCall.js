@@ -191,7 +191,7 @@ export const UpdateProfileDetails = async (dispatch, { formData, userId }) => {
   const token = localStorage.getItem("userToken");
 
   dispatch(Start());
-  alert(userId);
+
   try {
     const { data } = await axios.put(
       `/api/doctor/update-profile-doctor`,

@@ -162,7 +162,7 @@ const EditProfile = () => {
                       <Form.Control
                         type="date"
                         name="dob"
-                        // value={formData?.dob}
+                        value={formData?.dob}
                         onChange={handleChange}
                         required
                       />

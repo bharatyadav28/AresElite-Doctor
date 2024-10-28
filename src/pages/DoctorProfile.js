@@ -68,7 +68,7 @@ const DoctorProfile = () => {
         });
 
         if (result) {
-          setImage(result.profilePicUrl);
+          setImage(result?.profilePicUrl);
           localStorage.setItem("profilePic", result.profilePicUrl);
           // toast.success("Profile picture updated successfully", successToastOptions);
         } else {
