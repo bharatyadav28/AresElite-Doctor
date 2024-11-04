@@ -20,13 +20,15 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   const formData = data?.submittedFormData;
   const drills = formData?.drills;
   const [newData, setNewData] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { clientId, appointmentId } = useParams();
   const dispatch = useDispatch();
 
-  const drillNames = drills?.map((drill, index) => {
+  const drillNames = newData?.map((drill, index) => {
     return {
-      label: `Drill  ${index + 1}. ${drill?.drillName}`,
+      // label: `Drill  ${index + 1}. ${drill?.drillName}`,
+      label: drill?.drillName,
       value: drill?.drillName,
     };
   });
@@ -34,7 +36,7 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   const [selectedDrill, setSelectedDrill] = useState(0);
 
   const handleDrillChange = (value) => {
-    drills?.map((drill, index) => {
+    newData?.map((drill, index) => {
       if (drill.drillName === value) {
         setSelectedDrill(index);
       }
@@ -64,7 +66,13 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
 
   useEffect(() => {
     if (drills) {
-      setNewData(drills);
+      const tempDrills = drills.map((drill, index) => {
+        return {
+          ...drill,
+          drillName: `Drill  ${index + 1}. ${drill.drillName}`,
+        };
+      });
+      setNewData(tempDrills);
     }
   }, [drills]);
 
@@ -84,15 +92,21 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
     borderRadius: "15px",
   };
 
+  function removeDrillPrefix(str) {
+    return str?.replace(/Drill\s+\d+\./g, "").trim();
+  }
+
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     const formattedDrills = newData.map((item) => {
       const { drill, drillName, inputs, ...columnValues } = item;
       return {
         drill: item.drill,
-        drillName: item.drillName,
+        drillName: removeDrillPrefix(item.drillName),
         inputValues: item?.inputs || [],
         columnValues,
       };
+      setIsSubmitting(false);
     });
 
     const formattedData = {
@@ -112,7 +126,9 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
   };
 
   const incomingSelectedDrill = data?.offlineDrillData?.drills?.find((item) => {
-    if (item.drillName === newData[selectedDrill]?.drillName) {
+    if (
+      item.drillName === removeDrillPrefix(newData[selectedDrill]?.drillName)
+    ) {
       return true;
     }
     return false;
@@ -192,8 +208,8 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                 Drill details
               </div>
               <div className="drill-box mt-2">
-                {drillInputsParams?.map((input) => (
-                  <div className="drill-item">
+                {drillInputsParams?.map((input, index) => (
+                  <div className="drill-item" key={index}>
                     {input.type === "text" && (
                       <>
                         <div style={{ fontSize: "0.7rem" }}>
@@ -307,8 +323,13 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
               <div className="d-flex flex-wrap gap-2 mt-5">
                 <button
                   className="purple-button col h-0 flex-grow-1"
-                  style={{ padding: 0, height: "2.5rem" }}
+                  style={{
+                    padding: 0,
+                    height: "2.5rem",
+                    cursor: isSubmitting ? "not-allowed" : "pointer",
+                  }}
                   onClick={handleSubmit}
+                  disabled={isSubmitting}
                 >
                   Submit Drill data
                 </button>
@@ -319,7 +340,9 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                       backgroundColor: "#EAE6FF",
                       color: "var(--main-dark)",
                       width: isMobile ? "7rem" : "8rem",
+                      cursor: selectedDrill < 1 ? "not-allowed" : "pointer",
                     }}
+                    disabled={selectedDrill < 1}
                     onClick={() => {
                       if (selectedDrill >= 1) {
                         setSelectedDrill((prev) => {
@@ -340,9 +363,14 @@ function SeasonForm({ open, handleClose, filledDrills, columns }) {
                       backgroundColor: "#EAE6FF",
                       color: "var(--main-dark)",
                       width: isMobile ? "7rem" : "8rem",
+                      cursor:
+                        selectedDrill >= drills?.length - 1
+                          ? "not-allowed"
+                          : "pointer",
                     }}
+                    disabled={selectedDrill >= drills?.length - 1}
                     onClick={() => {
-                      if (selectedDrill < drills.length - 1) {
+                      if (selectedDrill < drills?.length - 1) {
                         setSelectedDrill((prev) => {
                           if (prev <= drills.length - 1) return prev + 1;
                           return prev;

@@ -1167,7 +1167,10 @@ fieldset:disabled .btn {
 }
 
 .background-auth::before {
-  background-image: url("../assets/bg1.png");
+  /* background-image: url("../assets/bg1.png"); */
+  background-color: var(--main-dark);
+
+  background-size: cover;
   background-position: top;
   /* Center the image */
   background-repeat: no-repeat;
@@ -1455,7 +1458,3 @@ input[type="color"]:focus,
   padding: 4px 30px;
   height: 33px !important;
 }
-
-
-
-

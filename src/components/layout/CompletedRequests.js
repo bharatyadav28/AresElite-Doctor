@@ -467,8 +467,10 @@ const CompletedRequests = () => {
                                           }}
                                         >
                                           {dropdown[index] === "N.A."
-                                            ? "offline"
-                                            : dropdown[index]}
+                                            ? "In-Office"
+                                            : dropdown[index] === "offline"
+                                            ? "In-Office"
+                                            : "Online"}
                                         </button>
                                         <ul class="dropdown-menu">
                                           <li>
@@ -482,7 +484,7 @@ const CompletedRequests = () => {
                                               }
                                               class="dropdown-item"
                                             >
-                                              Offline
+                                              In-Office
                                             </Link>
                                           </li>
                                           <li>

@@ -131,10 +131,14 @@ const Step1 = ({
                           ) : formFields[index + 1].type === "checkBox" ? (
                             <Select
                               isMulti
-                              options={field.options?.map((option, index) => ({
-                                value: option,
-                                label: option,
-                              }))}
+                              options={formFields[index + 1].options?.map(
+                                (option, index) => ({
+                                  value: option,
+                                  label: option,
+                                })
+                              )}
+                              menuPortalTarget={document.body} // Attach menu to the body
+                              menuPosition="fixed"
                               onChange={(selectedOptions) => {
                                 const selectedValues = selectedOptions.map(
                                   (option) => option.value

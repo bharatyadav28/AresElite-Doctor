@@ -794,7 +794,7 @@ export const VerifyAthelete = async (dispatch, { email }) => {
     );
     // console.log(data?.client_details?.first_name);
     dispatch(Success(data));
-    toast.success("Your Athelete with this email exits!");
+    toast.success("An athlete with this email exists!");
     return true;
   } catch (error) {
     console.log(error);

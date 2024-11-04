@@ -179,11 +179,13 @@ const DoctorServices = () => {
   const already_has_a_plan = localStorage.getItem("ath-plan-payment");
   console.log("already_has_a_plan", already_has_a_plan);
   let filterServices = serviceTypeArray;
-  if (already_has_a_plan !== "paid") {
-    filterServices = serviceTypeArray.filter(
-      (service) => service.alias !== "TrainingSessions"
-    );
-  }
+  // if (already_has_a_plan !== "paid") {
+  //   filterServices = serviceTypeArray.filter(
+  //     (service) => service.alias !== "TrainingSessions"
+  //   );
+  filterServices = serviceTypeArray.filter(
+    (service) => service.alias !== "TrainingSessions"
+  );
 
   return (
     <>

@@ -49,8 +49,6 @@ function SubmittedDrills() {
 
   const isSessonsEmpty = sessionsData?.length === 0;
 
-  console.log(sessionsData, inputTypes);
-
   return (
     <DoctorMenu>
       <div
@@ -129,7 +127,7 @@ function SubmittedDrills() {
               {selectedSessionData?.drills?.map((drill, index) => (
                 <DrillItem
                   drill={drill}
-                  key={drill.drill}
+                  key={index}
                   index={index}
                   creationTime={creationTime}
                   units={inputTypes[drill.drill]}
