@@ -413,15 +413,24 @@ export const Gettrainingsession = async (dispatch, { type, frequencyType }) => {
 
 export const selecttrainingplan = async (
   dispatch,
-  { clientId, sessionId, doctorName, service_type, appointmentId }
+  {
+    clientId,
+    sessionId,
+    doctorName,
+    service_type,
+    appointmentId,
+    frequencyType,
+  }
 ) => {
   dispatch(FetchStart());
+
+  console.log("Action", frequencyType);
   const token = localStorage.getItem("userToken");
   try {
     console.log(clientId, sessionId);
     const { data } = await axios.post(
       `/api/doctor/buy-training-session?clientId=${clientId}&sessionId=${sessionId}&appointmentId=${appointmentId}`,
-      { doctor_trainer: doctorName, service_type: service_type },
+      { doctor_trainer: doctorName, service_type: service_type, frequencyType },
       {
         headers: {
           Authorization: `Bearer ${token}`,

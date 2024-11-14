@@ -19,6 +19,9 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
   const dispatch = useDispatch();
   const navigate2 = useNavigate();
 
+  const [freqType, setFreqType] = useState("");
+  const [isSubmiting, setIsSubmiting] = useState(false);
+
   const location = useLocation();
 
   // Get search params from URL
@@ -52,11 +55,14 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
     });
     console.log(res?.trainigSessionModel);
     setplans(res?.trainigSessionModel);
+    setFreqType(frequencyType);
   };
 
+  console.log("Freq type", freqType);
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission
     // alert(selectedMonthlyPlans);
+    setIsSubmiting(true);
     const clientId = localStorage.getItem("client_id");
     const sessionId = selectedMonthlyPlans;
     console.log("add Session", addSession);
@@ -81,6 +87,7 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
         service_type: "TrainingSessions",
         appointmentId: appointmentID,
         addSession,
+        frequencyType: freqType,
       });
       contModal = success;
     }
@@ -93,6 +100,8 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
       localStorage.removeItem("ath-email");
       localStorage.removeItem("ath-plan-payment");
     }
+
+    setIsSubmiting(false);
   };
 
   const handleMonthlyPlansChange = (event) => {
@@ -156,7 +165,7 @@ const DoctorMonthlyPlans = ({ navigate, type, freq }) => {
             type="submit"
             className="purple-button "
             style={{ width: "332px", height: "62px" }}
-            disabled={!selectedMonthlyPlans}
+            disabled={!selectedMonthlyPlans || isSubmiting}
           >
             Continue
           </Button>
